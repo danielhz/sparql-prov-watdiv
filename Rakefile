@@ -25,4 +25,4 @@ end
 
 Rake.add_rakelib 'rakelib'
 
-task :default => 'task_status/done_get_dataset_10M'
+task :default => task_dependency('reify_dataset_10M')
