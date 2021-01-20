@@ -1,14 +1,16 @@
 
-desc 'Reify WatDiv 10M dataset'
-named_task 'reify_dataset_10M', task_dependency('get_dataset_10M') do
-  FileUtils.chdir 'datasets' do
-    %w(namedgraphs rdf wikidata).each do |scheme|
-      system <<~SH
-        pigz -d -c watdiv.10M.nt.gz | \
-        ../scripts/reify.rb #{scheme} | \
-        pigz -9 -c > watdiv.10M-#{scheme}.nt.gz
-      SH
+%w{10 100 1000}.each do |size|
+  desc "Reify WatDiv #{size}M dataset"
+  named_task("reify_dataset_#{size}M",
+             task_dependency("get_dataset_#{size}M")) do
+    FileUtils.chdir 'datasets' do
+      %w(namedgraphs rdf wikidata).each do |scheme|
+        system <<~SH
+          pigz -d -c watdiv.#{size}M.nt.gz | \
+          ../scripts/reify.rb #{scheme} | \
+          pigz -9 -c > watdiv.#{size}M-#{scheme}.nt.gz
+        SH
+      end
     end
   end
 end
-task_dependency 'get_dataset_10M'
