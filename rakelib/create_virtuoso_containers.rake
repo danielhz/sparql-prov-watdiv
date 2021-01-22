@@ -29,6 +29,11 @@ named_task 'create_virtuoso_7_container' do
     system "lxc file push config/machine_a256/virtuoso.ini #{container}/home/debian/virtuoso-7.2.5.1/var/lib/virtuoso/db/"
     puts 'Virtuoso compiled and installed'
   end
+
+  # Publish the container
+  puts 'Create a container image'
+  system "lxc stop #{container}"
+  system "lxc image publish #{container} --alias #{container}"
 end
 
 
