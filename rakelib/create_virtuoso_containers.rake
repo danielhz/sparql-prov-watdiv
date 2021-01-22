@@ -33,7 +33,7 @@ named_task 'create_virtuoso_7_container' do
   # Publish the container
   puts 'Create a container image'
   system "lxc stop #{container}"
-  system "lxc image publish #{container} --alias #{container}"
+  system "lxc publish #{container} --alias #{container}"
 end
 
 

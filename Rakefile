@@ -6,7 +6,17 @@ require 'net/ssh'
 # require './config/config.rb'
 
 def container_ip(container)
-  `lxc exec #{container} -- ifconfig eth0 | grep 'inet ' | awk '{ print $2}'`.strip
+  `lxc list --columns n4 --format csv | grep #{container},`.
+    gsub('(eth0)', '').gsub("#{container},", '').strip
+end
+
+def container_ip_loop(container)
+  ip = ''
+  loop do
+    sleep 1
+    ip = container_ip(container)
+    return ip unless ip == ''
+  end
 end
 
 def launch_ubuntu_container(name, version)
