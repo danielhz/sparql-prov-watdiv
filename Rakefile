@@ -1,8 +1,31 @@
 # Tasks are defined in separate files.
 
 require 'fileutils'
+require 'net/ssh'
 
 # require './config/config.rb'
+
+def container_ip(container)
+  `lxc exec #{container} -- ifconfig eth0 | grep 'inet ' | awk '{ print $2}'`.strip
+end
+
+def launch_ubuntu_container(name, version)
+  system "lxc launch ubuntu:#{version} #{name}"
+  system "lxc file push ~/.ssh/id_rsa.pub #{name}/home/ubuntu/.ssh/authorized_keys"
+end
+
+def launch_debian_container(name, version)
+  system "lxc launch images:debian/#{version} #{name}"
+  system "lxc exec #{name} apt update"
+  system "lxc exec #{name} -- apt upgrade -y"
+  system "lxc exec #{name} -- apt install ssh git -y"
+  system "lxc exec #{name} -- apt autoremove -y"
+  system "lxc exec #{name} -- adduser --home /home/debian --gecos Debian --disabled-password debian"
+  system "lxc exec #{name} -- mkdir /home/debian/.ssh"
+  system "lxc exec #{name} -- chmod 700 /home/debian/.ssh"
+  system "lxc exec #{name} -- chown debian:debian /home/debian/.ssh"
+  system "lxc file push ~/.ssh/id_rsa.pub #{name}/home/debian/.ssh/authorized_keys"
+end
 
 def task_dependency(task_name)
   "task_status/done_#{task_name}"
