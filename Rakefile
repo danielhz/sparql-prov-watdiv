@@ -2,6 +2,7 @@
 
 require 'fileutils'
 require 'net/ssh'
+require './lib/sparql_bench.rb'
 
 # require './config/config.rb'
 

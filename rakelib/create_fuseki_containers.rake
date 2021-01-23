@@ -7,7 +7,7 @@ named_task 'create_fuseki_3_container' do
   launch_ubuntu_container(container, '20.04')
 
   puts 'Install required system packages'
-  system "lxc exec #{container} -- apt install -y default-jdk"
+  system "lxc exec #{container} -- apt install -y default-jdk daemonize"
 
   puts 'Connecting to container via ssh'
   Net::SSH.start(container_ip_loop(container), 'ubuntu') do |ssh|
