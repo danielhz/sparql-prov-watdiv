@@ -1,0 +1,4 @@
+?v0  <http://example.org/hasGenre> <http://example.org/SubGenre135> .
+XXX
+?v0  <http://purl.org/ontology/mo/conductor> ?v1 .
+?v0  <http://www.w3.org/1999/02/22-rdf-syntax-ns/type> ?v2 .

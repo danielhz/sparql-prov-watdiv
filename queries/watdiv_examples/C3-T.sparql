@@ -1,0 +1,8 @@
+?v0  <http://www.w3.org/1999/02/22-rdf-syntax-ns/type> <http://example.org/Role0> .
+XXX
+?v0  <http://example.org/likes>  ?v1 .
+?v0  <http://example.org/friendOf>  ?v2 .
+?v0  <http://purl.org/dc/terms/Location>  ?v3 .
+?v0  <http://xmlns.com/foaf/age>  ?v4 .
+?v0  <http://example.org/gender>  ?v5 .
+?v0  <http://xmlns.com/foaf/givenName>  ?v6 .

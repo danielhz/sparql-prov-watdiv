@@ -1,0 +1,5 @@
+?v0 <http://schema.org/nationality> <http://example.org/Country17> .
+?v0 <http://www.w3.org/1999/02/22-rdf-syntax-ns/type> <http://example.org/Role2> .
+XXX
+?v0 <http://purl.org/dc/terms/Location> ?v1 .
+?v0 <http://example.org/gender> ?v3 .
