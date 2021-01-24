@@ -1,0 +1,6 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT DISTINCT ?v3 WHERE {
+  ?v0  wsdbm:likes  ?v1 .
+  ?v0  wsdbm:subscribes ?v3 .
+}
+ORDER BY ?v3

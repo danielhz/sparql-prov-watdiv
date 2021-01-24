@@ -15,7 +15,9 @@ class Endpoint
   end
 
   def start
+    puts 'Starting container'
     system "lxc start #{@container}"
+    puts 'Container started'
   end
 
   def stop
@@ -23,8 +25,9 @@ class Endpoint
   end
 
   def run_query(file)
-    system "curl --data-urlencode \"query=$(cat #{file})\" " +
+     cmd = "curl --data-urlencode \"query=$(cat #{file})\" " +
            "-H \"Accept: text/csv\" #{endpoint_url}"
+     `#{cmd}`
   end
 
   def bench_query(file)
@@ -43,6 +46,7 @@ class LXDFusekiEndpoint < Endpoint
            "-c /home/ubuntu/apache-jena-fuseki-3.17.0 " +
            "-o stdout.log -e stderr.log " +
            "/home/ubuntu/apache-jena-fuseki-3.17.0/fuseki-server " +
+           "--set tdb:unionDefaultGraph=true " +
            "--loc=/home/ubuntu/tdb /ds'"
   end
 end
