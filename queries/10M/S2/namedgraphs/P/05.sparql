@@ -1,0 +1,24 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX sorg: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?v0 ?sum ?sum_product
+ ?sum_product_1_source ?sum_product_2_source ?sum_product_3_source ?sum_product_4_source
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0 dc:Location       ?v1 . }
+  GRAPH ?sum_product_2_source { ?v0 sorg:nationality  wsdbm:Country18 . }
+  GRAPH ?sum_product_3_source { ?v0 wsdbm:gender      ?v3 . }
+  GRAPH ?sum_product_4_source { ?v0 rdf:type          wsdbm:Role2 . }
+  BIND (
+        URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v3))))
+        AS ?sum_product )
+  BIND (
+    URI(CONCAT("http://example.org/product/",
+               "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
+    AS ?sum )
+}

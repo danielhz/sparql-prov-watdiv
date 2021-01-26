@@ -1,4 +1,5 @@
 require 'csv'
+require 'fileutils'
 
 %w{B P T}.each do |mode|
   desc "Generate C3 queries for #{mode}"
@@ -7,30 +8,50 @@ require 'csv'
   end
 end
 
-desc "Generate L3 queries params"
-named_task "generate_l3_queries_params" do
-  endpoint = LXDFusekiEndpoint.new('watdiv-10M-namedgraphs-fuseki3-ubuntu2004')
-  endpoint.start
-  out = endpoint.run_query('queries/watdiv_params/L3.sparql')
-  params = out.lines.drop(1).shuffle(random: Random.new(1))[0,10]
-  params = params.map do |line|
-    line.strip.sub('http://db.uwaterloo.ca/~galuc/wsdbm/', '')
+QUERY_TEMPLATE_PARAMS_SCHEMES = [
+  {template: 'L3', attributes: {v3: 'Website2579'}},
+  {template: 'S2', attributes: {v2: 'Country17'}},
+]
+
+QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
+  template = params_scheme[:template]
+  attributes = params_scheme[:attributes]
+  
+  desc "Generate #{template} queries params"
+  named_task "generate_#{template}_queries_params" do
+    endpoint = LXDFusekiEndpoint.new('watdiv-10M-namedgraphs-fuseki3-ubuntu2004')
+    endpoint.start
+    out = endpoint.run_query("queries/watdiv_params/#{template}.sparql")
+    params = out.lines.drop(1).shuffle(random: Random.new(1))[0,10]
+    params = params.map do |line|
+      line.strip.sub('http://db.uwaterloo.ca/~galuc/wsdbm/', '')
+    end
+    File.open("params/#{template}-10M-params.csv", 'w') do |file|
+      file.puts attributes.keys.sort.join(',')
+      params.each { |line| file.puts line }
+    end
+    endpoint.stop
   end
-  File.open('params/L3-10M-params.csv', 'w') do |file|
-    file.puts 'v3'
-    params.each { |line| file.puts line }
-  end
-  endpoint.stop
 end
 
-%w{B P T}.each do |mode|  
-  desc "Generate L3 10M queries for #{mode}"
-  named_task "generate_l3_10M_queries_#{mode}" do
-    params = CSV.parse(File.read('params/L3-10M-params.csv'), headers: true)
-    (0...10).each do |instance_id|
-      File.open("queries/10M/L3/namedgraphs/#{mode}/#{'%02d' % instance_id}.sparql", 'w') do |query_instance_file|
-        query_instance_file.puts File.new("queries/watdiv_examples/L3-#{mode}.sparql").
-                                   read.gsub('Website2579', params[instance_id]['v3'])
+QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
+  template = params_scheme[:template]
+  attributes = params_scheme[:attributes]
+
+  %w{B P T}.each do |mode|  
+    desc "Generate #{template} 10M queries for #{mode}"
+    named_task "generate_#{template}_10M_queries_#{mode}" do
+      params = CSV.parse(File.read("params/#{template}-10M-params.csv"), headers: true)
+      (0...10).each do |instance_id|
+        query_file_path = "queries/10M/#{template}/namedgraphs/#{mode}/#{'%02d' % instance_id}.sparql"
+        FileUtils.mkdir_p(File.dirname(query_file_path))
+        File.open(query_file_path, 'w') do |query_instance_file|
+          query_template = File.new("queries/watdiv_examples/#{template}-#{mode}.sparql").read
+          attributes.each do |attribute, value|
+            query_template.gsub!(value, params[instance_id][attribute.to_s])
+          end
+          query_instance_file.puts query_template
+        end
       end
     end
   end
@@ -44,13 +65,6 @@ end
   task "generate_#{query}_queries" => tasks
 end
 
-
-#   -rw-rw-r-- 1 ubuntu ubuntu  128 Jan 24 09:38 L3-B.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  621 Jan 24 09:38 L3-P.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  116 Jan 24 09:38 L3-T.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  328 Jan 24 09:38 S2-B.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu 1024 Jan 24 09:38 S2-P.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  240 Jan 24 09:38 S2-T.sparql
 #   -rw-rw-r-- 1 ubuntu ubuntu  264 Jan 24 09:38 S3-B.sparql
 #   -rw-rw-r-- 1 ubuntu ubuntu  962 Jan 24 09:38 S3-P.sparql
 #   -rw-rw-r-- 1 ubuntu ubuntu  216 Jan 24 09:38 S3-T.sparql
