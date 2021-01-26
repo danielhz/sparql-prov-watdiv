@@ -1,0 +1,11 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX sorg: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT DISTINCT ?v1
+WHERE {
+	?v0	rdf:type	?v1 .
+	?v0	sorg:caption	?v2 .
+	?v0	wsdbm:hasGenre	?v3 .
+	?v0	sorg:publisher	?v4 .
+}
+ORDER BY ?v1

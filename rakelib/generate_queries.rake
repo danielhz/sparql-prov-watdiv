@@ -11,6 +11,9 @@ end
 QUERY_TEMPLATE_PARAMS_SCHEMES = [
   {template: 'L3', attributes: {v3: 'Website2579'}},
   {template: 'S2', attributes: {v2: 'Country17'}},
+  {template: 'S3', attributes: {v1: 'ProductCategory4'}},
+  {template: 'S5', attributes: {v1: 'ProductCategory2'}},
+  {template: 'S6', attributes: {v3: 'SubGenre135'}},
 ]
 
 QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
@@ -42,7 +45,7 @@ QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
     desc "Generate #{template} 10M queries for #{mode}"
     named_task "generate_#{template}_10M_queries_#{mode}" do
       params = CSV.parse(File.read("params/#{template}-10M-params.csv"), headers: true)
-      (0...10).each do |instance_id|
+      (0...params.size).each do |instance_id|
         query_file_path = "queries/10M/#{template}/namedgraphs/#{mode}/#{'%02d' % instance_id}.sparql"
         FileUtils.mkdir_p(File.dirname(query_file_path))
         File.open(query_file_path, 'w') do |query_instance_file|
@@ -64,13 +67,3 @@ end
   
   task "generate_#{query}_queries" => tasks
 end
-
-#   -rw-rw-r-- 1 ubuntu ubuntu  264 Jan 24 09:38 S3-B.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  962 Jan 24 09:38 S3-P.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  216 Jan 24 09:38 S3-T.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  304 Jan 24 09:38 S5-B.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  944 Jan 24 09:38 S5-P.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  249 Jan 24 09:38 S5-T.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  258 Jan 24 09:38 S6-B.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  844 Jan 24 09:38 S6-P.sparql
-#   -rw-rw-r-- 1 ubuntu ubuntu  186 Jan 24 09:38 S6-T.sparql

@@ -102,20 +102,16 @@ class LXDVirtuosoEndpoint < Endpoint
 
     loop do
       sleep 1
-      output = `lxc exec #{@container} netstat | grep 1111`
-      ready = output.split("\n").map do |line|
-        line.split.last
-      end.reduce(true) do |is_connected, status|
-        is_connected = (is_connected and (status == 'ESTABLISHED'))
-      end
-      break if ready and output != ''
+      output = `lxc exec #{@container} -- netstat -tl | grep ':8890 '`
+      break if output != ''
     end
-
     puts "Service started"
   end
 end
 
 def watdiv_bench(endpoint, size, template, scheme, mode, times = 5)
+  puts "Starting workload #{[endpoint, size, template, scheme, mode].join('-')}"
+  
   endpoint.start
   queries = Dir[File.join('queries', size, template, scheme, mode, '*.sparql')].sort
 
