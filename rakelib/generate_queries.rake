@@ -3,7 +3,7 @@ require 'csv'
 %w{B P T}.each do |mode|
   desc "Generate C3 queries for #{mode}"
   named_task "generate_c3_queries_#{mode}" do
-    system "cp queries/watdiv_examples/C3-#{mode}.sparql queries/watdiv/C3-#{mode}-00.sparql"
+    system "cp queries/watdiv_examples/C3-#{mode}.sparql queries/10M/C3/namedgraphs/#{mode}/00.sparql"
   end
 end
 
@@ -28,7 +28,7 @@ end
   named_task "generate_l3_10M_queries_#{mode}" do
     params = CSV.parse(File.read('params/L3-10M-params.csv'), headers: true)
     (0...10).each do |instance_id|
-      File.open("queries/10M/L3/#{mode}/#{'%02d' % instance_id}.sparql", 'w') do |query_instance_file|
+      File.open("queries/10M/L3/namedgraphs/#{mode}/#{'%02d' % instance_id}.sparql", 'w') do |query_instance_file|
         query_instance_file.puts File.new("queries/watdiv_examples/L3-#{mode}.sparql").
                                    read.gsub('Website2579', params[instance_id]['v3'])
       end

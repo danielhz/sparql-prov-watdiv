@@ -1,5 +1,0 @@
-PREFIX wsdbm: <http://example.org/>
-SELECT ?v0 WHERE {
-  ?v0  wsdbm:likes  ?v1 .
-  ?v0  wsdbm:subscribes  wsdbm:Website2059 .
-}

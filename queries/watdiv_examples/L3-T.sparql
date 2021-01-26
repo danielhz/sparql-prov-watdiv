@@ -1,3 +1,3 @@
-?v0  <http://example.org/subscribes>  <http://example.org/Website2579> .
+?v0  <http://db.uwaterloo.ca/galuc/wsdbm/subscribes>  <http://db.uwaterloo.ca/galuc/wsdbm/Website2579> .
 XXX
-?v0  <http://example.org/likes>  ?v1 .
+?v0  <http://db.uwaterloo.ca/galuc/wsdbm/likes>  ?v1 .
