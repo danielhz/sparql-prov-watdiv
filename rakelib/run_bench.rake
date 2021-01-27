@@ -35,6 +35,8 @@ end
     named_task task_name do
       tripleprov_bench(size, template)
     end
+
+    bench_dependencies.append(task_dependency(task_name))
   end
 end
 
