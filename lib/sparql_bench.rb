@@ -33,7 +33,7 @@ class Endpoint
   end
 
   def run_query(file)
-     cmd = "curl --data-urlencode \"query=$(cat #{file})\" " +
+     cmd = "curl -s --data-urlencode \"query=$(cat #{file})\" " +
            "-H \"Accept: text/csv\" #{endpoint_url}"
      `#{cmd}`
   end

@@ -24,5 +24,19 @@ bench_dependencies = []
   end
 end
 
+%w{10M}.each do |size|
+  %w{C3 L3 S2 S3 S5 S6}.each do |template|
+    engine = 'tripleprov'
+    scheme = 'namedgraphs'
+    mode = 'T'
+
+    task_name = "run_bench_#{engine}_#{size}_#{template}_#{scheme}_#{mode}"
+    desc "Run bench for #{engine} #{size} #{template} #{scheme} #{mode}"
+    named_task task_name do
+      tripleprov_bench(size, template)
+    end
+  end
+end
+
 desc 'Run bench'
 task :bench => bench_dependencies
