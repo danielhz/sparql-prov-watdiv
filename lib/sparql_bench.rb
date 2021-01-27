@@ -1,5 +1,6 @@
 require 'net/ssh'
 require 'csv'
+require 'benchmark'
 
 class Endpoint
   def initialize(container, timeout = 300)
@@ -17,6 +18,11 @@ class Endpoint
   end
 
   def start
+    container_start
+    service_start
+  end
+
+  def container_start
     puts "Starting container #{@container}"
     system "lxc start #{@container}"
     puts 'Container started'
@@ -33,13 +39,12 @@ class Endpoint
   end
 
   def bench_query(file)
-    t1 = Time.now
+    result = []
     cmd = "curl -s -o /dev/null -w \"%{http_code}\" -m #{@timeout} " +
           "--data-urlencode \"query=$(cat #{file})\" " +
           "-H \"Accept: text/csv\" #{endpoint_url}"
-    status = `#{cmd}`
-    t2 = Time.now
-    [t2 - t1, status]
+    time = Benchmark.measure { result << `#{cmd}` }
+    [time.total] + result
   end
 end
 
@@ -57,8 +62,7 @@ class LXDFusekiEndpoint < Endpoint
     "http://#{container_ip}:3030/ds/sparql"
   end
   
-  def start
-    super
+  def service_start
     puts "Starting service"
     system "lxc exec #{@container} -- su - ubuntu -c " +
            "'daemonize -E JVM_ARGS=${JVM_ARGS:--Xmx128G} " +
@@ -91,9 +95,7 @@ class LXDVirtuosoEndpoint < Endpoint
     "http://#{container_ip}:8890/sparql/"
   end
 
-  def start
-    super
-    
+  def service_start
     puts "Starting service"
     virtuoso = 'virtuoso-7.2.5.1'
     system "lxc exec #{@container} -- su - #{@user} -c " +
@@ -137,4 +139,50 @@ def watdiv_bench(endpoint, size, template, scheme, mode, times = 5)
   end
   
   endpoint.stop
+end
+
+class TripleProvEndpoint
+  def initialize
+    @home = '/home/ubuntu/sparql-prov-watdiv/tripleprov_demo/release'
+  end
+
+  def name
+    'tripleprov'
+  end
+
+  def bench_query(file)
+    output = `cd #{@home} && ./tripleprov #{file}`
+    {body: output, time: output.lines.last.split.last}
+  end
+end
+
+def tripleprov_bench(size, template, times = 5)
+  endpoint = TripleProvEndpoint.new
+  scheme = 'namedgraphs'
+  mode = 'T'
+  
+  puts "Starting workload #{[endpoint.name, size, template, scheme, mode].join('-')}"
+
+  # tp.bench_query('/home/ubuntu/sparql-prov-watdiv/queries/10M/S2/namedgraphs/T/00.sparql')
+
+  queries = Dir[File.join('queries', size, template, scheme, mode, '*.sparql')].sort
+
+  results = "results/#{endpoint.name}-#{size}-#{template}-#{scheme}-#{mode}.csv"
+  CSV.open(results, 'w') do |csv|
+    csv << %w{engine size template scheme mode query_id repetition time status}
+    queries.each do |query|
+      (1..times).each do |repetition|
+        puts "Running query #{query} (repetition #{repetition})"
+        result = endpoint.bench_query(File.absolute_path query)
+        
+        answers = query.gsub('/', '-').sub('.sparql', '.csv').sub('queries-', "answers/#{endpoint.name}-")
+        File.open(answers, 'w') do |file|        
+          file.puts result[:body]
+        end
+
+        query_name = File.basename(query).sub(/.sparql$/, '')
+        csv << [endpoint.name, size, template, scheme, mode, query_name, repetition, result[:time], 200]
+      end
+    end
+  end
 end
