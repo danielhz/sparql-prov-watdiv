@@ -8,7 +8,17 @@ require 'fileutils'
   end
 end
 
+%w{C3}.each do |query|
+  tasks = %w{B P T}.map do |mode|
+    task_dependency("generate_c3_queries_#{mode}")
+  end
+  
+  task "generate_#{query}_queries" => tasks
+end
+
+
 QUERY_TEMPLATE_PARAMS_SCHEMES = [
+  {template: 'C3'},
   {template: 'L3', attributes: {v3: 'Website2579'}},
   {template: 'S2', attributes: {v2: 'Country17'}},
   {template: 'S3', attributes: {v1: 'ProductCategory4'}},
@@ -16,7 +26,7 @@ QUERY_TEMPLATE_PARAMS_SCHEMES = [
   {template: 'S6', attributes: {v3: 'SubGenre135'}},
 ]
 
-QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
+QUERY_TEMPLATE_PARAMS_SCHEMES.filter{ |ps| ps.include? :attributes }.each do |params_scheme|
   template = params_scheme[:template]
   attributes = params_scheme[:attributes]
   
@@ -37,33 +47,44 @@ QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
   end
 end
 
+query_dependencies = []
+
 QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
   template = params_scheme[:template]
-  attributes = params_scheme[:attributes]
+  attributes = params_scheme[:attributes] || {}
 
-  %w{B P T}.each do |mode|  
-    desc "Generate #{template} 10M queries for #{mode}"
-    named_task "generate_#{template}_10M_queries_#{mode}" do
-      params = CSV.parse(File.read("params/#{template}-10M-params.csv"), headers: true)
-      (0...params.size).each do |instance_id|
-        query_file_path = "queries/10M/#{template}/namedgraphs/#{mode}/#{'%02d' % instance_id}.sparql"
-        FileUtils.mkdir_p(File.dirname(query_file_path))
-        File.open(query_file_path, 'w') do |query_instance_file|
-          query_template = File.new("queries/watdiv_examples/#{template}-#{mode}.sparql").read
-          attributes.each do |attribute, value|
-            query_template.gsub!(value, params[instance_id][attribute.to_s])
+  %w{B P T}.each do |mode|
+    %w{namedgraphs wikidata rdf}.each do |scheme|
+      # Skip TripleProv queries for reification schemes unsupported by TripleProv
+      next if mode == 'T' and scheme != 'namedgraphs'
+
+      if attributes.empty?
+        params = [{}]
+      else
+        params = CSV.parse(File.read("params/#{template}-10M-params.csv"), headers: true)
+      end
+      
+      task_name = "generate_#{template}_10M_queries_#{scheme}_#{mode}"
+      query_dependencies << task_dependency(task_name)
+      template_file = "queries/watdiv_examples/#{scheme}/#{template}-#{mode}.sparql"
+      desc "Generate #{template} 10M queries for #{scheme} #{mode}"
+      named_task task_name, template_file do
+        (0...params.size).each do |instance_id|
+          query_file_path = "queries/10M/#{template}/#{scheme}/#{mode}/#{'%02d' % instance_id}.sparql"
+          puts "Creating query #{query_file_path}"
+          FileUtils.mkdir_p(File.dirname(query_file_path))
+          File.open(query_file_path, 'w') do |query_instance_file|
+            query_template = File.new(template_file).read
+            attributes.each do |attribute, value|
+              query_template.gsub!(value, params[instance_id][attribute.to_s])
+            end
+            query_instance_file.puts query_template
           end
-          query_instance_file.puts query_template
         end
       end
     end
   end
 end
 
-%w{C3}.each do |query|
-  tasks = %w{B P T}.map do |mode|
-    task_dependency("generate_c3_queries_#{mode}")
-  end
-  
-  task "generate_#{query}_queries" => tasks
-end
+desc 'Generate queries'
+task :queries => query_dependencies

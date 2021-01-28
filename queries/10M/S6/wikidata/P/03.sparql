@@ -1,0 +1,31 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfp: <http://example.org/p/www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfps: <http://example.org/ps/www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX mop: <http://example.org/p/purl.org/ontology/mo/>
+PREFIX mops: <http://example.org/ps/purl.org/ontology/mo/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?v0 ?sum ?sum_product
+ ?sum_product_1_source ?sum_product_2_source ?sum_product_3_source
+WHERE {
+  ?v0 mop:conductor ?sum_product_1_source .
+  ?sum_product_1_source mops:conductor ?v1 .
+
+  ?v0 rdfp:type ?sum_product_2_source .
+  ?sum_product_2_source rdf:type ?v2 .
+
+  ?v0 wsdbmp:hasGenre ?sum_product_3_source .
+  ?sum_product_3_source wsdbmps:hasGenre wsdbm:SubGenre97 .
+  
+  BIND (
+        URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2))))
+        AS ?sum_product )
+  BIND (
+    URI(CONCAT("http://example.org/sum/",
+               "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
+    AS ?sum )
+}

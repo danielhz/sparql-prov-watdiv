@@ -1,0 +1,22 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbmp: <http://example.org/p/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbmps: <http://example.org/ps/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?v0 ?sum ?sum_product ?sum_product_1_source ?sum_product_2_source
+WHERE {
+  ?v0 wsdbmp:likes ?sum_product_1_source .
+  ?sum_product_1_source wsdbmps:likes ?v1 .
+
+  ?v0 wsdbmp:subscribes ?sum_product_2_source .
+  ?sum_product_2_source wsdbmps:subscribes wsdbm:Website3487 .
+  
+  BIND (
+    URI(CONCAT("http://example.org/sum_product/",
+               "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+               "&s_2=", ENCODE_FOR_URI(xsd:string(?v1))))
+    AS ?sum_product )
+  BIND (
+    URI(CONCAT("http://example.org/sum/",
+               "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
+    AS ?sum )
+}
