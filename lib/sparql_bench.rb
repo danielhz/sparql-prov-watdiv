@@ -3,7 +3,7 @@ require 'csv'
 require 'benchmark'
 
 class Endpoint
-  def initialize(container, timeout = 300)
+  def initialize(container, timeout = 3000)
     @container = container
     @timeout = timeout
   end
@@ -33,8 +33,9 @@ class Endpoint
   end
 
   def run_query(file)
-     cmd = "curl -s --data-urlencode \"query=$(cat #{file})\" " +
-           "-H \"Accept: text/csv\" #{endpoint_url}"
+    cmd = "curl -s -m #{@timeout} " +
+          "--data-urlencode \"query=$(cat #{file})\" " +
+          "-H \"Accept: text/csv\" #{endpoint_url}"
      `#{cmd}`
   end
 
@@ -44,7 +45,7 @@ class Endpoint
           "--data-urlencode \"query=$(cat #{file})\" " +
           "-H \"Accept: text/csv\" #{endpoint_url}"
     time = Benchmark.measure { result << `#{cmd}` }
-    [time.total] + result
+    [[time.real, 300].min] + result
   end
 end
 

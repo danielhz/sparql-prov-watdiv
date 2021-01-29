@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,10M,S3,wikidata,P,00,1,0.11049214005470276,200
+fuseki,10M,S3,wikidata,P,00,2,0.07896679453551769,200
+fuseki,10M,S3,wikidata,P,00,3,0.07469725050032139,200
+fuseki,10M,S3,wikidata,P,00,4,0.09815267845988274,200
+fuseki,10M,S3,wikidata,P,00,5,0.06417080760002136,200
