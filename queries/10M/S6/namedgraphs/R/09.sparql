@@ -1,0 +1,9 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+SELECT ?v0
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0 mo:conductor ?v1 . }
+  GRAPH ?sum_product_2_source { ?v0 rdf:type ?v2 . }
+  GRAPH ?sum_product_3_source { ?v0 wsdbm:hasGenre wsdbm:SubGenre8 . }
+}

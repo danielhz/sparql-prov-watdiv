@@ -1,0 +1,35 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbmp: <http://example.org/p/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbmps: <http://example.org/ps/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX dcp: <http://example.org/p/purl.org/dc/terms/>
+PREFIX dcps: <http://example.org/ps/purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/>
+PREFIX foafp: <http://example.org/p/xmlns.com/foaf/>
+PREFIX foafps: <http://example.org/ps/xmlns.com/foaf/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfp: <http://example.org/p/www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfps: <http://example.org/ps/www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0
+WHERE {
+  ?v0 rdfp:type ?sum_product_1_source .
+  ?sum_product_1_source rdfps:type wsdbm:Role0 .
+
+  ?v0 wsdbmp:likes ?sum_product_2_source .
+  ?sum_product_2_source wsdbmps:likes ?v1 .
+
+  ?v0 wsdbmp:friendOf ?sum_product_3_source .
+  ?sum_product_3_source wsdbmps:friendOf ?v2 .
+
+  ?v0 dcp:Location ?sum_product_4_source .
+  ?sum_product_4_source dcps:Location ?v3 .
+
+  ?v0 foafp:age ?sum_product_5_source .
+  ?sum_product_5_source foafps:age ?v4 .
+
+  ?v0 wsdbmp:gender ?sum_product_6_source .
+  ?sum_product_6_source wsdbmps:gender ?v5 .
+
+  ?v0 foafp:givenName ?sum_product_7_source .
+  ?sum_product_7_source foafps:givenName ?v6 .
+}

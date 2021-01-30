@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,10M,S3,namedgraphs,R,00,1,0.05343415029346943,200
+fuseki,10M,S3,namedgraphs,R,00,2,0.05318552814424038,200
+fuseki,10M,S3,namedgraphs,R,00,3,0.04259025491774082,200
+fuseki,10M,S3,namedgraphs,R,00,4,0.06679670698940754,200
+fuseki,10M,S3,namedgraphs,R,00,5,0.04174903593957424,200

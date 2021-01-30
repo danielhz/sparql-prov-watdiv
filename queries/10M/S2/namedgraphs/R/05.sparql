@@ -1,0 +1,11 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX sorg: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0 dc:Location       ?v1 . }
+  GRAPH ?sum_product_2_source { ?v0 sorg:nationality  wsdbm:Country18 . }
+  GRAPH ?sum_product_3_source { ?v0 wsdbm:gender      ?v3 . }
+  GRAPH ?sum_product_4_source { ?v0 rdf:type          wsdbm:Role2 . }
+}

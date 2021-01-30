@@ -1,0 +1,14 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0  rdf:type wsdbm:Role0 . }
+  GRAPH ?sum_product_2_source { ?v0  wsdbm:likes  ?v1 . }
+  GRAPH ?sum_product_3_source { ?v0  wsdbm:friendOf  ?v2 . }
+  GRAPH ?sum_product_4_source { ?v0  dc:Location  ?v3 . }
+  GRAPH ?sum_product_5_source { ?v0  foaf:age  ?v4 . }
+  GRAPH ?sum_product_6_source { ?v0  wsdbm:gender  ?v5 . }
+  GRAPH ?sum_product_7_source { ?v0  foaf:givenName  ?v6 . }
+}
