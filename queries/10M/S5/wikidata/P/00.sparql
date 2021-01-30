@@ -6,7 +6,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfp: <http://example.org/p/www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfps: <http://example.org/ps/www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT DISTINCT ?v0 ?sum ?sum_product
+SELECT ?v0 ?sum ?sum_product
  ?sum_product_1_source ?sum_product_2_source ?sum_product_3_source ?sum_product_4_source
 WHERE {
   ?v0 rdfp:type ?sum_product_1_source .

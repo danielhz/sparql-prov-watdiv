@@ -8,7 +8,7 @@ PREFIX mo: <http://purl.org/ontology/mo/>
 PREFIX mop: <http://example.org/p/purl.org/ontology/mo/>
 PREFIX mops: <http://example.org/ps/purl.org/ontology/mo/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT DISTINCT ?v0 ?sum ?sum_product
+SELECT ?v0 ?sum ?sum_product
  ?sum_product_1_source ?sum_product_2_source ?sum_product_3_source
 WHERE {
   ?v0 mop:conductor ?sum_product_1_source .

@@ -2,7 +2,7 @@ PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
 PREFIX sorg: <http://schema.org/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-SELECT DISTINCT ?v0 ?sum ?sum_product
+SELECT ?v0 ?sum ?sum_product
  ?sum_product_1_source ?sum_product_2_source ?sum_product_3_source ?sum_product_4_source
 WHERE {
   GRAPH ?sum_product_1_source { ?v0  rdf:type          wsdbm:ProductCategory2 . }
