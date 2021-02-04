@@ -61,5 +61,3 @@ build-iPhoneSimulator/
 # Data
 datasets/*.gz
 
-# Task status
-task_status/done_*
