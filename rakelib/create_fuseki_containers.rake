@@ -3,7 +3,7 @@ desc 'Create Fuseki 3 container'
 named_task 'create_fuseki_3_container' do
   container = 'fuseki3-ubuntu2004'
 
-  puts "Lauching container #{conatiner}"
+  puts "Lauching container #{container}"
   launch_ubuntu_container(container, '20.04')
 
   puts 'Install required system packages'
