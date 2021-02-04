@@ -22,6 +22,13 @@ end
 
 def launch_ubuntu_container(name, version)
   system "lxc launch ubuntu:#{version} #{name}"
+  system "lxc exec #{name} apt update"
+  system "lxc exec #{name} -- apt upgrade -y"
+  system "lxc exec #{name} -- apt install daemonize -y"
+  system "lxc exec #{name} -- apt autoremove -y"
+  system "lxc exec #{name} -- mkdir /home/ubuntu/.ssh"
+  system "lxc exec #{name} -- chmod 700 /home/ubuntu/.ssh"
+  system "lxc exec #{name} -- chown ubuntu:ubuntu /home/ubuntu/.ssh"
   system "lxc file push ~/.ssh/id_rsa.pub #{name}/home/ubuntu/.ssh/authorized_keys"
 end
 
