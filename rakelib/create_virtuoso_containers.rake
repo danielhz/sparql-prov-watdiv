@@ -3,7 +3,7 @@ desc 'Create Virtuoso 7 container'
 named_task 'create_virtuoso_7_container' do
   container = 'virtuoso7-debian9'
 
-  puts "Lauching container #{conatiner}"
+  puts "Lauching container #{container}"
   launch_debian_container(container, '9')
 
   system "lxc exec #{container} -- apt install -y libssl-dev build-essential bison flex " +
