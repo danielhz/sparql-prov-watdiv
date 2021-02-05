@@ -26,24 +26,31 @@ QUERY_TEMPLATE_PARAMS_SCHEMES = [
   {template: 'S6', attributes: {v3: 'SubGenre135'}},
 ]
 
+# Define tasks to generate the query params
 QUERY_TEMPLATE_PARAMS_SCHEMES.filter{ |ps| ps.include? :attributes }.each do |params_scheme|
   template = params_scheme[:template]
   attributes = params_scheme[:attributes]
-  
-  desc "Generate #{template} queries params"
-  named_task "generate_#{template}_queries_params" do
-    endpoint = LXDFusekiEndpoint.new('watdiv-10M-namedgraphs-fuseki3-ubuntu2004')
-    endpoint.start
-    out = endpoint.run_query("queries/watdiv_params/#{template}.sparql")
-    params = out.lines.drop(1).shuffle(random: Random.new(1))[0,10]
-    params = params.map do |line|
-      line.strip.sub('http://db.uwaterloo.ca/~galuc/wsdbm/', '')
+
+  # We have to define different params for each scale factor.
+  %w{10M 100M}.each do |scale_factor|
+    desc "Generate query params for template=#{template}, scale factor=#{scale_factor}"
+    named_task "query_params_#{template}_#{scale_factor}" do
+      endpoint = LXDFusekiEndpoint.new("watdiv-#{scale_factor}-namedgraphs-fuseki3-ubuntu2004")
+      endpoint.start
+      puts 'Running query'
+      out = endpoint.run_query("queries/watdiv_params/#{template}.sparql")
+      params = out.lines.drop(1).shuffle(random: Random.new(1))[0,10]
+      params = params.map do |line|
+        line.strip.sub('http://db.uwaterloo.ca/~galuc/wsdbm/', '')
+      end
+      File.open("params/#{template}_#{scale_factor}_params.csv", 'w') do |file|
+        file.puts attributes.keys.sort.join(',')
+        params.each { |line| file.puts line }
+      end
+      puts 'Params saved'
+      puts 'Stoping endpoint and container'
+      endpoint.stop
     end
-    File.open("params/#{template}-10M-params.csv", 'w') do |file|
-      file.puts attributes.keys.sort.join(',')
-      params.each { |line| file.puts line }
-    end
-    endpoint.stop
   end
 end
 
