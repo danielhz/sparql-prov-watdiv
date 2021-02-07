@@ -1,0 +1,15 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+SELECT ?v0
+WHERE {
+  ?sum_product_1_source rdf:subject ?v0 ;
+                        rdf:predicate mo:conductor ;
+			rdf:object ?v01 .
+  ?sum_product_2_source rdf:subject ?v0 ;
+                        rdf:predicate rdf:type ;
+			rdf:object ?v2 .
+  ?sum_product_3_source rdf:subject ?v0 ;
+                        rdf:predicate wsdbm:hasGenre ;
+			rdf:object wsdbm:SubGenre65 .
+}

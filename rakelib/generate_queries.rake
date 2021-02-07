@@ -61,7 +61,7 @@ QUERY_TEMPLATE_PARAMS_SCHEMES.each do |params_scheme|
   attributes = params_scheme[:attributes] || {}
 
   %w{10M 100M}.each do |scale_factor|
-    %w{B P T}.each do |mode|
+    %w{B P R T}.each do |mode|
       %w{namedgraphs wikidata rdf}.each do |scheme|
         # Skip TripleProv queries for reification schemes unsupported by TripleProv
         next if mode == 'T' and scheme != 'namedgraphs'
