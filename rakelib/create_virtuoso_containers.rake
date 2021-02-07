@@ -89,7 +89,7 @@ def virtuoso_7_load_dataset(container)
   end
 end
 
-%w{10 100}.each do |size|
+%w{10 100 1000}.each do |size|
   [
     {
       name: 'namedgraphs',
