@@ -1,0 +1,4 @@
+?a <http://example.org/P1> <http://example.org/R1> .
+XXX
+?a <http://example.org/P1> ?x .
+?a <http://example.org/P2> ?y .
