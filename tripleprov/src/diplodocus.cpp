@@ -20,38 +20,37 @@
 
 using namespace diplo;
 namespace diplo {
-string server_adr;
-string server_port;
-unsigned myID;
-unsigned nbOfClients;
-bool onlyPartition;
-int maxScope;
-int minScope;
-string moleculeconffile;
-string dbDir;
-string srcDir;
-int pause_int;
-int moleculesCounter;
-int ProvFilterCounter;
-int ProvFilterCH;
-int resCounterCounter;
-size_t network_buf_size;
-int PartitionerRange;
-ofstream queriesStart;
-ofstream benchmarkResults;
-ofstream provOutput;
-int elementsChecked;
-int elementsRetrieved;
-unordered_map<KEY_ID,int> contextTriples;
-unordered_set<KEY_ID> ProvUris;
-unordered_set<KEY_ID> ProvMolecules;
-unordered_map<KEY_ID, unordered_set<KEY_ID>> ProvIdx; //context value -> molecules
-bool ProvTrigerON;
-string statsDir;
-string file_q;
-string file_p;
+  string server_adr;
+  string server_port;
+  unsigned myID;
+  unsigned nbOfClients;
+  bool onlyPartition;
+  int maxScope;
+  int minScope;
+  string moleculeconffile;
+  string dbDir;
+  string srcDir;
+  int pause_int;
+  int moleculesCounter;
+  int ProvFilterCounter;
+  int ProvFilterCH;
+  int resCounterCounter;
+  size_t network_buf_size;
+  int PartitionerRange;
+  ofstream queriesStart;
+  ofstream benchmarkResults;
+  ofstream provOutput;
+  int elementsChecked;
+  int elementsRetrieved;
+  unordered_map<KEY_ID,int> contextTriples;
+  unordered_set<KEY_ID> ProvUris;
+  unordered_set<KEY_ID> ProvMolecules;
+  unordered_map<KEY_ID, unordered_set<KEY_ID>> ProvIdx; //context value -> molecules
+  bool ProvTrigerON;
+  string statsDir;
+  string file_q;
+  string file_p;
 }
-
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -61,52 +60,52 @@ string file_p;
 #include <fstream>
 
 void run_queries(string dataset, string q_template, string q_dir, int q_num) {
-    // Load the data
-    diplo::srcDir = "../" + dataset;
-
-    diplo::stopwatch_start();
-    diplo::onlyPartition = true;
-    Conductor dipl;
-    dipl.LoadData();
-
-    cout << "Loading Time: " << diplo::stopwatch_get() << endl;
-    cout << "Memory: " << diplo::memory_usage() << endl;
-
-    // The result file
-    ofstream result_file;
-    result_file.open("../../results/tripleprov-" + dataset + "-" + q_template +
-                     "-namedgraphs-T.csv");
-    result_file << "engine,size,template,scheme,mode,query_id,repetition,time,status" << endl;
+  // The result file
+  ofstream result_file;
+  result_file.open("../../results/tripleprov-" + dataset + "-" + q_template +
+		   "-namedgraphs-T.csv");
+  result_file << "engine,size,template,scheme,mode,query_id,repetition,time,status" << endl;
     
-    // The queries
-    for (int query_id = 0; query_id < q_num; query_id ++) {
-        string query = q_dir + "/0"+ to_string(query_id) + ".sparql";
+  // Execute the queries  
+  for (int query_id = 0; query_id < q_num; query_id ++) {
+    string query = q_dir + "/0"+ to_string(query_id) + ".sparql";
     
-        cout << "Query: " << query << endl;
-        diplo::file_q = query;
-
-        cout << "loaded" << endl;
+    cout << "Query: " << query << endl;
+    diplo::file_q = query;
         
-        queries::BTCprov q;
+    queries::BTCprov q;
 
-        if (!diplo::file_q.empty()) {
-            for (int repetition = 1; repetition <= 5; repetition++) {
-                cout << "Repetition: " << repetition << endl;
-                diplo::stopwatch_start();
-                q.TPDemo();
-                result_file <<
-                    "tripleprov," << dataset << ",namedgraphs,T,0" <<
-                    query_id << "," << repetition << "," <<  
-                    diplo::stopwatch_get() << ",200" <<  endl;
-            }
-        }
+    if (!diplo::file_q.empty()) {
+      for (int repetition = 1; repetition <= 5; repetition++) {
+	cout << "Repetition: " << repetition << endl;
+	diplo::stopwatch_start();
+	q.TPDemo();
+	result_file <<
+	  "tripleprov," << dataset << ",namedgraphs,T,0" <<
+	  query_id << "," << repetition << "," <<  
+	  diplo::stopwatch_get() << ",200" <<  endl;
+      }
     }
+  }
 
-    result_file.close();
+  result_file.close();
 }
 
 void run_test_queries() {
-    run_queries("test_dataset", "test", "../test_queries", 2);
+  run_queries("test_dataset", "test", "../test_queries", 2);
+}
+
+void setup_dataset(string dataset) {
+  // Load the data
+  diplo::srcDir = "../" + dataset;
+
+  diplo::stopwatch_start();
+  diplo::onlyPartition = true;
+  Conductor dipl;
+  dipl.LoadData();
+
+  cout << "Loading Time: " << diplo::stopwatch_get() << endl;
+  cout << "Memory: " << diplo::memory_usage() << endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -128,7 +127,24 @@ int main(int argc, char *argv[]) {
     diplo::ProvTrigerON = false;
     statsDir="btc/";
 
-    run_test_queries();
+    // setup_dataset("test_dataset");
+    // run_test_queries();
+
+    setup_dataset("10M");
+    run_queries("10M", "C3", "../../queries/10M/C3/namedgraphs/T", 1);
+    run_queries("10M", "L3", "../../queries/10M/L3/namedgraphs/T", 10);
+    run_queries("10M", "S2", "../../queries/10M/S2/namedgraphs/T", 10);
+    run_queries("10M", "S3", "../../queries/10M/S3/namedgraphs/T", 1);
+    run_queries("10M", "S5", "../../queries/10M/S5/namedgraphs/T", 2);
+    run_queries("10M", "S6", "../../queries/10M/S6/namedgraphs/T", 10);
+
+    // setup_dataset("100M");
+    // run_queries("100M", "C3", "../../queries/100M/C3/namedgraphs/T", 1);
+    // run_queries("100M", "L3", "../../queries/100M/L3/namedgraphs/T", 10);
+    // run_queries("100M", "S2", "../../queries/100M/S2/namedgraphs/T", 10);
+    // run_queries("100M", "S3", "../../queries/100M/S3/namedgraphs/T", 1);
+    // run_queries("100M", "S5", "../../queries/100M/S5/namedgraphs/T", 2);
+    // run_queries("100M", "S6", "../../queries/100M/S6/namedgraphs/T", 10);
     
     return 0;
 }

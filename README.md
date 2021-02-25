@@ -20,3 +20,10 @@ mkdir -p "$(rbenv root)"/plugins
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 rbenv install 3.0.0
 ```
+
+# Setup TripleProv
+
+```
+sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' 10M/watdiv.10M-namedgraphs.nt
+sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' 100M/watdiv.100M-namedgraphs.nt
+```
