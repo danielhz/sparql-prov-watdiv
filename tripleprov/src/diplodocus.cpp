@@ -56,7 +56,58 @@ string file_p;
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <vector>
+#include <string>
+#include <fstream>
 
+void run_queries(string dataset, string q_template, string q_dir, int q_num) {
+    // Load the data
+    diplo::srcDir = "../" + dataset;
+
+    diplo::stopwatch_start();
+    diplo::onlyPartition = true;
+    Conductor dipl;
+    dipl.LoadData();
+
+    cout << "Loading Time: " << diplo::stopwatch_get() << endl;
+    cout << "Memory: " << diplo::memory_usage() << endl;
+
+    // The result file
+    ofstream result_file;
+    result_file.open("../../results/tripleprov-" + dataset + "-" + q_template +
+                     "-namedgraphs-T.csv");
+    result_file << "engine,size,template,scheme,mode,query_id,repetition,time,status" << endl;
+    
+    // The queries
+    for (int query_id = 0; query_id < q_num; query_id ++) {
+        string query = q_dir + "/0"+ to_string(query_id) + ".sparql";
+    
+        cout << "Query: " << query << endl;
+        diplo::file_q = query;
+
+        cout << "loaded" << endl;
+        
+        queries::BTCprov q;
+
+        if (!diplo::file_q.empty()) {
+            for (int repetition = 1; repetition <= 5; repetition++) {
+                cout << "Repetition: " << repetition << endl;
+                diplo::stopwatch_start();
+                q.TPDemo();
+                result_file <<
+                    "tripleprov," << dataset << ",namedgraphs,T,0" <<
+                    query_id << "," << repetition << "," <<  
+                    diplo::stopwatch_get() << ",200" <<  endl;
+            }
+        }
+    }
+
+    result_file.close();
+}
+
+void run_test_queries() {
+    run_queries("test_dataset", "test", "../test_queries", 2);
+}
 
 int main(int argc, char *argv[]) {
     char hostname[128];
@@ -77,32 +128,9 @@ int main(int argc, char *argv[]) {
     diplo::ProvTrigerON = false;
     statsDir="btc/";
 
-
-
-    diplo::srcDir = "../dataset/";
-				
-    if (argc >= 2) diplo::file_q = argv[1];
-    if (argc == 3) diplo::file_p = argv[2];				
-				
-    diplo::stopwatch_start();
-    diplo::onlyPartition = true;
-    Conductor dipl;
-    dipl.LoadData();
-
-
-
-    cout << "Loading Time: " << diplo::stopwatch_get() << endl;
-    cout << "Memory: " << diplo::memory_usage() << endl;
-
-    queries::BTCprov q;
-
-    if (!diplo::file_q.empty()) {
-      diplo::stopwatch_start();
-      q.TPDemo();
-      cout << "Query Time: " << diplo::stopwatch_get() << endl;
-      return 0;
-    }
-
+    run_test_queries();
+    
+    return 0;
 }
 
 
@@ -127,7 +155,6 @@ string diplo::memory_usage() {
         my.close();
     }
     return "no data";
-
 }
 
 
