@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso,10M,C3,wikidata,B,00,1,1.0269484668970108,200
+virtuoso,10M,C3,wikidata,B,00,2,1.0264295358210802,200
+virtuoso,10M,C3,wikidata,B,00,3,1.0325906407088041,200
+virtuoso,10M,C3,wikidata,B,00,4,1.0383272282779217,200
+virtuoso,10M,C3,wikidata,B,00,5,1.0209245812147856,200

@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso,10M,S5,namedgraphs,P,00,1,0.013422427698969841,200
+virtuoso,10M,S5,namedgraphs,P,01,1,0.012407764792442322,200
+virtuoso,10M,S5,namedgraphs,P,00,2,0.013898788020014763,200
+virtuoso,10M,S5,namedgraphs,P,01,2,0.012114379554986954,200
+virtuoso,10M,S5,namedgraphs,P,00,3,0.013569764792919159,200
+virtuoso,10M,S5,namedgraphs,P,01,3,0.012106476351618767,200
+virtuoso,10M,S5,namedgraphs,P,00,4,0.01318373903632164,200
+virtuoso,10M,S5,namedgraphs,P,01,4,0.012056844308972359,200
+virtuoso,10M,S5,namedgraphs,P,00,5,0.013324983417987823,200
+virtuoso,10M,S5,namedgraphs,P,01,5,0.011972596868872643,200

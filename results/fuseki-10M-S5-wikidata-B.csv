@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,10M,S5,wikidata,B,00,1,0.04512494429945946,200
+fuseki,10M,S5,wikidata,B,01,1,0.0370690543204546,200
+fuseki,10M,S5,wikidata,B,00,2,0.03665609285235405,200
+fuseki,10M,S5,wikidata,B,01,2,0.03509686328470707,200
+fuseki,10M,S5,wikidata,B,00,3,0.0671475026756525,200
+fuseki,10M,S5,wikidata,B,01,3,0.031651996076107025,200
+fuseki,10M,S5,wikidata,B,00,4,0.03260200656950474,200
+fuseki,10M,S5,wikidata,B,01,4,0.02601579576730728,200
+fuseki,10M,S5,wikidata,B,00,5,0.031157882884144783,200
+fuseki,10M,S5,wikidata,B,01,5,0.026532147079706192,200

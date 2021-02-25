@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso,10M,S3,rdf,B,00,1,0.014738999307155609,200
+virtuoso,10M,S3,rdf,B,00,2,0.01506018452346325,200
+virtuoso,10M,S3,rdf,B,00,3,0.015149636194109917,200
+virtuoso,10M,S3,rdf,B,00,4,0.0144533421844244,200
+virtuoso,10M,S3,rdf,B,00,5,0.014562707394361496,200

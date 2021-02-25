@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,10M,C3,rdf,B,00,1,6.879336133599281,200
+fuseki,10M,C3,rdf,B,00,2,6.167050955817103,200
+fuseki,10M,C3,rdf,B,00,3,6.669816803187132,200
+fuseki,10M,C3,rdf,B,00,4,7.444230204448104,200
+fuseki,10M,C3,rdf,B,00,5,7.474496094509959,200
