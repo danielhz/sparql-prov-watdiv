@@ -1,0 +1,150 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Load the data
+
+In this section we load the data and generate the dataframes we analyze throughout this notebook.
+
+We next load the required libraries for the remained of this notebook.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(latex2exp)
+library(plotrix)
+library(scales)
+library(plyr)
+library(purrr)
+library(data.table)
+#remotes::install_github("coolbutuseless/ggpattern")
+#library("ggpattern")
+library(patternplot)
+library(gcookbook)
+
+get.se <- function(y) {
+ se <- sd(y)/sqrt(length(y))
+ mu <- mean(y)
+ c(ymin=mu-se, ymax=mu+se)
+}
+
+## Summarizes data.
+## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+##   data: a data frame.
+##   measurevar: the name of a column that contains the variable to be summariezed
+##   groupvars: a vector containing names of columns that contain grouping variables
+##   na.rm: a boolean that indicates whether to ignore NA's
+##   conf.interval: the percent range of the confidence interval (default is 95%)
+summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
+                      conf.interval=.95, .drop=TRUE) {
+    library(plyr)
+
+    # New version of length which can handle NA's: if na.rm==T, don't count them
+    length2 <- function (x, na.rm=FALSE) {
+        if (na.rm) sum(!is.na(x))
+        else       length(x)
+    }
+
+    # This does the summary. For each group's data frame, return a vector with
+    # N, mean, and sd
+    datac <- ddply(data, groupvars, .drop=.drop,
+      .fun = function(xx, col) {
+        c(N    = length2(xx[[col]], na.rm=na.rm),
+          mean = mean   (xx[[col]], na.rm=na.rm),
+          sd   = sd     (xx[[col]], na.rm=na.rm)
+        )
+      },
+      measurevar
+    )
+
+    # Rename the "mean" column    
+    datac <- rename(datac, c("mean" = measurevar))
+
+    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+
+    # Confidence interval multiplier for standard error
+    # Calculate t-statistic for confidence interval: 
+    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
+    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+    datac$ci <- datac$se * ciMult
+
+    return(datac)
+}
+```
+
+
+
+```{r}
+time_results <- 
+  list.files(path = "../../../results", pattern = "*.csv", full.names = TRUE) %>% 
+  map_df(~fread(.))
+
+time_results$engine[time_results$engine == "fuseki"] <- "Fuseki"
+time_results$engine[time_results$engine == "virtuoso"] <- "Virtuoso"
+time_results$engine[time_results$engine == "tripleprov"] <- "TripleProv"
+
+time_results$group[time_results$engine == "Fuseki"] <-
+  paste("Fuseki", time_results$mode)
+
+time_results$group[time_results$engine == "Virtuoso"] <-
+  paste("Virtuoso", time_results$mode)
+
+time_results$group[time_results$engine == "TripleProv"] <- "TripleProv"
+
+time_results$scheme <- paste(time_results$scheme, "reification scheme")
+
+time_results$time <- with(time_results, time * 1000)
+
+labels <- c("Fuseki B", "Fuseki R", "Fuseki P",
+            "Virtuoso B", "Virtuoso R", "Virtuoso P",
+            "TripleProv")
+
+time_results$scheme_size <-
+  paste(time_results$size, "triples", time_results$scheme)
+
+time_results$fill_position[time_results$group == "Fuseki B"] <- 1
+time_results$fill_position[time_results$group == "Fuseki R"] <- 2
+time_results$fill_position[time_results$group == "Fuseki P"] <- 3
+time_results$fill_position[time_results$group == "Virtuoso B"] <- 4
+time_results$fill_position[time_results$group == "Virtuoso R"] <- 5
+time_results$fill_position[time_results$group == "Virtuoso P"] <- 6
+time_results$fill_position[time_results$group == "TripleProv"] <- 7
+
+positions <- c(1, 2, 3, 4, 5, 6, 7)
+
+
+p1 <- ggplot(time_results, #%>% filter(time < 300000),
+       aes(x=template, y=time, fill=reorder(group, fill_position))) +
+  facet_wrap(~scheme_size, ncol = 3) +
+  stat_summary(fun=mean, geom="bar", size = 0.1,
+               position=position_dodge(preserve = "single"),
+               color="black") +
+  #stat_summary(fun.data=get.se, geom="errorbar", width=0.5, position=position_dodge(width = 0.9, preserve = "single")) +
+  scale_y_continuous(trans='log10', labels = trans_format("log10", math_format(10^.x))) +
+  xlab("query template") + ylab("time (sec)") +
+  scale_fill_manual(values = c("Fuseki B" = "#ece7f2",
+                               "Fuseki R" = "#a6bddb",
+                               "Fuseki P" = "#2b8cbe",
+                               "Virtuoso B" = "#fee8c8",
+                               "Virtuoso R" = "#fdbb84",
+                               "Virtuoso P" = "#e34a33",
+                               "TripleProv" = "#8856a7"),
+                    breaks = c("Fuseki B",
+                               "Fuseki R",
+                               "Fuseki P",
+                               "Virtuoso B",
+                               "Virtuoso R",
+                               "Virtuoso P",
+                               "TripleProv")) +
+  theme_bw(base_family = "Times") +
+  labs(fill = "engine and mode:")
+p1
+
+png(file="watdiv-times.png", res=500, width=6000, height=2400, pointsize=8)
+  p1
+dev.off()
+
+#p2 <- patternbar(time_results, time_results$template, time_results$time, group=NULL)
+```
+
