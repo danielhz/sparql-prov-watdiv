@@ -1,6 +1,6 @@
 engine,size,template,scheme,mode,query_id,repetition,time,status
-tripleprov,100M,namedgraphs,T,00,1,65.7139,200
-tripleprov,100M,namedgraphs,T,00,2,63.7125,200
-tripleprov,100M,namedgraphs,T,00,3,66.0043,200
-tripleprov,100M,namedgraphs,T,00,4,65.7949,200
-tripleprov,100M,namedgraphs,T,00,5,63.6822,200
+tripleprov,100M,C3,namedgraphs,T,00,1,65.7139,200
+tripleprov,100M,C3,namedgraphs,T,00,2,63.7125,200
+tripleprov,100M,C3,namedgraphs,T,00,3,66.0043,200
+tripleprov,100M,C3,namedgraphs,T,00,4,65.7949,200
+tripleprov,100M,C3,namedgraphs,T,00,5,63.6822,200
