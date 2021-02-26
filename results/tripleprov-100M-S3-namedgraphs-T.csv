@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+tripleprov,100M,namedgraphs,T,00,1,0.69875,200
+tripleprov,100M,namedgraphs,T,00,2,0.474237,200
+tripleprov,100M,namedgraphs,T,00,3,0.472448,200
+tripleprov,100M,namedgraphs,T,00,4,0.471501,200
+tripleprov,100M,namedgraphs,T,00,5,0.473178,200
