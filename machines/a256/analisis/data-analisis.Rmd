@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Watdiv experiment"
 output: html_notebook
 ---
 
@@ -80,15 +80,17 @@ time_results <-
   list.files(path = "../../../results", pattern = "*.csv", full.names = TRUE) %>% 
   map_df(~fread(.))
 
+time_results$time[time_results$time >= 300 | time_results$status != 200] <- 300
+
 time_results$engine[time_results$engine == "fuseki"] <- "Fuseki"
 time_results$engine[time_results$engine == "virtuoso"] <- "Virtuoso"
 time_results$engine[time_results$engine == "tripleprov"] <- "TripleProv"
 
 time_results$group[time_results$engine == "Fuseki"] <-
-  paste("Fuseki", time_results$mode)
+  paste("Fuseki", time_results[time_results$engine == "Fuseki"]$mode)
 
 time_results$group[time_results$engine == "Virtuoso"] <-
-  paste("Virtuoso", time_results$mode)
+  paste("Virtuoso", time_results[time_results$engine == "Virtuoso"]$mode)
 
 time_results$group[time_results$engine == "TripleProv"] <- "TripleProv"
 
@@ -122,7 +124,7 @@ p1 <- ggplot(time_results, #%>% filter(time < 300000),
                color="black") +
   #stat_summary(fun.data=get.se, geom="errorbar", width=0.5, position=position_dodge(width = 0.9, preserve = "single")) +
   scale_y_continuous(trans='log10', labels = trans_format("log10", math_format(10^.x))) +
-  xlab("query template") + ylab("time (sec)") +
+  xlab("query template") + ylab("time (ms)") +
   scale_fill_manual(values = c("Fuseki B" = "#ece7f2",
                                "Fuseki R" = "#a6bddb",
                                "Fuseki P" = "#2b8cbe",
