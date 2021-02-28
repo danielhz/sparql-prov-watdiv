@@ -18,11 +18,13 @@ library(scales)
 library(plyr)
 library(purrr)
 library(data.table)
-#remotes::install_github("coolbutuseless/ggpattern")
-#library("ggpattern")
 library(patternplot)
 library(gcookbook)
+```
 
+# Define some functions
+
+```{r}
 get.se <- function(y) {
  se <- sd(y)/sqrt(length(y))
  mu <- mean(y)
@@ -73,37 +75,60 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
 }
 ```
 
+# Read, clean, and prepare the results
 
+First, we read the result data files.  For this analysis we consider only the
+dataset of size 100M triples.
 
 ```{r}
 time_results <- 
-  list.files(path = "../../../results", pattern = "*.csv", full.names = TRUE) %>% 
-  map_df(~fread(.))
+  list.files(path = "../../../results",
+             pattern = "*.csv",
+             full.names = TRUE) %>% 
+  map_df(~fread(.)) %>%
+  filter(size == "100M")
+```
 
-time_results$time[time_results$time >= 300 | time_results$status != 200] <- 300
+There are some cases of timeout where the time can be different to 300. This
+cases are:
 
+1. The server produces a timeout with a non-200 status, but the client records
+   a time that is different to 300s. It could be even shorter than 300s.
+
+2. The server client did not produces a timeout, so the client stoped the the
+   process and gives a time longer than 300s, but with status 200.
+
+```{r}
+time_results$time[time_results$time >= 260 | time_results$status != 200] <- 300
+```
+
+In the data we use lowercase keywords and omit some spaces between words.  In
+the plots we capitalize the names of the engines and introduce spaces properly.
+
+```{r}
 time_results$engine[time_results$engine == "fuseki"] <- "Fuseki"
 time_results$engine[time_results$engine == "virtuoso"] <- "Virtuoso"
 time_results$engine[time_results$engine == "tripleprov"] <- "TripleProv"
+time_results$scheme[time_results$scheme == "namedgraphs"] <- "named graphs"
+time_results$scheme[time_results$scheme == "rdf"] <- "standard"
+time_results$scheme[time_results$scheme == "wikidata"] <- "Wikidata"
+```
 
-time_results$group[time_results$engine == "Fuseki"] <-
-  paste("Fuseki", time_results[time_results$engine == "Fuseki"]$mode)
+We want to group results considering the engine and the mode.
 
-time_results$group[time_results$engine == "Virtuoso"] <-
-  paste("Virtuoso", time_results[time_results$engine == "Virtuoso"]$mode)
+```{r}
+time_results$group <- paste(time_results$engine, time_results$mode)
 
+# For TripleProv we do not need to mention the reification engine.
 time_results$group[time_results$engine == "TripleProv"] <- "TripleProv"
+```
 
-time_results$scheme <- paste(time_results$scheme, "reification scheme")
 
-time_results$time <- with(time_results, time * 1000)
 
+```{r}
 labels <- c("Fuseki B", "Fuseki R", "Fuseki P",
             "Virtuoso B", "Virtuoso R", "Virtuoso P",
             "TripleProv")
-
-time_results$scheme_size <-
-  paste(time_results$size, "triples", time_results$scheme)
 
 time_results$fill_position[time_results$group == "Fuseki B"] <- 1
 time_results$fill_position[time_results$group == "Fuseki R"] <- 2
@@ -115,16 +140,20 @@ time_results$fill_position[time_results$group == "TripleProv"] <- 7
 
 positions <- c(1, 2, 3, 4, 5, 6, 7)
 
+p1_data <- time_results
+p1_data$time <- with(p1_data, time * 1000)
 
-p1 <- ggplot(time_results, #%>% filter(time < 300000),
+p1 <- ggplot(p1_data,
        aes(x=template, y=time, fill=reorder(group, fill_position))) +
-  facet_wrap(~scheme_size, ncol = 3) +
+  facet_wrap(~scheme, ncol = 3) +
   stat_summary(fun=mean, geom="bar", size = 0.1,
                position=position_dodge(preserve = "single"),
                color="black") +
-  #stat_summary(fun.data=get.se, geom="errorbar", width=0.5, position=position_dodge(width = 0.9, preserve = "single")) +
+  # stat_summary(fun.data=get.se, geom="errorbar", width=0.5,
+  #              position=position_dodge(width = 0.9, preserve = "single")) +
+  geom_hline(yintercept=300000, color="black", linetype=3, size=0.4) +
   scale_y_continuous(trans='log10', labels = trans_format("log10", math_format(10^.x))) +
-  xlab("query template") + ylab("time (ms)") +
+  xlab("query") + ylab("runtime (ms)") +
   scale_fill_manual(values = c("Fuseki B" = "#ece7f2",
                                "Fuseki R" = "#a6bddb",
                                "Fuseki P" = "#2b8cbe",
@@ -139,11 +168,16 @@ p1 <- ggplot(time_results, #%>% filter(time < 300000),
                                "Virtuoso R",
                                "Virtuoso P",
                                "TripleProv")) +
-  theme_bw(base_family = "Times") +
-  labs(fill = "engine and mode:")
+  theme_minimal(base_family = "Times") +
+  labs(fill = "") +
+  theme(legend.position="top",
+        legend.box.margin = margin(0, 0, 0, 0, "pt"),
+        legend.box.spacing = unit(0, "pt"),
+        legend.box = "horizontal") +
+  guides(fill = guide_legend(nrow = 1))
 p1
 
-png(file="watdiv-times.png", res=500, width=6000, height=2400, pointsize=8)
+png(file="watdiv-times.png", res=600, width=6000, height=1800, pointsize=8)
   p1
 dev.off()
 
