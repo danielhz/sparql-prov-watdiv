@@ -5,6 +5,20 @@ show the overhead of a method to compute how-provenance for SPARQL
 queries via query rewiriting.  This experiment is based on the WatDiv
 benchmark.
 
+## Structure of this repository
+
+```
+datasets       # The RDF data
+lib            # Libraries required for the experiments
+params         # Parameters to fill the query templates
+queries        # Queries
+rakelib        # Libraries required for experiment tasks
+results        # Where results are saved
+scripts        # Scripts
+tasks_status   # Where we save the status of tasks
+tripleprov     # The TripleProv code
+```
+
 ## Preparing the environment
 
 In this experiment we need three tools: LXD to install engines inside
