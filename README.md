@@ -1,9 +1,10 @@
 # Provenance for SPARQL queries via Query Rewiring: WatDiv benchmark
 
-This repository contains the source code that defines an experiment to
-show the overhead of a method to compute how-provenance for SPARQL
-queries via query rewiriting.  This experiment is based on the WatDiv
-benchmark.
+This is the source code repository of a experiment to study a method
+for computing how-provenance for SPARQL via query rewriting.  This is
+experiment is based on the WatDiv benchmark that is a well-known
+synthetic benchmark that defines an RDF dataset with varying
+structural characteristics and selectivity classes.
 
 ## Structure of this repository
 
@@ -65,10 +66,10 @@ folder of this repository.
 
 We copy the [code](https://github.com/MarcinWylot/tripleprov_demo)
 developed by Marcyn Wylot to the folder `tripleprov`.  The file
-`tripleprov/src/diplodocus.cpp` was modified to acelerate the
-exectution of the benchmark.  In the orginal demo, the dataset is
-loaded to RAM each time a query is executed.  Instead, we load the
-dataset once for the execution of all qeries.
+`tripleprov/src/diplodocus.cpp` was modified to speedup the execution
+of the benchmark.  In the orginal demo, the dataset is loaded to RAM
+each time a query is executed.  Instead, we load the dataset once for
+the execution of all queries.
 
 ## Preparing the data
 
@@ -97,17 +98,68 @@ reified using the named graphs, standard, and Wikidata reification
 schemes.  We can repeat the same commands for the datasets of 100 and
 1000 millions of triples (replacing 10M by 100M and 1000M).
 
+### Loading the data in a triple store
+
+So far, we have created a dataset for each reification scheme.  We
+next explain how to load each of these datasets in each triple store
+engine.  We consider two triple store engines: Fuseki 3 (using TDB1)
+and Virtuoso 7.
+
+Datasets are loaded using [rake tasks](https://github.com/ruby/rake)
+that are defined in `rakelib`.
+
+Before loading the datasets, we need to create a container for each
+engine.
+
+```bash
+rake task_status/done_create_fuseki_3_container
+rake taks_status/done_create_virtuoso_7_container
+```
+
+These tasks above create two containers that serve as base to create
+the container where to load each dataset.  The following tasks do the
+load the datasets in copies of the aforementioned containers.  The
+loading of datasets assumes that datasets are in the folder `datasets`
+(recall that we create the reified versions of the WatDiv datasets on
+this folder).
+
+```
+rake task_status/done_create_watdiv_1000M_namedgraphs_virtuoso_7_container
+rake task_status/done_create_watdiv_1000M_rdf_virtuoso_7_container
+rake task_status/done_create_watdiv_1000M_wikidata_virtuoso_7_container
+rake task_status/done_create_watdiv_100M_namedgraphs_fuseki_3_container
+rake task_status/done_create_watdiv_100M_namedgraphs_virtuoso_7_container
+rake task_status/done_create_watdiv_100M_rdf_fuseki_3_container
+rake task_status/done_create_watdiv_100M_rdf_virtuoso_7_container
+rake task_status/done_create_watdiv_100M_wikidata_fuseki_3_container
+rake task_status/done_create_watdiv_100M_wikidata_virtuoso_7_container
+rake task_status/done_create_watdiv_10M_namedgraphs_fuseki_3_container
+rake task_status/done_create_watdiv_10M_namedgraphs_virtuoso_7_container
+rake task_status/done_create_watdiv_10M_rdf_fuseki_3_container
+rake task_status/done_create_watdiv_10M_rdf_virtuoso_7_container
+rake task_status/done_create_watdiv_10M_wikidata_fuseki_3_container
+rake task_status/done_create_watdiv_10M_wikidata_virtuoso_7_container
+```
+
 ### Fix the the data for TripleProv
 
+We do not create a container for the TripleProv engine.  Instead we
+use the folder `tripleprov/dataset` to make the data accessible for
+TripleProv.
+
 The TripleProv implementation have issues with the symbols `~` and
-`#`.  These symbols are removed from the dataset with the following
-commands:
+`#`.  We simply replace these symbols for suitable supported symbols.
+For instance, to prepare the dataset of 100 million triples for
+TripleProv, we execute the following commands:
 
 ```
-sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' 10M/watdiv.10M-namedgraphs.nt
-sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' 100M/watdiv.100M-namedgraphs.nt
-sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' 1000M/watdiv.100M-namedgraphs.nt
+cp 10M/watdiv.10M-namedgraphs.nt tripleprov/dataset
+sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' \
+    tripleprov/dataset/watdiv.100M-namedgraphs.nt
 ```
+
+Observe, that TripleProve only supports the named graph reification
+scheme.
 
 ## Generate the queries
 
