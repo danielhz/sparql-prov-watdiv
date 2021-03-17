@@ -158,7 +158,7 @@ sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' \
     tripleprov/dataset/watdiv.100M-namedgraphs.nt
 ```
 
-Observe, that TripleProve only supports the named graph reification
+Observe that TripleProv only supports the named graph reification
 scheme.
 
 ## Generate the queries
