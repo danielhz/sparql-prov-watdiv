@@ -123,7 +123,7 @@ loading of datasets assumes that datasets are in the folder `datasets`
 (recall that we create the reified versions of the WatDiv datasets on
 this folder).
 
-```
+```bash
 rake task_status/done_create_watdiv_1000M_namedgraphs_virtuoso_7_container
 rake task_status/done_create_watdiv_1000M_rdf_virtuoso_7_container
 rake task_status/done_create_watdiv_1000M_wikidata_virtuoso_7_container
@@ -152,7 +152,7 @@ The TripleProv implementation have issues with the symbols `~` and
 For instance, to prepare the dataset of 100 million triples for
 TripleProv, we execute the following commands:
 
-```
+```bash
 cp 10M/watdiv.10M-namedgraphs.nt tripleprov/dataset
 sed -i -e 's/~galuc/galuc/g' -e 's/ns#type>/ns\/type>/' \
     tripleprov/dataset/watdiv.100M-namedgraphs.nt
@@ -163,14 +163,49 @@ scheme.
 
 ## Generate the queries
 
-The queries are generated with the follwing command:
+The queries are generated with the following rake task:
 
-```
+```bash
 rake queries
 ```
 
-## Run the benchmark
+This task generates, for each query template in the folder
+`queries/watdiv_examples` and each parameter in the folder `params`, a
+query instance in the folder `queries/10M` (for the dataset of 10
+million triples) or `queries/100M` (for the dataset of 100 million
+triples).  The parameter values are randomly generated from the data
+with the queries in folder `queries/watdiv_params`.  Parameter values
+replace custom values in query templates.
 
-```
+## Running the benchmark
+
+An experiment workload is defined by a combination of a query template
+and a triple store engine.  The execution of each query workload
+generates a corresponding CSV file in the folder `results`.
+
+### Fuseki and Virtuoso experiment workloads
+
+All experiment workloads using Fuseki and Virtuoso are executed with
+the following rake task.
+
+```bash
 rake bench
+```
+
+Workloads can also be executed individually.  To list all experiment
+workloads you can execute the following command:
+
+```bash
+rake --tasks task_status/done_run_bench
+```
+
+### TripleProv query workloads
+
+To run the TripleProv query workload you have to copy and prepare the
+dataset as is mentioned previously, and compile TripleProv.  Then, run
+the workload with the following commands:
+
+```bash
+cd tripleprov/release
+./tripleprov
 ```
