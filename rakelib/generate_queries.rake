@@ -8,9 +8,10 @@ require 'fileutils'
   end
 end
 
-%w{C3}.each do |query|
-  tasks = %w{B P T}.map do |mode|
-    task_dependency("generate_c3_queries_#{mode}")
+%w{C1 C2 C3}.each do |query|
+  #tasks = %w{B P T}.map do |mode|
+  tasks = %w{B}.map do |mode|
+    task_dependency("generate_#{query}_queries_#{mode}")
   end
   
   task "generate_#{query}_queries" => tasks
@@ -18,6 +19,8 @@ end
 
 
 QUERY_TEMPLATE_PARAMS_SCHEMES = [
+  {template: 'C1'},
+  {template: 'C2'},
   {template: 'C3'},
   {template: 'L3', attributes: {v3: 'Website2579'}},
   {template: 'S2', attributes: {v2: 'Country17'}},

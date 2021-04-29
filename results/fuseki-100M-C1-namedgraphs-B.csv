@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,100M,C1,namedgraphs,B,00,1,0.27547269873321056,200
+fuseki,100M,C1,namedgraphs,B,00,2,0.30837820656597614,200
+fuseki,100M,C1,namedgraphs,B,00,3,0.2662939513102174,200
+fuseki,100M,C1,namedgraphs,B,00,4,0.2885710671544075,200
+fuseki,100M,C1,namedgraphs,B,00,5,0.24524548090994358,200
