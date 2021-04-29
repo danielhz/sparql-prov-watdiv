@@ -130,21 +130,21 @@ int main(int argc, char *argv[]) {
     // setup_dataset("test_dataset");
     // run_test_queries();
 
-    setup_dataset("10M");
-    run_queries("10M", "C3", "../../queries/10M/C3/namedgraphs/T", 1);
-    run_queries("10M", "L3", "../../queries/10M/L3/namedgraphs/T", 10);
-    run_queries("10M", "S2", "../../queries/10M/S2/namedgraphs/T", 10);
-    run_queries("10M", "S3", "../../queries/10M/S3/namedgraphs/T", 1);
-    run_queries("10M", "S5", "../../queries/10M/S5/namedgraphs/T", 2);
-    run_queries("10M", "S6", "../../queries/10M/S6/namedgraphs/T", 10);
+    // setup_dataset("10M");
+    // run_queries("10M", "C3", "../../queries/10M/C3/namedgraphs/T", 1);
+    // run_queries("10M", "L3", "../../queries/10M/L3/namedgraphs/T", 10);
+    // run_queries("10M", "S2", "../../queries/10M/S2/namedgraphs/T", 10);
+    // run_queries("10M", "S3", "../../queries/10M/S3/namedgraphs/T", 1);
+    // run_queries("10M", "S5", "../../queries/10M/S5/namedgraphs/T", 2);
+    // run_queries("10M", "S6", "../../queries/10M/S6/namedgraphs/T", 10);
 
-    // setup_dataset("100M");
-    // run_queries("100M", "C3", "../../queries/100M/C3/namedgraphs/T", 1);
-    // run_queries("100M", "L3", "../../queries/100M/L3/namedgraphs/T", 10);
-    // run_queries("100M", "S2", "../../queries/100M/S2/namedgraphs/T", 10);
-    // run_queries("100M", "S3", "../../queries/100M/S3/namedgraphs/T", 1);
-    // run_queries("100M", "S5", "../../queries/100M/S5/namedgraphs/T", 2);
-    // run_queries("100M", "S6", "../../queries/100M/S6/namedgraphs/T", 10);
+    setup_dataset("100M");
+    run_queries("100M", "C3", "../../queries/100M/C3/namedgraphs/T", 1);
+    run_queries("100M", "L3", "../../queries/100M/L3/namedgraphs/T", 10);
+    run_queries("100M", "S2", "../../queries/100M/S2/namedgraphs/T", 10);
+    run_queries("100M", "S3", "../../queries/100M/S3/namedgraphs/T", 1);
+    run_queries("100M", "S5", "../../queries/100M/S5/namedgraphs/T", 2);
+    run_queries("100M", "S6", "../../queries/100M/S6/namedgraphs/T", 10);
     
     return 0;
 }

@@ -66,3 +66,6 @@ datasets/*.gz
 
 # Datasets are not in the repository
 datasets
+answers
+tripleprov/100M
+tripleprov/10M

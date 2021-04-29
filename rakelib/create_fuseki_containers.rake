@@ -28,7 +28,7 @@ named_task 'create_fuseki_3_container' do
   system "lxc publish #{container} --alias #{container}"
 end
 
-%w{10 100}.each do |size|
+%w{10 100 1000}.each do |size|
   [
     {
       name: 'namedgraphs',

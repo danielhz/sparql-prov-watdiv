@@ -120,6 +120,7 @@ def watdiv_bench(endpoint, size, template, scheme, mode, times = 5)
 
   queries.each do |query|
     puts "warming up #{query}"
+    FileUtils.mkdir_p('answers')
     answers = query.gsub('/', '-').sub('.sparql', '.csv').sub('queries-', "answers/#{endpoint.name}-")
     File.open(answers, 'w') do |file|
       file.write endpoint.run_query(query)
