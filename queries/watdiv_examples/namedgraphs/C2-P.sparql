@@ -1,0 +1,50 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX gr: <http://purl.org/goodrelations/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX foaf: <http://xmlns.com/foaf/>
+SELECT ?v0 ?v3 ?v4 ?v8
+       ?sum_product_1_source
+       ?sum_product_2_source
+       ?sum_product_3_source
+       ?sum_product_4_source
+       ?sum_product_5_source
+       ?sum_product_6_source
+       ?sum_product_7_source
+       ?sum_product_8_source
+       ?sum_product_9_source
+       ?sum_product_10_source
+       ?sum_product
+       ?sum
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0 sorg:legalName ?v1 . }
+  GRAPH ?sum_product_2_source { ?v0 gr:offers ?v2 . }
+  GRAPH ?sum_product_3_source { ?v2 sorg:eligibleRegion wsdbm:Country5 . }
+  GRAPH ?sum_product_4_source { ?v2 gr:includes ?v3 . }
+  GRAPH ?sum_product_5_source { ?v4 sorg:jobTitle ?v5 . }
+  GRAPH ?sum_product_6_source { ?v4 foaf:homepage ?v6 . }
+  GRAPH ?sum_product_7_source { ?v4 wsdbm:makesPurchase ?v7 . }
+  GRAPH ?sum_product_8_source { ?v7 wsdbm:purchaseFor ?v3 . }
+  GRAPH ?sum_product_9_source { ?v3 rev:hasReview ?v8 . }
+  GRAPH ?sum_product_10_source { ?v8 rev:totalVotes ?v9 . }
+  BIND (
+        URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v3)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_7=", ENCODE_FOR_URI(xsd:string(?v6)),
+                   "&s_8=", ENCODE_FOR_URI(xsd:string(?v7)),
+                   "&s_9=", ENCODE_FOR_URI(xsd:string(?v8)),
+                   "&s_10=", ENCODE_FOR_URI(xsd:string(?v9))))
+        AS ?sum_product )
+  BIND (
+    URI(CONCAT("http://example.org/sum/",
+               "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+               "&s_2=", ENCODE_FOR_URI(xsd:string(?v3)),
+               "&s_3=", ENCODE_FOR_URI(xsd:string(?v4)),
+               "&s_4=", ENCODE_FOR_URI(xsd:string(?v8))))
+        AS ?sum )
+}

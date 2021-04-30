@@ -1,0 +1,14 @@
+PREFIX sorgp: <http://schema.org/>
+PREFIX sorgps: <http://schema.org/>
+PREFIX revp: <http://purl.org/stuff/rev#>
+PREFIX revps: <http://purl.org/stuff/rev#>
+SELECT ?v0 ?v4 ?v6 ?v7 WHERE {
+  ?v0 sorgp:caption ?sum_product_1_source . ?sum_product_1_source sorgps:caption ?v1 .
+  ?v0 sorgp:text ?sum_product_2_source . ?sum_product_2_source sorgps:text ?v2 .
+  ?v0 sorgp:contentRating ?sum_product_3_source . ?sum_product_3_source sorgps:contentRating ?v3 .
+  ?v0 revp:hasReview ?sum_product_4_source . ?sum_product_4_source revps:hasReview ?v4 .
+  ?v4 revp:title ?sum_product_5_source . ?sum_product_5_source revps:title ?v5 .
+  ?v4 revp:reviewer ?sum_product_6_source . ?sum_product_6_source revps:reviewer ?v6 .
+  ?v7 sorgp:actor ?sum_product_7_source . ?sum_product_7_source sorgps:actor ?v6 .
+  ?v7 sorgp:language ?sum_product_8_source . ?sum_product_8_source sorgps:language ?v8 .
+}
