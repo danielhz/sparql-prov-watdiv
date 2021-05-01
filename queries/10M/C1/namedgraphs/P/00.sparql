@@ -1,0 +1,41 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?v0 ?v4 ?v6 ?v7
+       ?sum_product_1_source
+       ?sum_product_2_source
+       ?sum_product_3_source
+       ?sum_product_4_source
+       ?sum_product_5_source
+       ?sum_product_6_source
+       ?sum_product_7_source
+       ?sum_product_8_source
+       ?sum_product
+       ?sum
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0 sorg:caption ?v1 . }
+  GRAPH ?sum_product_2_source { ?v0 sorg:text ?v2 . }
+  GRAPH ?sum_product_3_source { ?v0 sorg:contentRating ?v3 . }
+  GRAPH ?sum_product_4_source { ?v0 rev:hasReview ?v4 . }
+  GRAPH ?sum_product_5_source { ?v4 rev:title ?v5 . }
+  GRAPH ?sum_product_6_source { ?v4 rev:reviewer ?v6 . }
+  GRAPH ?sum_product_7_source { ?v7 sorg:actor ?v6 . }
+  GRAPH ?sum_product_8_source { ?v7 sorg:language ?v8 . }
+  BIND (URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v3)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_7=", ENCODE_FOR_URI(xsd:string(?v6)),
+                   "&s_8=", ENCODE_FOR_URI(xsd:string(?v7)),
+                   "&s_9=", ENCODE_FOR_URI(xsd:string(?v8))))
+        AS ?sum_product )
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v6)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v7))))
+        AS ?sum )
+}

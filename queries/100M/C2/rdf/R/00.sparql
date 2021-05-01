@@ -1,0 +1,18 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX gr: <http://purl.org/goodrelations/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX foaf: <http://xmlns.com/foaf/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0 ?v3 ?v4 ?v8 WHERE {
+  ?sum_product_1_source rdf:subject ?v0 ; rdf:predicate sorg:legalName ; rdf:object ?v1 .
+  ?sum_product_2_source rdf:subject ?v0 ; rdf:predicate gr:offers ; rdf:object ?v2 .
+  ?sum_product_3_source rdf:subject ?v2 ; rdf:predicate sorg:eligibleRegion ; rdf:object wsdbm:Country5 .
+  ?sum_product_4_source rdf:subject ?v2 ; rdf:predicate gr:includes ; rdf:object ?v3 .
+  ?sum_product_5_source rdf:subject ?v4 ; rdf:predicate sorg:jobTitle ; rdf:object ?v5 .
+  ?sum_product_6_source rdf:subject ?v4 ; rdf:predicate foaf:homepage ; rdf:object ?v6 .
+  ?sum_product_7_source rdf:subject ?v4 ; rdf:predicate wsdbm:makesPurchase ; rdf:object ?v7 .
+  ?sum_product_8_source rdf:subject ?v7 ; rdf:predicate wsdbm:purchaseFor ; rdf:object ?v3 .
+  ?sum_product_9_source rdf:subject ?v3 ; rdf:predicate rev:hasReview ; rdf:object ?v8 .
+  ?sum_product_10_source rdf:subject ?v8 ; rdf:predicate rev:totalVotes ; rdf:object ?v9 .
+}
