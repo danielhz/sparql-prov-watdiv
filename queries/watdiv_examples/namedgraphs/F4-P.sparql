@@ -6,7 +6,7 @@ PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
 SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 ?v7 ?v8 WHERE {
   GRAPH ?sum_product_1_source { ?v0 foaf:homepage ?v1 . }
   GRAPH ?sum_product_2_source { ?v2 gr:includes ?v0 . }
-  GRAPH ?sum_product_3_source { ?v0 og:tag %v3% . }
+  GRAPH ?sum_product_3_source { ?v0 og:tag wsdbm:Topic232 . }
   GRAPH ?sum_product_4_source { ?v0 sorg:description ?v4 . }
   GRAPH ?sum_product_5_source { ?v0 sorg:contentSize ?v8 . }
   GRAPH ?sum_product_6_source { ?v1 sorg:url ?v5 . }

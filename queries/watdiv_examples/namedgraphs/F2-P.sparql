@@ -11,5 +11,5 @@ SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 ?v7 WHERE {
   GRAPH ?sum_product_5_source { ?v0 sorg:description ?v5 . }
   GRAPH ?sum_product_6_source { ?v1 sorg:url ?v6 . }
   GRAPH ?sum_product_7_source { ?v1 wsdbm:hits ?v7 . }
-  GRAPH ?sum_product_8_source { ?v0 wsdbm:hasGenre %v8% . }
+  GRAPH ?sum_product_8_source { ?v0 wsdbm:hasGenre wsdbm:SubGenre79 . }
 }

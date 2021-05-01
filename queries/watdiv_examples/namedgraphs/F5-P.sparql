@@ -3,7 +3,7 @@ PREFIX og: <http://ogp.me/ns#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT ?v0 ?v1 ?v3 ?v4 ?v5 ?v6 WHERE {
   GRAPH ?sum_product_1_source { ?v0 gr:includes ?v1 . }
-  GRAPH ?sum_product_2_source { %v2% gr:offers ?v0 . }
+  GRAPH ?sum_product_2_source { wsdbm:Retailer222 gr:offers ?v0 . }
   GRAPH ?sum_product_3_source { ?v0 gr:price ?v3 . }
   GRAPH ?sum_product_4_source { ?v0 gr:validThrough ?v4 . }
   GRAPH ?sum_product_5_source { ?v1 og:title ?v5 . }
