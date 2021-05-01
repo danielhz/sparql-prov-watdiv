@@ -1,0 +1,10 @@
+PREFIX foaf: <http://xmlns.com/foaf/>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 ?v2 ?v3 WHERE {
+  GRAPH ?sum_product_1_source { ?v0 foaf:age %v1% . }
+  GRAPH ?sum_product_2_source { ?v0 foaf:familyName ?v2 . }
+  GRAPH ?sum_product_3_source { ?v3 mo:artist ?v0 . }
+  GRAPH ?sum_product_4_source { ?v0 sorg:nationality wsdbm:Country1 . }
+}
