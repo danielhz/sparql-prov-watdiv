@@ -3,14 +3,13 @@ require 'fileutils'
 
 %w{B P T}.each do |mode|
   desc "Generate C3 queries for #{mode}"
-  named_task "generate_c3_queries_#{mode}" do
+  named_task "generate_C3_queries_#{mode}" do
     system "cp queries/watdiv_examples/C3-#{mode}.sparql queries/10M/C3/namedgraphs/#{mode}/00.sparql"
   end
 end
 
 %w{C1 C2 C3}.each do |query|
-  #tasks = %w{B P T}.map do |mode|
-  tasks = %w{B}.map do |mode|
+  tasks = %w{B P T}.map do |mode|
     task_dependency("generate_#{query}_queries_#{mode}")
   end
   

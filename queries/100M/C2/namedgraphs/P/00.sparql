@@ -3,6 +3,7 @@ PREFIX rev: <http://purl.org/stuff/rev#>
 PREFIX gr: <http://purl.org/goodrelations/>
 PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
 PREFIX foaf: <http://xmlns.com/foaf/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT ?v0 ?v3 ?v4 ?v8
        ?sum_product_1_source
        ?sum_product_2_source

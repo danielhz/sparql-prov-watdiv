@@ -4,11 +4,10 @@ bench_dependencies = []
   %w{100M}.each do |size|
     #%w{C1 C2 C3 L3 S2 S3 S5 S6}.each do |template|
     %w{C1 C2}.each do |template|
-      #%w{namedgraphs rdf wikidata}.each do |scheme|
-      %w{namedgraphs}.each do |scheme|
-        # %w{B P R}.each do |mode|
-        %w{B}.each do |mode|
-          task_name = "run_bench_#{engine}_#{size}_#{template}_#{scheme}_#{mode}"
+      %w{namedgraphs rdf wikidata}.each do |scheme|
+      #%w{namedgraphs}.each do |scheme|
+        %w{B P R}.each do |mode|
+         task_name = "run_bench_#{engine}_#{size}_#{template}_#{scheme}_#{mode}"
           desc "Run bench for #{engine} #{size} #{template} #{scheme} #{mode}"
           named_task task_name do
             case engine

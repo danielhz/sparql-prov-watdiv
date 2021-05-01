@@ -70,9 +70,8 @@ class LXDFusekiEndpoint < Endpoint
            "-c /home/ubuntu/apache-jena-fuseki-3.17.0 " +
            "-o stdout.log -e stderr.log " +
            "/home/ubuntu/apache-jena-fuseki-3.17.0/fuseki-server " +
-           "--set tdb:unionDefaultGraph=true " +
-           "--loc=/home/ubuntu/tdb /ds'"
-
+           "--conf=/home/ubuntu/fuseki-config.ttl'"
+    
     loop do
       sleep 1
       output = `lxc exec #{@container} -- netstat -tl | grep ':3030 '`

@@ -1,5 +1,6 @@
 PREFIX sorg: <http://schema.org/>
 PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT ?v0 ?v4 ?v6 ?v7
        ?sum_product_1_source
        ?sum_product_2_source
