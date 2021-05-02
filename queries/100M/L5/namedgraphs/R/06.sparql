@@ -1,0 +1,7 @@
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX sorg: <http://schema.org/>
+SELECT ?v0 ?v1 ?v3 WHERE {
+  GRAPH ?sum_product_1_source { ?v0 sorg:jobTitle ?v1 . }
+  GRAPH ?sum_product_2_source { wsdbm:City223 gn:parentCountry ?v3 . }
+  GRAPH ?sum_product_3_source { ?v0 sorg:nationality ?v3 . }
+}

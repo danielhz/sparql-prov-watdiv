@@ -1,0 +1,6 @@
+PREFIX og: <http://ogp.me/ns#>
+PREFIX sorg: <http://schema.org/>
+SELECT ?v0 ?v2 WHERE {
+  ?v0 og:tag wsdbm:Topic199 .
+  ?v0 sorg:caption ?v2 .
+}

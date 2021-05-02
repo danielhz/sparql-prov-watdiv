@@ -1,0 +1,7 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 ?v2 ?v3 WHERE {
+  GRAPH ?sum_product_1_source { ?v0 wsdbm:subscribes wsdbm:Website48374 . }
+  GRAPH ?sum_product_2_source { ?v2 sorg:caption ?v3 . }
+  GRAPH ?sum_product_3_source { ?v0 wsdbm:likes ?v2 . }
+}
