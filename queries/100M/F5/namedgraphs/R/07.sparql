@@ -1,6 +1,7 @@
 PREFIX gr: <http://purl.org/goodrelations/>
 PREFIX og: <http://ogp.me/ns#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
 SELECT ?v0 ?v1 ?v3 ?v4 ?v5 ?v6 WHERE {
   GRAPH ?sum_product_1_source { ?v0 gr:includes ?v1 . }
   GRAPH ?sum_product_2_source { wsdbm:Retailer11587 gr:offers ?v0 . }

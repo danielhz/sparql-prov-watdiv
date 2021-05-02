@@ -1,0 +1,36 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6
+       ?sum_product_1_source
+       ?sum_product_2_source
+       ?sum_product_3_source
+       ?sum_product_4_source
+       ?sum_product_5_source
+       ?sum_product_6_source
+       ?sum_product
+       ?sum
+WHERE {
+  GRAPH ?sum_product_1_source { ?v0 sorg:contentRating ?v1 . }
+  GRAPH ?sum_product_2_source { ?v0 sorg:contentSize ?v2 . }
+  GRAPH ?sum_product_3_source { ?v0 wsdbm:hasGenre wsdbm:SubGenre64 . }
+  GRAPH ?sum_product_4_source { ?v4 wsdbm:makesPurchase ?v5 . }
+  GRAPH ?sum_product_5_source { ?v5 wsdbm:purchaseDate ?v6 . }
+  GRAPH ?sum_product_6_source { ?v5 wsdbm:purchaseFor ?v0 . }
+  BIND (URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v6))))
+        AS ?sum_product )
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v6))))
+        AS ?sum )
+}
