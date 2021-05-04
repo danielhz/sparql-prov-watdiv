@@ -1,0 +1,37 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6
+       ?sum_product_1_source
+       ?sum_product_2_source
+       ?sum_product_3_source
+       ?sum_product_4_source
+       ?sum_product_5_source
+       ?sum_product_6_source
+       ?sum_product
+       ?sum
+WHERE {
+  ?sum_product_1_source rdf:subject ?v0 ; rdf:predicate sorg:contentRating ; rdf:object ?v1 .
+  ?sum_product_2_source rdf:subject ?v0 ; rdf:predicate sorg:contentSize ; rdf:object ?v2 .
+  ?sum_product_3_source rdf:subject ?v0 ; rdf:predicate wsdbm:hasGenre ; rdf:object wsdbm:SubGenre36 .
+  ?sum_product_4_source rdf:subject ?v4 ; rdf:predicate wsdbm:makesPurchase ; rdf:object ?v5 .
+  ?sum_product_5_source rdf:subject ?v5 ; rdf:predicate wsdbm:purchaseDate ; rdf:object ?v6 .
+  ?sum_product_6_source rdf:subject ?v5 ; rdf:predicate wsdbm:purchaseFor ; rdf:object ?v0 .
+  BIND (URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v6))))
+        AS ?sum_product )
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v6))))
+        AS ?sum )
+}

@@ -7,11 +7,13 @@ PREFIX rdfps: <http://example.org/ps/www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sorgps: <http://example.org/ps/schema.org/>
 PREFIX wsdbmps: <http://example.org/ps/db.uwaterloo.ca/~galuc/wsdbm/>
 PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
-SELECT ?v0 ?v2 ?v3 ?v4 ?v5 WHERE {
-  ?v0 ?sum_product_1_source ogp:tag . ?sum_product_1_source ogps:tag wsdbm:Topic245 .
-  ?v0 ?sum_product_2_source rdfp:type . ?sum_product_2_source rdfps:type ?v2 .
-  ?v3 ?sum_product_3_source sorgp:trailer . ?sum_product_3_source sorgps:trailer ?v4 .
-  ?v3 ?sum_product_4_source sorgp:keywords . ?sum_product_4_source sorgps:keywords ?v5 .
-  ?v3 ?sum_product_5_source wsdbmp:hasGenre . ?sum_product_5_source wsdbmps:hasGenre ?v0 .
-  ?v3 ?sum_product_6_source rdfp:type . ?sum_product_6_source rdfps:type wsdbm:ProductCategory2 .
+SELECT ?v0 ?v2 ?v3 ?v4 ?v5
+WHERE {
+  ?v0 ogp:tag ?sum_product_1_source . ?sum_product_1_source ogps:tag wsdbm:Topic245 .
+  ?v0 rdfp:type ?sum_product_2_source . ?sum_product_2_source rdfps:type ?v2 .
+  ?v3 sorgp:trailer ?sum_product_3_source . ?sum_product_3_source sorgps:trailer ?v4 .
+  ?v3 sorgp:keywords ?sum_product_4_source . ?sum_product_4_source sorgps:keywords ?v5 .
+  ?v3 wsdbmp:hasGenre ?sum_product_5_source . ?sum_product_5_source wsdbmps:hasGenre ?v0 .
+  ?v3 rdfp:type ?sum_product_6_source . ?sum_product_6_source rdfps:type wsdbm:ProductCategory2 .
 }
+limit 10

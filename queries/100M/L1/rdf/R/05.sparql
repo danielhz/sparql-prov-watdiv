@@ -1,0 +1,8 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0 ?v2 ?v3 WHERE {
+  ?sum_product_1_source rdf:subject ?v0 ; rdf:predicate wsdbm:subscribes ; rdf:object wsdbm:Website21859 .
+  ?sum_product_2_source rdf:subject ?v2 ; rdf:predicate sorg:caption ; rdf:object ?v3 .
+  ?sum_product_3_source rdf:subject ?v0 ; rdf:predicate wsdbm:likes ; rdf:object ?v2 .
+}

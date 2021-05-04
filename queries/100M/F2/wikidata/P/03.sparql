@@ -1,0 +1,52 @@
+PREFIX foafp: <http://example.org/p/xmlns.com/foaf/>
+PREFIX ogp: <http://example.org/p/ogp.me/ns#>
+PREFIX rdfp: <http://example.org/p/www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sorgp: <http://example.org/p/schema.org/>
+PREFIX wsdbmp: <http://example.org/p/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX foafps: <http://example.org/ps/xmlns.com/foaf/>
+PREFIX ogps: <http://example.org/ps/ogp.me/ns#>
+PREFIX rdfps: <http://example.org/ps/www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sorgps: <http://example.org/ps/schema.org/>
+PREFIX wsdbmps: <http://example.org/ps/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 ?v7
+       ?sum_product_1_source
+       ?sum_product_2_source
+       ?sum_product_3_source
+       ?sum_product_4_source
+       ?sum_product_5_source
+       ?sum_product_6_source
+       ?sum_product_7_source
+       ?sum_product_8_source
+       ?sum_product
+       ?sum
+WHERE {
+  ?v0 foafp:homepage ?sum_product_1_source . ?sum_product_1_source foafps:homepage ?v1 .
+  ?v0 ogp:title ?sum_product_2_source . ?sum_product_2_source ogps:title ?v2 .
+  ?v0 rdfp:type ?sum_product_3_source . ?sum_product_3_source rdfps:type ?v3 .
+  ?v0 sorgp:caption ?sum_product_4_source . ?sum_product_4_source sorgps:caption ?v4 .
+  ?v0 sorgp:description ?sum_product_5_source . ?sum_product_5_source sorgps:description ?v5 .
+  ?v1 sorgp:url ?sum_product_6_source . ?sum_product_6_source sorgps:url ?v6 .
+  ?v1 wsdbmp:hits ?sum_product_7_source . ?sum_product_7_source wsdbmps:hits ?v7 .
+  ?v0 wsdbmp:hasGenre ?sum_product_8_source . ?sum_product_8_source wsdbmps:hasGenre wsdbm:SubGenre5 .
+  BIND (URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v3)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_7=", ENCODE_FOR_URI(xsd:string(?v6)),
+                   "&s_8=", ENCODE_FOR_URI(xsd:string(?v7))))
+        AS ?sum_product )
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_4=", ENCODE_FOR_URI(xsd:string(?v4)),
+                   "&s_5=", ENCODE_FOR_URI(xsd:string(?v5)),
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v6)),
+                   "&s_7=", ENCODE_FOR_URI(xsd:string(?v7))))
+        AS ?sum )
+}

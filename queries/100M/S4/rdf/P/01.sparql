@@ -1,0 +1,29 @@
+PREFIX foaf: <http://xmlns.com/foaf/>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0 ?v2 ?v3
+       ?sum_product_1_source
+       ?sum_product_2_source
+       ?sum_product_3_source
+       ?sum_product_4_source
+       ?sum_product
+       ?sum
+WHERE {
+  ?sum_product_1_source rdf:subject ?v0 ; rdf:predicate foaf:age ; rdf:object wsdbm:AgeGroup4 .
+  ?sum_product_2_source rdf:subject ?v0 ; rdf:predicate foaf:familyName ; rdf:object ?v2 .
+  ?sum_product_3_source rdf:subject ?v3 ; rdf:predicate mo:artist ; rdf:object ?v0 .
+  ?sum_product_4_source rdf:subject ?v0 ; rdf:predicate sorg:nationality ; rdf:object wsdbm:Country1 .
+  BIND (URI(CONCAT("http://example.org/sum_product/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v3))))
+        AS ?sum_product )
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v2)),
+                   "&s_3=", ENCODE_FOR_URI(xsd:string(?v3))))
+        AS ?sum )
+}

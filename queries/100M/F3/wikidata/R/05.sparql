@@ -1,0 +1,13 @@
+PREFIX sorgp: <http://example.org/p/schema.org/>
+PREFIX wsdbmp: <http://example.org/p/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX sorgps: <http://example.org/ps/schema.org/>
+PREFIX wsdbmps: <http://example.org/ps/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 WHERE {
+  ?v0 sorgp:contentRating ?sum_product_1_source . ?sum_product_1_source sorgps:contentRating ?v1 .
+  ?v0 sorgp:contentSize ?sum_product_2_source . ?sum_product_2_source sorgps:contentSize ?v2 .
+  ?v0 wsdbmp:hasGenre ?sum_product_3_source . ?sum_product_3_source wsdbmps:hasGenre wsdbm:SubGenre65 .
+  ?v4 wsdbmp:makesPurchase ?sum_product_4_source . ?sum_product_4_source wsdbmps:makesPurchase ?v5 .
+  ?v5 wsdbmp:purchaseDate ?sum_product_5_source . ?sum_product_5_source wsdbmps:purchaseDate ?v6 .
+  ?v5 wsdbmp:purchaseFor ?sum_product_6_source . ?sum_product_6_source wsdbmps:purchaseFor ?v0 .
+}
