@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'csv'
+
 class Reifier
   def parse_triple(string)
     str = string.sub(/.\s+$/, '').strip
@@ -65,6 +67,13 @@ class WikidataReifier < Reifier
   end
 end
 
+class CSVReifier < Reifier
+  def reify(subject, predicate, object, statement_id)
+    statement = statement_url(statement_id)
+    CSV.generate_line([subject, predicate, object, statement])
+  end
+end
+
 case ARGV[0]
 when 'namedgraphs'
   reifier = NamedGraphReifier.new
@@ -72,6 +81,8 @@ when 'rdf'
   reifier = RDFReifier.new
 when 'wikidata'
   reifier = WikidataReifier.new
+when 'csv'
+    reifier = CSVReifier.new
 else
   raise "Unsuported reification scheme #{ARGV[0]}"
 end
