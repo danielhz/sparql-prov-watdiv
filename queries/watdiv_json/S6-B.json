@@ -1,0 +1,64 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/ontology/mo/conductor"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v2"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/hasGenre"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/SubGenre135"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "mo": "http://purl.org/ontology/mo/"
+  }
+}

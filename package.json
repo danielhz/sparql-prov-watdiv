@@ -1,0 +1,23 @@
+{
+  "name": "sparql-prov-watdiv",
+  "version": "1.0.0",
+  "description": "This is the source code repository of a experiment to study a method for computing how-provenance for SPARQL via query rewriting.  This is experiment is based on the WatDiv benchmark that is a well-known synthetic benchmark that defines an RDF dataset with varying structural characteristics and selectivity classes.",
+  "main": "provenance.js",
+  "directories": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielhz/sparql-prov-watdiv.git"
+  },
+  "author": "Daniel Hernandez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielhz/sparql-prov-watdiv/issues"
+  },
+  "homepage": "https://github.com/danielhz/sparql-prov-watdiv#readme",
+  "dependencies": {
+    "sparqljs": "^3.4.2"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v2"
+    },
+    {
+      "termType": "Variable",
+      "value": "v3"
+    },
+    {
+      "termType": "Variable",
+      "value": "v4"
+    },
+    {
+      "termType": "Variable",
+      "value": "v5"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://ogp.me/ns#tag"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Topic245"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v2"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v3"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/trailer"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v4"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v3"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/keywords"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v5"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v3"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/hasGenre"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v0"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v3"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/ProductCategory2"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "og": "http://ogp.me/ns#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "sorg": "http://schema.org/",
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/"
+  }
+}

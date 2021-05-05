@@ -69,3 +69,6 @@ datasets
 answers
 tripleprov/100M
 tripleprov/10M
+
+node_modules
+watdiv.db

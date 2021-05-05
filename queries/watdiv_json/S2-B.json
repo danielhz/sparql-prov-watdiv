@@ -1,0 +1,79 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/dc/terms/Location"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/nationality"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Country17"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/gender"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v3"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Role2"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/",
+    "dc": "http://purl.org/dc/terms/",
+    "sorg": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+}

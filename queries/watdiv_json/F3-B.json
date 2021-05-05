@@ -1,0 +1,125 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v1"
+    },
+    {
+      "termType": "Variable",
+      "value": "v2"
+    },
+    {
+      "termType": "Variable",
+      "value": "v4"
+    },
+    {
+      "termType": "Variable",
+      "value": "v5"
+    },
+    {
+      "termType": "Variable",
+      "value": "v6"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/contentRating"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/contentSize"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v2"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/hasGenre"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/SubGenre73"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v4"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/makesPurchase"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v5"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v5"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/purchaseDate"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v6"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v5"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/purchaseFor"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v0"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "sorg": "http://schema.org/",
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v2"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://ogp.me/ns#tag"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Topic45"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/caption"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v2"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "og": "http://ogp.me/ns#",
+    "sorg": "http://schema.org/",
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/"
+  }
+}

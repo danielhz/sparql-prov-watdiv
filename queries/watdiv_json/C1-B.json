@@ -1,0 +1,145 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v4"
+    },
+    {
+      "termType": "Variable",
+      "value": "v6"
+    },
+    {
+      "termType": "Variable",
+      "value": "v7"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/caption"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/text"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v2"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/contentRating"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v3"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/stuff/rev#hasReview"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v4"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v4"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/stuff/rev#title"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v5"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v4"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/stuff/rev#reviewer"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v6"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v7"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/actor"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v6"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v7"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/language"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v8"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "sorg": "http://schema.org/",
+    "rev": "http://purl.org/stuff/rev#"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v1"
+    },
+    {
+      "termType": "Variable",
+      "value": "v3"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/jobTitle"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/City199"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://www.geonames.org/ontology#parentCountry"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v3"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/nationality"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v3"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "gn": "http://www.geonames.org/ontology#",
+    "sorg": "http://schema.org/",
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/"
+  }
+}

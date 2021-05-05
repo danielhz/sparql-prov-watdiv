@@ -1,0 +1,178 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v1"
+    },
+    {
+      "termType": "Variable",
+      "value": "v2"
+    },
+    {
+      "termType": "Variable",
+      "value": "v4"
+    },
+    {
+      "termType": "Variable",
+      "value": "v5"
+    },
+    {
+      "termType": "Variable",
+      "value": "v6"
+    },
+    {
+      "termType": "Variable",
+      "value": "v7"
+    },
+    {
+      "termType": "Variable",
+      "value": "v8"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://xmlns.com/foaf/homepage"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v2"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/goodrelations/includes"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v0"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://ogp.me/ns#tag"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Topic232"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/description"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v4"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/contentSize"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v8"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v1"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/url"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v5"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v1"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/hits"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v6"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v1"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/language"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Language0"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v7"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/likes"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v0"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "foaf": "http://xmlns.com/foaf/",
+    "gr": "http://purl.org/goodrelations/",
+    "og": "http://ogp.me/ns#",
+    "sorg": "http://schema.org/",
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/"
+  }
+}

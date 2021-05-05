@@ -1,0 +1,176 @@
+{
+  "queryType": "SELECT",
+  "variables": [
+    {
+      "termType": "Variable",
+      "value": "v0"
+    },
+    {
+      "termType": "Variable",
+      "value": "v3"
+    },
+    {
+      "termType": "Variable",
+      "value": "v4"
+    },
+    {
+      "termType": "Variable",
+      "value": "v8"
+    }
+  ],
+  "where": [
+    {
+      "type": "bgp",
+      "triples": [
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/legalName"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v1"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v0"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/goodrelations/offers"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v2"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v2"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/eligibleRegion"
+          },
+          "object": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/Country5"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v2"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/goodrelations/includes"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v3"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v4"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://schema.org/jobTitle"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v5"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v4"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://xmlns.com/foaf/homepage"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v6"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v4"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/makesPurchase"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v7"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v7"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://db.uwaterloo.ca/~galuc/wsdbm/purchaseFor"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v3"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v3"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/stuff/rev#hasReview"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v8"
+          }
+        },
+        {
+          "subject": {
+            "termType": "Variable",
+            "value": "v8"
+          },
+          "predicate": {
+            "termType": "NamedNode",
+            "value": "http://purl.org/stuff/rev#totalVotes"
+          },
+          "object": {
+            "termType": "Variable",
+            "value": "v9"
+          }
+        }
+      ]
+    }
+  ],
+  "type": "query",
+  "prefixes": {
+    "sorg": "http://schema.org/",
+    "rev": "http://purl.org/stuff/rev#",
+    "gr": "http://purl.org/goodrelations/",
+    "wsdbm": "http://db.uwaterloo.ca/~galuc/wsdbm/",
+    "foaf": "http://xmlns.com/foaf/"
+  }
+}
