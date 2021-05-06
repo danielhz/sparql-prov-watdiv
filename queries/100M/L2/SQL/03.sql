@@ -1,6 +1,6 @@
 SELECT
-  t0.object,
-  t1.subject
+  t0.object AS v1,
+  t1.subject AS v2
 FROM
   quads as t0,
   quads as t1,
@@ -12,4 +12,4 @@ WHERE
   t1.object = '<http://db.uwaterloo.ca/~galuc/wsdbm/Product0>' AND
   t2.predicate = '<http://schema.org/nationality>' AND
   t0.object = t2.object AND
-  t1.subject = t2.subject
+  t1.subject = t2.subject;

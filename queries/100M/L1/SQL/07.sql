@@ -1,7 +1,7 @@
 SELECT
-  t0.subject,
-  t1.subject,
-  t1.object
+  t0.subject AS v0,
+  t1.subject AS v2,
+  t1.object AS v3
 FROM
   quads as t0,
   quads as t1,
@@ -12,4 +12,4 @@ WHERE
   t1.predicate = '<http://schema.org/caption>' AND
   t2.predicate = '<http://db.uwaterloo.ca/~galuc/wsdbm/likes>' AND
   t0.subject = t2.subject AND
-  t1.subject = t2.object
+  t1.subject = t2.object;

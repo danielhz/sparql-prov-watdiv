@@ -1,7 +1,7 @@
 SELECT
-  t0.subject,
-  t1.object,
-  t2.subject
+  t0.subject AS v0,
+  t1.object AS v2,
+  t2.subject AS v3
 FROM
   quads as t0,
   quads as t1,
@@ -19,4 +19,4 @@ WHERE
   t0.subject = t3.subject AND
   t1.subject = t2.object AND
   t1.subject = t3.subject AND
-  t2.object = t3.subject
+  t2.object = t3.subject;

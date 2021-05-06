@@ -58,7 +58,7 @@ class SQLGenerator
   end
 
   def select_attributes
-    attributes.values.map { |attrs| attrs.first }
+    attributes.to_a.map { |attrs| "#{attrs[1].first} AS #{attrs[0]}" }
   end
 
   def from_tables
@@ -74,7 +74,7 @@ class SQLGenerator
       FROM
         #{from_tables.join(",\n  ")}
       WHERE
-        #{identities_formula}
+        #{identities_formula};
     SQL
   end
 end

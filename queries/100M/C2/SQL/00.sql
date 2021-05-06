@@ -1,14 +1,14 @@
 SELECT
-  t0.subject,
-  t0.object,
-  t1.object,
-  t3.object,
-  t4.subject,
-  t4.object,
-  t5.object,
-  t6.object,
-  t8.object,
-  t9.object
+  t0.subject AS v0,
+  t0.object AS v1,
+  t1.object AS v2,
+  t3.object AS v3,
+  t4.subject AS v4,
+  t4.object AS v5,
+  t5.object AS v6,
+  t6.object AS v7,
+  t8.object AS v8,
+  t9.object AS v9
 FROM
   quads as t0,
   quads as t1,
@@ -43,4 +43,4 @@ WHERE
   t4.subject = t6.subject AND
   t5.subject = t6.subject AND
   t6.object = t7.subject AND
-  t8.object = t9.subject
+  t8.object = t9.subject;
