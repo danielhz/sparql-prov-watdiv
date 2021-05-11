@@ -12,4 +12,5 @@ WHERE
   t1.predicate = '<http://www.geonames.org/ontology#parentCountry>' AND
   t2.predicate = '<http://schema.org/nationality>' AND
   t0.subject = t2.subject AND
-  t1.object = t2.object;
+  t1.object = t2.object
+;

@@ -19,4 +19,5 @@ WHERE
   t0.subject = t3.subject AND
   t1.subject = t2.object AND
   t1.subject = t3.subject AND
-  t2.object = t3.subject;
+  t2.object = t3.subject
+;

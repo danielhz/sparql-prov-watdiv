@@ -12,4 +12,5 @@ WHERE
   t1.object = '<http://db.uwaterloo.ca/~galuc/wsdbm/Product0>' AND
   t2.predicate = '<http://schema.org/nationality>' AND
   t0.object = t2.object AND
-  t1.subject = t2.subject;
+  t1.subject = t2.subject
+;

@@ -43,4 +43,5 @@ WHERE
   t4.subject = t6.subject AND
   t5.subject = t6.subject AND
   t6.object = t7.subject AND
-  t8.object = t9.subject;
+  t8.object = t9.subject
+;

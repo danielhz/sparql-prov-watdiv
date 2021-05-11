@@ -13,4 +13,5 @@ WHERE
   t2.object = '<http://db.uwaterloo.ca/~galuc/wsdbm/SubGenre102>' AND
   t0.subject = t1.subject AND
   t0.subject = t2.subject AND
-  t1.subject = t2.subject;
+  t1.subject = t2.subject
+;

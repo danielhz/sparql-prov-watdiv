@@ -12,4 +12,5 @@ WHERE
   t1.predicate = '<http://schema.org/caption>' AND
   t2.predicate = '<http://db.uwaterloo.ca/~galuc/wsdbm/likes>' AND
   t0.subject = t2.subject AND
-  t1.subject = t2.object;
+  t1.subject = t2.object
+;

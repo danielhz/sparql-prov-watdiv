@@ -11,6 +11,8 @@ DB_NAME = 'watdiv-100M-vp.db'
 
 db = Sequel.connect("sqlite:#{DB_DIR}/#{DB_NAME}")
 
+# Translate the URL of a predicate as a table name using predefined
+# namespaces as prefixes for table_names.
 def url_to_table_name(url)
   prefixes = {
     dc: 'http://purl.org/dc/terms/',

@@ -13,4 +13,5 @@ WHERE
   t2.predicate = '<http://db.uwaterloo.ca/~galuc/wsdbm/likes>' AND
   t0.subject = t1.subject AND
   t0.subject = t2.object AND
-  t1.subject = t2.object;
+  t1.subject = t2.object
+;
