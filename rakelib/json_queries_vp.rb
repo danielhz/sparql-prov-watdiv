@@ -1,5 +1,38 @@
 require 'json'
 require 'fileutils'
+require 'pry'
+
+# Translate the URL of a predicate as a table name using predefined
+# namespaces as prefixes for table_names.
+def url_to_table_name(url)
+  prefixes = {
+    dc: 'http://purl.org/dc/terms/',
+    foaf: 'http://xmlns.com/foaf/',
+    gr: 'http://purl.org/goodrelations/',
+    gn: 'http://www.geonames.org/ontology#',
+    mo: 'http://purl.org/ontology/mo/',
+    og: 'http://ogp.me/ns#',
+    rev: 'http://purl.org/stuff/rev#',
+    rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+    rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+    sorg: 'http://schema.org/',
+    wsdbm: 'http://db.uwaterloo.ca/~galuc/wsdbm/'
+  }
+
+  table_name = nil
+
+  prefixes.each do |name, prefix|
+    if url.include? prefix
+      table_name = url.sub(prefix, "#{name}__").
+                     strip.sub(/^</, '').sub(/>$/, '')
+      not_replaced = false
+    end
+  end
+
+  raise 'unknown prefix' if table_name.nil?
+  table_name
+end
+
 
 class SQLGenerator
   def initialize(query)
@@ -17,7 +50,7 @@ class SQLGenerator
     if @attributes.nil?
       @attributes = {}
       triples.each_with_index do |triple, index|
-        %w{subject predicate object}.each do |attr|
+        %w{subject object}.each do |attr|
           if triple[attr]['termType'] == 'Variable'
             variable = triple[attr]['value']
             @attributes[variable] = [] if @attributes[variable].nil?
@@ -40,7 +73,7 @@ class SQLGenerator
   def constant_identities
     identities = []
     triples.each_with_index do |triple, index|
-        %w{subject predicate object}.each do |attr|
+        %w{subject object}.each do |attr|
           if triple[attr]['termType'] == 'NamedNode'
             identities << ["t#{index}.#{attr}",
                            "'<#{triple[attr]['value']}>'"]
@@ -63,7 +96,8 @@ class SQLGenerator
 
   def from_tables
     (0...triples.size).map do |i|
-      "quads as t#{i}"
+      table_name = url_to_table_name(triples[i]['predicate']['value'])
+      "#{table_name} as t#{i}"
     end
   end
 
@@ -74,14 +108,19 @@ class SQLGenerator
       FROM
         #{from_tables.join(",\n  ")}
       WHERE
-        #{identities_formula};
+        #{identities_formula}
     SQL
   end
 end
 
 Dir['queries/100M/*/namedgraphs/B/*.sparql'].sort.each do |query|
   sql = SQLGenerator.new(JSON.parse(`sparqljs #{query}`)).to_s
-  outfile = query.sub(/.sparql/, '.sql').sub('/namedgraphs/B/', '/SQL/')
-  FileUtils.mkdir_p(File.dirname(outfile))
-  File.open(outfile, 'w') { |file| file.puts sql }
+  outfile_b = query.sub(/.sparql/, '.sql').sub('/namedgraphs/B/', '/vp/B/')
+  outfile_p = query.sub(/.sparql/, '.sql').sub('/namedgraphs/B/', '/vp/P/')
+  FileUtils.mkdir_p(File.dirname(outfile_b))
+  FileUtils.mkdir_p(File.dirname(outfile_p))
+  File.open(outfile_b, 'w') { |file| file.puts "#{sql};" }
+  File.open(outfile_p, 'w') { |file| file.puts "PROVENANCE OF (\n#{sql});" }
 end
+
+
