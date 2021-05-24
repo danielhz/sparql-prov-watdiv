@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+sqlite,100M,S5,6idx,P,00,1,0.203956,200
+sqlite,100M,S5,6idx,P,00,2,0.092463,200
+sqlite,100M,S5,6idx,P,00,3,0.093673,200
+sqlite,100M,S5,6idx,P,00,4,0.093388,200
+sqlite,100M,S5,6idx,P,00,5,0.091750,200
+sqlite,100M,S5,6idx,P,01,1,0.919155,200
+sqlite,100M,S5,6idx,P,01,2,0.081110,200
+sqlite,100M,S5,6idx,P,01,3,0.081222,200
+sqlite,100M,S5,6idx,P,01,4,0.084226,200
+sqlite,100M,S5,6idx,P,01,5,0.081595,200
