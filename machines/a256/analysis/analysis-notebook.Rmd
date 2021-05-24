@@ -10,6 +10,7 @@ In this section we load the data and generate the dataframes we analyze througho
 We next load the required libraries for the remained of this notebook.
 
 ```{r}
+library(plotly)
 library(dplyr)
 library(ggplot2)
 library(latex2exp)
@@ -127,6 +128,7 @@ time_results$engine[time_results$engine == "tripleprov"] <- "TripleProv"
 time_results$scheme[time_results$scheme == "namedgraphs"] <- "named graphs"
 time_results$scheme[time_results$scheme == "rdf"] <- "standard"
 time_results$scheme[time_results$scheme == "wikidata"] <- "Wikidata"
+# time_results$scheme[time_results$scheme == "PSQ"] <- "named graphs"
 ```
 
 We want to group results considering the engine and the mode.
@@ -138,12 +140,22 @@ time_results$group <- paste(time_results$engine, time_results$mode)
 time_results$group[time_results$engine == "TripleProv"] <- "TripleProv"
 ```
 
+# We next describ
 
+
+# We next plot the solutions based on SQL using GProm
+
+```{r}
+sql_results <- time_results[time_results$engine == 'sqlite']
+```
+
+
+# We next plot the solutions based on SPARQL
 
 ```{r}
 labels <- c("Fuseki B", "Fuseki R", "Fuseki P",
             "Virtuoso B", "Virtuoso R", "Virtuoso P",
-            "TripleProv")
+            "TripleProv", "sqlite SQL")
 
 time_results$fill_position[time_results$group == "Fuseki B"] <- 1
 time_results$fill_position[time_results$group == "Fuseki R"] <- 2
@@ -152,6 +164,7 @@ time_results$fill_position[time_results$group == "Virtuoso B"] <- 4
 time_results$fill_position[time_results$group == "Virtuoso R"] <- 5
 time_results$fill_position[time_results$group == "Virtuoso P"] <- 6
 time_results$fill_position[time_results$group == "TripleProv"] <- 7
+time_results$fill_position[time_results$group == "sqlite SQL"] <- 7
 
 positions <- c(1, 2, 3, 4, 5, 6, 7)
 
@@ -175,14 +188,16 @@ p1 <- ggplot(p1_data,
                                "Virtuoso B" = "#fee8c8",
                                "Virtuoso R" = "#fdbb84",
                                "Virtuoso P" = "#e34a33",
-                               "TripleProv" = "#8856a7"),
+                               "TripleProv" = "#8856a7",
+                               "sqlite SQL" = "#881111"),
                     breaks = c("Fuseki B",
                                "Fuseki R",
                                "Fuseki P",
                                "Virtuoso B",
                                "Virtuoso R",
                                "Virtuoso P",
-                               "TripleProv")) +
+                               "TripleProv",
+                               "sqlite SQL")) +
   theme_minimal(base_family = "Times") +
   labs(fill = "") +
   theme(legend.position="top",
@@ -195,6 +210,8 @@ p1
 png(file="watdiv-times.png", res=600, width=6000, height=1500, pointsize=8)
   p1
 dev.off()
+
+ggplotly(p1)
 
 #p2 <- patternbar(time_results, time_results$template, time_results$time, group=NULL)
 ```

@@ -209,3 +209,69 @@ the workload with the following commands:
 cd tripleprov/release
 ./tripleprov
 ```
+
+
+# Compilation of GProM
+
+The configuration of GProM depends on the backend used.  The following
+are the parameters we used:
+
+## For PostgreSQL
+
+```bash
+./configure --disable-oracle --disable-monetdb --disable-java --disable-sqlite \
+   --with-libpq-headers=/usr/include/postgresql/
+```
+
+# Create GProM backends
+
+## For PostgreSQL
+
+```sql
+CREATE USER watdiv WITH PASSWORD 'watdiv';
+CREATE DATABASE watdiv_spo WITH OWNER watdiv;
+CREATE DATABASE watdiv_pso WITH OWNER watdiv;
+CREATE DATABASE watdiv_6idx WITH OWNER watdiv;
+CREATE DATABASE watdiv_vp WITH OWNER watdiv;
+
+\c watdiv_spo
+
+CREATE TABLE quads (subject text, predicate text, object text, statement text);
+
+\copy quads FROM PROGRAM 'gzip -dc watdiv.100M.spo.csv.gz' DELIMITER ',' CSV;
+
+ALTER TABLE quads ADD PRIMARY KEY (subject, predicate, object);
+CREATE INDEX idx_quads_predicate ON quads (predicate);
+CREATE INDEX idx_quads_object ON quads (object);
+
+\c watdiv_pso
+
+CREATE TABLE quads (predicate text, subject text, object text, statement text);
+
+\copy quads FROM PROGRAM 'gzip -dc watdiv.100M.pso.csv.gz' DELIMITER ',' CSV;
+
+ALTER TABLE quads ADD PRIMARY KEY (predicate, subject, object);
+CREATE INDEX idx_quads_subject ON quads (subject);
+CREATE INDEX idx_quads_object ON quads (object);
+
+\c watdiv_6idx
+
+CREATE TABLE quads (predicate text, subject text, object text, statement text);
+
+\copy quads FROM PROGRAM 'gzip -dc watdiv.100M.pso.csv.gz' DELIMITER ',' CSV;
+
+ALTER TABLE quads ADD PRIMARY KEY (predicate, subject, object);
+CREATE INDEX idx_quads_pos ON quads (predicate, object, subject);
+CREATE INDEX idx_quads_spo ON quads (subject, predicate, object);
+CREATE INDEX idx_quads_sop ON quads (subject, object, predicate);
+CREATE INDEX idx_quads_osp ON quads (object, subject, predicate);
+CREATE INDEX idx_quads_ops ON quads (object, predicate, subject);
+
+\c watdiv_vp
+
+CREATE TABLE quads (predicate text, subject text, object text, statement text);
+
+\copy quads FROM PROGRAM 'gzip -dc watdiv.100M.pso.csv.gz' DELIMITER ',' CSV;
+
+ALTER TABLE quads ADD PRIMARY KEY (predicate, subject, object);
+```
