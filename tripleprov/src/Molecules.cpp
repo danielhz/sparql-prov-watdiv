@@ -8,7 +8,9 @@
 #include "Molecules.h"
 
 
-void Entity::FindEntityAndAddNext(size_t tripleTmpl, KEY_ID o, KEY_ID s, KEY_ID prov, unsigned short int scope, Molecule *molecule) {
+void Entity::FindEntityAndAddNext(size_t tripleTmpl,
+				  KEY_ID o, KEY_ID s, KEY_ID prov,
+				  unsigned short int scope, Molecule *molecule) {
 //FIXME prov
 	if (scope == 1 and obj == s) { //add in one of nexts here
 		unordered_map< KEY_ID, multimap<size_t,Entity> >::iterator i = next.find(prov);
@@ -153,46 +155,46 @@ Molecules::Molecules() {
 }
 
 void Molecules::CreateMolecule(KEY_ID s, KEY_ID p, KEY_ID o, KEY_ID prov) {
-	pair< unordered_map<KEY_ID, Molecule >::iterator, bool > it;
-	it = molecules.insert( pair<KEY_ID, Molecule> ( s, Molecule() ) );
+  pair< unordered_map<KEY_ID, Molecule >::iterator, bool > it;
+  it = molecules.insert( pair<KEY_ID, Molecule> ( s, Molecule() ) );
 
-//	if ( it.second == true ) {
-//	it->second.AddTriple(size_t tripleTmpl, KEY_ID o, unsigned short int scope);
-	//discover template for p and o in Molecule of template s
-	unsigned short int tripleTmpl = diplo::TM.GetTemplate(
-			diplo::KM.GetType(s), diplo::KM.GetType(s), p, diplo::KM.GetType(o));
+  //	if ( it.second == true ) {
+  //	it->second.AddTriple(size_t tripleTmpl, KEY_ID o, unsigned short int scope);
+  //discover template for p and o in Molecule of template s
+  unsigned short int tripleTmpl = diplo::TM.GetTemplate(diplo::KM.GetType(s),
+							diplo::KM.GetType(s),
+							p,
+							diplo::KM.GetType(o));
 
-	if (tripleTmpl == -1) {
-		cerr << diplo::KM.Get(s) << "[ " << diplo::KM.GetType(s) << " ] " << "\t" << diplo::KM.Get(p) << "[ " << p << " ] " << "\t" << diplo::KM.Get(o) << "[ " << diplo::KM.GetType(o) << " ] " << endl;
-	}
-//	else
-//		cerr << tripleTmpl << endl;
-
-
-	it.first->second.AddTriple(tripleTmpl, o, prov);
-//	pair<const KEY_ID, Molecule> *ss;
-//	ss = &( *(it.first) );
-
-//	if (o == 9570149208162307)
-//			cerr << "MW ---> " << it.first->first << "\t" << diplo::KM.Get(9570149208162307) << endl;
+  if (tripleTmpl == -1) {
+    cerr << diplo::KM.Get(s) << "[ " << diplo::KM.GetType(s) << " ] " << "\t" << diplo::KM.Get(p) << "[ " << p << " ] " << "\t" << diplo::KM.Get(o) << "[ " << diplo::KM.GetType(o) << " ] " << endl;
+  }
+  //	else
+  //		cerr << tripleTmpl << endl;
 
 
-	map <KEY_ID, set< pair<const KEY_ID, Molecule>* > >::iterator it_inv_molecules = diplo::M.inv_molecules.find(o);
-	if (it_inv_molecules == diplo::M.inv_molecules.end() ) {
-		set< pair<const KEY_ID, Molecule>* > tt;
-		tt.insert( &(*(it.first)) ) ;
+  it.first->second.AddTriple(tripleTmpl, o, prov);
+  //	pair<const KEY_ID, Molecule> *ss;
+  //	ss = &( *(it.first) );
 
-		pair<KEY_ID, set< pair<const KEY_ID, Molecule>* > > x (o, tt );
-//		set<pair<const KEY_ID, Molecule>*>::iterator it2 = tt.begin();
-//		cerr << "-----1 > " << diplo::KM.Get(s) << "\t" << s  << "\t";
-//		cerr << (*it2)->first << "\t" << endl;
-
-		inv_molecules.insert( x ); //MW check here!!!!
-	} else {
-		it_inv_molecules->second.insert( &(*(it.first)) ) ;
-	}
+  //	if (o == 9570149208162307)
+  //			cerr << "MW ---> " << it.first->first << "\t" << diplo::KM.Get(9570149208162307) << endl;
 
 
+  map <KEY_ID, set< pair<const KEY_ID, Molecule>* > >::iterator it_inv_molecules = diplo::M.inv_molecules.find(o);
+  if (it_inv_molecules == diplo::M.inv_molecules.end() ) {
+    set< pair<const KEY_ID, Molecule>* > tt;
+    tt.insert( &(*(it.first)) ) ;
+
+    pair<KEY_ID, set< pair<const KEY_ID, Molecule>* > > x (o, tt );
+    //		set<pair<const KEY_ID, Molecule>*>::iterator it2 = tt.begin();
+    //		cerr << "-----1 > " << diplo::KM.Get(s) << "\t" << s  << "\t";
+    //		cerr << (*it2)->first << "\t" << endl;
+
+    inv_molecules.insert( x ); //MW check here!!!!
+  } else {
+    it_inv_molecules->second.insert( &(*(it.first)) ) ;
+  }
 }
 
 void Molecules::ReconstructMolecule(KEY_ID s, size_t tripleTmpl, KEY_ID o, KEY_ID prov) {

@@ -66,22 +66,22 @@ typedef	unsigned long int KEY_ID;
 
 namespace queries {
 
-class val4 {
-public:
-	KEY_ID v1;
-	KEY_ID v2;
-	KEY_ID v3;
-	KEY_ID v4;
-};
+  class val4 {
+  public:
+    KEY_ID v1;
+    KEY_ID v2;
+    KEY_ID v3;
+    KEY_ID v4;
+  };
 
-class val5 {
-public:
-	KEY_ID v1;
-	KEY_ID v2;
-	KEY_ID v3;
-	KEY_ID v4;
-	KEY_ID v5;
-};
+  class val5 {
+  public:
+    KEY_ID v1;
+    KEY_ID v2;
+    KEY_ID v3;
+    KEY_ID v4;
+    KEY_ID v5;
+  };
 
 }
 

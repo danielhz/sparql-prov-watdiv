@@ -1,0 +1,18 @@
+first pass
+KM.Add
+TH.Add
+TH.AddRelation
+second pass
+KM.Add, tripleTemplatesLeafs.push_back
+KM.MakeInverseIndex
+TM.AddTemplate
+TM.AddTripleInScope up to minScope: 0
+TM.AddTripleInScope upto mxaScope (from conf file): 0
+storing triples
+P.PartitionMolecules
+all molecules on master: 5212385
+node: 0	 number of molecules: 5212385
+M.CreateMolecule-----
+Loading Time: 3808.73
+Memory: VmSize:	73448444 kB
+--------------------- ROUND: 0---------------------

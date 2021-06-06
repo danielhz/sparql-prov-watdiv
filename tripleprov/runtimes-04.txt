@@ -1,0 +1,10 @@
+Runtime round 0 template f2: 13.639053
+Runtime round 0 template f3: 19.621234
+Runtime round 1 template f2: 13.890990
+Runtime round 1 template f3: 18.259071
+Runtime round 2 template f2: 12.686942
+Runtime round 2 template f3: 18.139525
+Runtime round 3 template f2: 12.676028
+Runtime round 3 template f3: 17.897901
+Runtime round 4 template f2: 12.762876
+Runtime round 4 template f3: 18.363173

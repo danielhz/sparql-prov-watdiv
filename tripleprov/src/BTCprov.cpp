@@ -375,7 +375,7 @@ void BTCprov::q04() {
         vector<TripleIDs> constrains;
 
         for (vector<vector<unordered_set<KEY_ID>>> ::iterator it_p = results_local1.begin(); it_p != results_local1.end(); it_p++) {
-            for (vector<unordered_set<KEY_ID>>::iterator it1 = it_p->begin(); it1 != it_p->end(); it1++) {
+	  for (vector<unordered_set<KEY_ID>>::iterator it1 = it_p->begin(); it1 != it_p->end(); it1++) {
                 for (unordered_set<KEY_ID>::iterator it2 = it1->begin(); it2 != it1->end(); it2++) {
                     constrains.push_back(TripleIDs(0, -1, *it2, 0));
                 }
