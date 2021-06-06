@@ -707,6 +707,104 @@ namespace queries {
     
     printResults(results);
   }
+
+  /*
+   * PREFIX foaf: <http://xmlns.com/foaf/>
+   * PREFIX gr: <http://purl.org/goodrelations/>
+   * PREFIX og: <http://ogp.me/ns#>
+   * PREFIX sorg: <http://schema.org/>
+   * PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+   * SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 ?v7 ?v8 WHERE {
+   *   ?v0 foaf:homepage ?v1 .
+   *   ?v2 gr:includes ?v0 .
+   *   ?v0 og:tag wsdbm:Topic232 .
+   *   ?v0 sorg:description ?v4 .
+   *   ?v0 sorg:contentSize ?v8 .
+   *   ?v1 sorg:url ?v5 .
+   *   ?v1 wsdbm:hits ?v6 .
+   *   ?v1 sorg:language wsdbm:Language0 .
+   *   ?v7 wsdbm:likes ?v0 .
+   * }
+   */
+  void WatDivprov::f4() {
+    vector<vector<KEY_ID>> results;
+
+    KEY_ID wsdbm_Topic232 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/Topic232>");
+    KEY_ID wsdbm_Language0 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/Language0>");
+    KEY_ID wsdbm_likes = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/likes>");
+    KEY_ID wsdbm_hits = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/hits>");
+    KEY_ID sorg_language = diplo::KM.Get("<http://schema.org/language>");
+    KEY_ID sorg_contentSize = diplo::KM.Get("<http://schema.org/contentSize>");
+    KEY_ID og_tag = diplo::KM.Get("<http://ogp.me/ns#tag>");
+    KEY_ID foaf_homepage = diplo::KM.Get("<http://xmlns.com/foaf/homepage>");
+    KEY_ID sorg_url = diplo::KM.Get("<http://schema.org/url>");
+    KEY_ID sorg_description = diplo::KM.Get("<http://schema.org/description>");
+    KEY_ID gr_includes = diplo::KM.Get("<http://purl.org/goodrelations/includes>");
+    
+    // ?v0 og:tag wsdbm:Topic232 .
+    unordered_set<KEY_ID> results_v0;
+    vector<unordered_set<KEY_ID>> prov_v0;
+    API::GetSubjects(wsdbm_Topic232, og_tag, results_v0, prov_v0);
+
+    // ?v1 sorg:language wsdbm:Language0 .
+    unordered_set<KEY_ID> results_v1_1;
+    vector<unordered_set<KEY_ID>> prov_v1_1;
+    API::GetSubjects(wsdbm_Language0, sorg_language, results_v1_1, prov_v1_1);
+    
+    for (auto v0: results_v0) {
+      // ?v0 foaf:homepage ?v1 .
+      unordered_set<KEY_ID> results_v1_2;
+      unordered_set<KEY_ID> prov_v1_2;
+      API::GetObjects(v0, foaf_homepage, results_v1_2, prov_v1_2);
+
+      unordered_set<KEY_ID> results_v1;
+      for (auto v1: results_v1_2)
+	if (!results_v1_1.count(v1))
+	  results_v1.insert(v1);
+      
+      // ?v2 gr:includes ?v0 .
+      unordered_set<KEY_ID> results_v2;
+      vector<unordered_set<KEY_ID>> prov_v2;
+      API::GetSubjects(v0, gr_includes, results_v2, prov_v2);
+      
+      // ?v0 sorg:description ?v4 .
+      unordered_set<KEY_ID> results_v4;
+      unordered_set<KEY_ID> prov_v4;
+      API::GetObjects(v0, sorg_description, results_v4, prov_v4);
+
+      // ?v7 wsdbm:likes ?v0 .
+      unordered_set<KEY_ID> results_v7;
+      vector<unordered_set<KEY_ID>> prov_v7;
+      API::GetSubjects(v0, wsdbm_likes, results_v7, prov_v7);
+      
+      // ?v0 sorg:contentSize ?v8 .
+      unordered_set<KEY_ID> results_v8;
+      unordered_set<KEY_ID> prov_v8;
+      API::GetObjects(v0, sorg_contentSize, results_v8, prov_v8);
+      
+      for (auto v1: results_v1) {
+	// ?v1 sorg:url ?v5 .
+	unordered_set<KEY_ID> results_v5;
+	unordered_set<KEY_ID> prov_v5;
+	API::GetObjects(v1, sorg_url, results_v5, prov_v5);
+      
+	// ?v1 wsdbm:hits ?v6 .
+	unordered_set<KEY_ID> results_v6;
+	unordered_set<KEY_ID> prov_v6;
+	API::GetObjects(v1, wsdbm_hits, results_v6, prov_v6);
+	
+	for (auto v2: results_v2)
+	  for (auto v4: results_v4)
+	    for (auto v5: results_v5)
+	      for (auto v6: results_v6)
+		for (auto v7: results_v7)
+		  for (auto v8: results_v8)
+		    results.push_back({v0, v1, v2, v4, v5, v6, v7, v8});
+      }
+    }
+	 
+    printResults(results);
+  }
   
   /*
     PREFIX sorg: <http://schema.org/>
@@ -853,13 +951,21 @@ namespace queries {
     // diplo::elementsRetrieved = 0;
     // f2();
 
-    cout << "---------------------f3---------------------" << endl;
-    diplo::moleculesCounter = 0;
-    diplo::ProvFilterCounter = 0;
-    diplo::ProvFilterCH = false;
-    diplo::elementsChecked = 0;
-    diplo::elementsRetrieved = 0;
-    f3();
+    // cout << "---------------------f3---------------------" << endl;
+    // diplo::moleculesCounter = 0;
+    // diplo::ProvFilterCounter = 0;
+    // diplo::ProvFilterCH = false;
+    // diplo::elementsChecked = 0;
+    // diplo::elementsRetrieved = 0;
+    // f3();
+
+    // cout << "---------------------f4---------------------" << endl;
+    // diplo::moleculesCounter = 0;
+    // diplo::ProvFilterCounter = 0;
+    // diplo::ProvFilterCH = false;
+    // diplo::elementsChecked = 0;
+    // diplo::elementsRetrieved = 0;
+    // f4();
   }
 
   void WatDivprov::benchmark() {
@@ -954,6 +1060,14 @@ namespace queries {
       time = diplo::stopwatch_get();
       times4exel[0].push_back(time);
       cout << "Runtime round " << i << " template f3: " << time << endl;
+      sleep(diplo::pause_int);
+
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      f4();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template f4: " << time << endl;
       sleep(diplo::pause_int);
     }
 
