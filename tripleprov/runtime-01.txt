@@ -1,0 +1,5 @@
+Runtime round 0 template l1: 0.003575
+Runtime round 0 template l2: 2.320776
+Runtime round 0 template l4: 0.199486
+Runtime round 0 template l5: 1.061361
+Runtime round 0 template s1: 0.006533
