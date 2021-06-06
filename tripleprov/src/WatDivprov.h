@@ -28,6 +28,7 @@ namespace queries {
     void mixer();
     void TPDemo();
     void c1();
+    void c2();
     void l1();
     void l2();
     void l4();

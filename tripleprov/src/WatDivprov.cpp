@@ -404,7 +404,6 @@ namespace queries {
     KEY_ID wsdbm_Country1 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/Country1>");
     KEY_ID sorg_nationality = diplo::KM.Get("<http://schema.org/nationality>");
     KEY_ID mo_artist = diplo::KM.Get("<http://purl.org/ontology/mo/artist>");
-    KEY_ID user = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/User100289>");
 
     // Get value for ?v0 from triple (?v0 foaf:age wsdbm:AgeGroup4)
     unordered_set<KEY_ID> results_v0_t1;
@@ -893,13 +892,13 @@ namespace queries {
 
     // Create URIs
     KEY_ID sorg_caption = diplo::KM.Get("<http://schema.org/caption>");
-    KEY_ID sorg_text = diplo::KM.Get("<http://schema.org/text>");
-    KEY_ID sorg_contentRating = diplo::KM.Get("<http://schema.org/contentRating>");
-    KEY_ID sorg_actor = diplo::KM.Get("<http://schema.org/actor>");
-    KEY_ID sorg_language = diplo::KM.Get("<http://schema.org/language>");
-    KEY_ID rev_hasReview = diplo::KM.Get("<http://purl.org/stuff/rev#hasReview>");
-    KEY_ID rev_title = diplo::KM.Get("<http://purl.org/stuff/rev#title>");
-    KEY_ID rev_reviewer = diplo::KM.Get("<http://purl.org/stuff/rev#reviewer>");
+    // KEY_ID sorg_text = diplo::KM.Get("<http://schema.org/text>");
+    // KEY_ID sorg_contentRating = diplo::KM.Get("<http://schema.org/contentRating>");
+    // KEY_ID sorg_actor = diplo::KM.Get("<http://schema.org/actor>");
+    // KEY_ID sorg_language = diplo::KM.Get("<http://schema.org/language>");
+    // KEY_ID rev_hasReview = diplo::KM.Get("<http://purl.org/stuff/rev#hasReview>");
+    // KEY_ID rev_title = diplo::KM.Get("<http://purl.org/stuff/rev#title>");
+    // KEY_ID rev_reviewer = diplo::KM.Get("<http://purl.org/stuff/rev#reviewer>");
     
     // (?v0 sorg:caption ?v1)
     unordered_set<KEY_ID> results_v0_1;
@@ -935,6 +934,112 @@ namespace queries {
     printResults(results);
   }
 
+  /**
+   * PREFIX sorg: <http://schema.org/>
+   * PREFIX rev: <http://purl.org/stuff/rev#>
+   * PREFIX gr: <http://purl.org/goodrelations/>
+   * PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+   * PREFIX foaf: <http://xmlns.com/foaf/>
+   * SELECT ?v0 ?v3 ?v4 ?v8 WHERE {
+   *   ?v0 sorg:legalName ?v1 .
+   *   ?v0 gr:offers ?v2 .
+   *   ?v2 sorg:eligibleRegion wsdbm:Country5 .
+   *   ?v2 gr:includes ?v3 .
+   *   ?v4 sorg:jobTitle ?v5 .
+   *   ?v4 foaf:homepage ?v6 .
+   *   ?v4 wsdbm:makesPurchase ?v7 .
+   *   ?v7 wsdbm:purchaseFor ?v3 .
+   *   ?v3 rev:hasReview ?v8 .
+   *   ?v8 rev:totalVotes ?v9 .
+   * }
+   */
+  void WatDivprov::c2() {
+    vector<vector<KEY_ID>> results;
+
+    KEY_ID gr_offers = diplo::KM.Get("<http://purl.org/goodrelations/offers>");
+    KEY_ID gr_includes = diplo::KM.Get("<http://purl.org/goodrelations/includes>");
+    KEY_ID sorg_eligibleRegion = diplo::KM.Get("<http://schema.org/eligibleRegion>");
+    KEY_ID sorg_legalName = diplo::KM.Get("<http://schema.org/legalName>");
+    KEY_ID wsdbm_purchaseFor = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/purchaseFor>");
+    KEY_ID wsdbm_makesPurchase = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/makesPurchase>");
+    KEY_ID wsdbm_Country5 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/Country5>");
+    KEY_ID rev_hasReview = diplo::KM.Get("<http://purl.org/stuff/rev#hasReview>");
+    KEY_ID rev_totalVotes = diplo::KM.Get("<http://purl.org/stuff/rev#totalVotes>");
+    KEY_ID foaf_homepage = diplo::KM.Get("<http://xmlns.com/foaf/homepage>");
+    KEY_ID sorg_jobTitle = diplo::KM.Get("<http://schema.org/jobTitle>");
+
+    // ?v2 sorg:eligibleRegion wsdbm:Country5 .
+    unordered_set<KEY_ID> results_v2;
+    vector<unordered_set<KEY_ID>> prov_v2;
+    API::GetSubjects(wsdbm_Country5, sorg_eligibleRegion, results_v2, prov_v2);
+
+    for (auto v2: results_v2) {
+
+      // ?v0 gr:offers ?v2 .
+      unordered_set<KEY_ID> results_v0;
+      vector<unordered_set<KEY_ID>> prov_v0;
+      API::GetSubjects(v2, gr_offers, results_v0, prov_v0);
+
+      for (auto v0: results_v0) {
+	// ?v0 sorg:legalName ?v1 .
+	unordered_set<KEY_ID> results_v1;
+	unordered_set<KEY_ID> prov_v1;
+	API::GetObjects(v0, sorg_legalName, results_v1, prov_v1);
+    
+	// ?v2 gr:includes ?v3 .
+	unordered_set<KEY_ID> results_v3;
+	unordered_set<KEY_ID> prov_v3;
+	API::GetObjects(v2, gr_includes, results_v3, prov_v3);
+
+	for (auto v3: results_v3) {
+	  // ?v7 wsdbm:purchaseFor ?v3 .
+	  unordered_set<KEY_ID> results_v7;
+	  vector<unordered_set<KEY_ID>> prov_v7;
+	  API::GetSubjects(v3, wsdbm_purchaseFor, results_v7, prov_v7);
+
+	  // ?v3 rev:hasReview ?v8 .
+	  unordered_set<KEY_ID> results_v8;
+	  unordered_set<KEY_ID> prov_v8;
+	  API::GetObjects(v3, rev_hasReview, results_v8, prov_v8);
+
+	  for (auto v8: results_v8) {
+	    // ?v8 rev:totalVotes ?v9 .
+	    unordered_set<KEY_ID> results_v9;
+	    unordered_set<KEY_ID> prov_v9;
+	    API::GetObjects(v8, rev_totalVotes, results_v9, prov_v9);
+
+	    for (auto v7: results_v7) {
+	      // ?v4 wsdbm:makesPurchase ?v7 .
+	      unordered_set<KEY_ID> results_v4;
+	      vector<unordered_set<KEY_ID>> prov_v4;
+	      API::GetSubjects(v7, wsdbm_makesPurchase, results_v4, prov_v4);
+
+	      for (auto v4: results_v4) {
+		// ?v4 sorg:jobTitle ?v5 .
+		unordered_set<KEY_ID> results_v5;
+		unordered_set<KEY_ID> prov_v5;
+		API::GetObjects(v4, sorg_jobTitle, results_v5, prov_v5);
+		
+		// ?v4 foaf:homepage ?v6 .
+		unordered_set<KEY_ID> results_v6;
+		unordered_set<KEY_ID> prov_v6;
+		API::GetObjects(v4, foaf_homepage, results_v6, prov_v6);
+		
+		for (auto v1: results_v1)
+		  for (auto v5: results_v5)
+		    for (auto v6: results_v6)
+		      for (auto v9: results_v9)
+			results.push_back({v0, v1, v2, v3, v4, v5, v6, v7, v8, v9});
+	      }
+	    }
+	  }
+	}
+      }
+    }
+    
+    printResults(results);
+  }
+
   void WatDivprov::runthemall() {
 #ifdef SHOW_STATS
     queriesStart << "#r\t#m\t#mf\t#prov\t#im\t#imf\t#i\t#ec\t#er" <<endl;
@@ -946,6 +1051,14 @@ namespace queries {
     // diplo::elementsChecked = 0;
     // diplo::elementsRetrieved = 0;
     // c1();
+
+    // cout << "---------------------c2---------------------" << endl;
+    // diplo::moleculesCounter = 0;
+    // diplo::ProvFilterCounter = 0;
+    // diplo::ProvFilterCH = false;
+    // diplo::elementsChecked = 0;
+    // diplo::elementsRetrieved = 0;
+    // c2();
 
     // cout << "---------------------l1---------------------" << endl;
     // diplo::moleculesCounter = 0;
@@ -1057,6 +1170,14 @@ namespace queries {
       // times4exel[0].push_back(time);
       // cout << "Runtime round " << i << " template c1: " << time << endl;
       // sleep(diplo::pause_int);
+
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      c2();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template c1: " << time << endl;
+      sleep(diplo::pause_int);
 
       cout << "--------------------- ROUND: " << i << "---------------------" << endl;
       diplo::stopwatch_start();
