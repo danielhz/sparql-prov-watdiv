@@ -592,7 +592,7 @@ namespace queries {
     vector<unordered_set<KEY_ID>> prov_v0;
     API::GetSubjects(wsdbm_SubGenre79, wsdbm_hasGenre, results_v0, prov_v0);
 
-    for (auto v0: results_v0) {    
+    for (auto v0: results_v0) {
       // ?v0 og:title ?v2 .
       unordered_set<KEY_ID> results_v2;
       unordered_set<KEY_ID> prov_v2;
@@ -636,6 +636,72 @@ namespace queries {
 		for (auto v6: results_v6)
 		  for (auto v7: results_v7)
 		    results.push_back({v0, v1, v2, v3, v4, v5, v6, v7});
+      }
+    }
+    
+    printResults(results);
+  }
+
+  /*
+   * PREFIX sorg: <http://schema.org/>
+   * PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+   * SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 WHERE {
+   *   ?v0 sorg:contentRating ?v1 .
+   *   ?v0 sorg:contentSize ?v2 .
+   *   ?v0 wsdbm:hasGenre wsdbm:SubGenre73 .
+   *   ?v4 wsdbm:makesPurchase ?v5 .
+   *   ?v5 wsdbm:purchaseDate ?v6 .
+   *   ?v5 wsdbm:purchaseFor ?v0 .
+   * }
+   */
+  void WatDivprov::f3() {
+    vector<vector<KEY_ID>> results;
+
+    KEY_ID wsdbm_SubGenre73 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/SubGenre73>");
+    KEY_ID wsdbm_hasGenre = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/hasGenre>");
+    KEY_ID wsdbm_purchaseFor = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/purchaseFor>");
+    KEY_ID wsdbm_makesPurchase = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/makesPurchase>");
+    KEY_ID wsdbm_purchaseDate = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/purchaseDate>");
+    KEY_ID sorg_contentRating = diplo::KM.Get("<http://schema.org/contentRating>");
+    KEY_ID sorg_contentSize = diplo::KM.Get("<http://schema.org/contentSize>");
+    
+    // ?v0 wsdbm:hasGenre wsdbm:SubGenre73 .
+    unordered_set<KEY_ID> results_v0;
+    vector<unordered_set<KEY_ID>> prov_v0;
+    API::GetSubjects(wsdbm_SubGenre73, wsdbm_hasGenre, results_v0, prov_v0);
+    
+    for (auto v0: results_v0) {
+      // ?v0 sorg:contentRating ?v1 .
+      unordered_set<KEY_ID> results_v1;
+      unordered_set<KEY_ID> prov_v1;
+      API::GetObjects(v0, sorg_contentRating, results_v1, prov_v1);
+    
+      // ?v0 sorg:contentSize ?v2 .
+      unordered_set<KEY_ID> results_v2;
+      unordered_set<KEY_ID> prov_v2;
+      API::GetObjects(v0, sorg_contentSize, results_v2, prov_v2);
+
+      // ?v5 wsdbm:purchaseFor ?v0 .
+      unordered_set<KEY_ID> results_v5;
+      vector<unordered_set<KEY_ID>> prov_v5;
+      API::GetSubjects(v0, wsdbm_purchaseFor, results_v5, prov_v5);
+
+      for (auto v5: results_v5) {
+	// ?v4 wsdbm:makesPurchase ?v5 .
+	unordered_set<KEY_ID> results_v4;
+	vector<unordered_set<KEY_ID>> prov_v4;
+	API::GetSubjects(v5, wsdbm_makesPurchase, results_v4, prov_v4);
+      
+	// ?v5 wsdbm:purchaseDate ?v6 .
+	unordered_set<KEY_ID> results_v6;
+	unordered_set<KEY_ID> prov_v6;
+	API::GetObjects(v5, wsdbm_purchaseDate, results_v6, prov_v6);
+
+	for (auto v1: results_v1)
+	  for (auto v2: results_v2)
+	    for (auto v4: results_v4)
+	      for (auto v6: results_v6)
+		results.push_back({v0, v1, v2, v4, v5, v6});
       }
     }
     
@@ -786,6 +852,14 @@ namespace queries {
     // diplo::elementsChecked = 0;
     // diplo::elementsRetrieved = 0;
     // f2();
+
+    cout << "---------------------f3---------------------" << endl;
+    diplo::moleculesCounter = 0;
+    diplo::ProvFilterCounter = 0;
+    diplo::ProvFilterCH = false;
+    diplo::elementsChecked = 0;
+    diplo::elementsRetrieved = 0;
+    f3();
   }
 
   void WatDivprov::benchmark() {
@@ -872,6 +946,14 @@ namespace queries {
       time = diplo::stopwatch_get();
       times4exel[0].push_back(time);
       cout << "Runtime round " << i << " template f2: " << time << endl;
+      sleep(diplo::pause_int);
+
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      f3();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template f3: " << time << endl;
       sleep(diplo::pause_int);
     }
 
