@@ -805,6 +805,74 @@ namespace queries {
 	 
     printResults(results);
   }
+
+  /**
+   * PREFIX gr: <http://purl.org/goodrelations/>
+   * PREFIX og: <http://ogp.me/ns#>
+   * PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+   * PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+   * SELECT ?v0 ?v1 ?v3 ?v4 ?v5 ?v6 WHERE {
+   *   ?v0 gr:includes ?v1 .
+   *   wsdbm:Retailer222 gr:offers ?v0 .
+   *   ?v0 gr:price ?v3 .
+   *   ?v0 gr:validThrough ?v4 .
+   *   ?v1 og:title ?v5 .
+   *   ?v1 rdf:type ?v6 .
+   * }
+   */
+  void WatDivprov::f5() {
+    vector<vector<KEY_ID>> results;
+
+    KEY_ID gr_includes = diplo::KM.Get("<http://purl.org/goodrelations/includes>");
+    KEY_ID gr_price = diplo::KM.Get("<http://purl.org/goodrelations/price>");
+    KEY_ID wsdbm_Retailer222 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/Retailer222>");
+    KEY_ID gr_offers = diplo::KM.Get("<http://purl.org/goodrelations/offers>");
+    KEY_ID gr_validThrough = diplo::KM.Get("<http://purl.org/goodrelations/validThrough>");
+    KEY_ID og_title = diplo::KM.Get("<http://ogp.me/ns#title>");
+    KEY_ID rdf_type = diplo::KM.Get("<http://www.w3.org/1999/02/22-rdf-syntax-ns/type>");
+
+    // wsdbm:Retailer222 gr:offers ?v0 .
+    unordered_set<KEY_ID> results_v0;
+    unordered_set<KEY_ID> prov_v0;
+    API::GetObjects(wsdbm_Retailer222, gr_offers, results_v0, prov_v0);
+
+    for (auto v0: results_v0) {
+      // ?v0 gr:price ?v3 .
+      unordered_set<KEY_ID> results_v3;
+      unordered_set<KEY_ID> prov_v3;
+      API::GetObjects(v0, gr_price, results_v3, prov_v3);
+    
+      // ?v0 gr:validThrough ?v4 .
+      unordered_set<KEY_ID> results_v4;
+      unordered_set<KEY_ID> prov_v4;
+      API::GetObjects(v0, gr_validThrough, results_v4, prov_v4);
+      
+      // ?v0 gr:includes ?v1 .
+      unordered_set<KEY_ID> results_v1;
+      unordered_set<KEY_ID> prov_v1;
+      API::GetObjects(v0, gr_includes, results_v1, prov_v1);
+
+      for (auto v1: results_v1) {
+	// ?v1 og:title ?v5 .
+	unordered_set<KEY_ID> results_v5;
+	unordered_set<KEY_ID> prov_v5;
+	API::GetObjects(v1, og_title, results_v5, prov_v5);
+
+	// ?v1 rdf:type ?v6 .
+	unordered_set<KEY_ID> results_v6;
+	unordered_set<KEY_ID> prov_v6;
+	API::GetObjects(v1, rdf_type, results_v6, prov_v6);
+
+	for (auto v3: results_v3)
+	  for (auto v4: results_v4)
+	    for (auto v5: results_v5)
+	      for (auto v6: results_v5)
+		results.push_back({v0, v1, v3, v4, v5, v6});
+      }
+    }
+	       
+    printResults(results);
+  }
   
   /*
     PREFIX sorg: <http://schema.org/>
@@ -966,6 +1034,14 @@ namespace queries {
     // diplo::elementsChecked = 0;
     // diplo::elementsRetrieved = 0;
     // f4();
+
+    // cout << "---------------------f5---------------------" << endl;
+    // diplo::moleculesCounter = 0;
+    // diplo::ProvFilterCounter = 0;
+    // diplo::ProvFilterCH = false;
+    // diplo::elementsChecked = 0;
+    // diplo::elementsRetrieved = 0;
+    // f5();
   }
 
   void WatDivprov::benchmark() {
@@ -1068,6 +1144,14 @@ namespace queries {
       time = diplo::stopwatch_get();
       times4exel[0].push_back(time);
       cout << "Runtime round " << i << " template f4: " << time << endl;
+      sleep(diplo::pause_int);
+
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      f5();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template f5: " << time << endl;
       sleep(diplo::pause_int);
     }
 
