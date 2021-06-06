@@ -1176,7 +1176,7 @@ namespace queries {
       c2();
       time = diplo::stopwatch_get();
       times4exel[0].push_back(time);
-      cout << "Runtime round " << i << " template c1: " << time << endl;
+      cout << "Runtime round " << i << " template c2: " << time << endl;
       sleep(diplo::pause_int);
 
       cout << "--------------------- ROUND: " << i << "---------------------" << endl;
