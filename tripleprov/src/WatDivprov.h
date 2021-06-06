@@ -36,6 +36,7 @@ namespace queries {
     void s4();
     void s7();
     void f1();
+    void f2();
     void runthemall();
     void benchmark();
   };

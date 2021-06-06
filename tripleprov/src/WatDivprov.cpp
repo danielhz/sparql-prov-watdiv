@@ -557,7 +557,92 @@ namespace queries {
     printResults(results);
   }
 
-    /*
+  /*
+   * PREFIX foaf: <http://xmlns.com/foaf/>
+   * PREFIX og: <http://ogp.me/ns#>
+   * PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+   * PREFIX sorg: <http://schema.org/>
+   * PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+   * SELECT ?v0 ?v1 ?v2 ?v4 ?v5 ?v6 ?v7 WHERE {
+   *   ?v0 foaf:homepage ?v1 .
+   *   ?v0 og:title ?v2 .
+   *   ?v0 rdf:type ?v3 .
+   *   ?v0 sorg:caption ?v4 .
+   *   ?v0 sorg:description ?v5 .
+   *   ?v1 sorg:url ?v6 .
+   *   ?v1 wsdbm:hits ?v7 .
+   *   ?v0 wsdbm:hasGenre wsdbm:SubGenre79 .
+   * }
+  */
+  void WatDivprov::f2() {
+    vector<vector<KEY_ID>> results;
+
+    KEY_ID wsdbm_SubGenre79 = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/SubGenre79>");
+    KEY_ID wsdbm_hasGenre = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/hasGenre>");
+    KEY_ID wsdbm_hits = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/hits>");
+    KEY_ID foaf_homepage = diplo::KM.Get("<http://xmlns.com/foaf/homepage>");
+    KEY_ID og_title = diplo::KM.Get("<http://ogp.me/ns#title>");
+    KEY_ID rdf_type = diplo::KM.Get("<http://www.w3.org/1999/02/22-rdf-syntax-ns/type>");
+    KEY_ID sorg_caption = diplo::KM.Get("<http://schema.org/caption>");
+    KEY_ID sorg_description = diplo::KM.Get("<http://schema.org/description>");
+    KEY_ID sorg_url = diplo::KM.Get("<http://schema.org/url>");
+	
+    // ?v0 wsdbm:hasGenre wsdbm:SubGenre79 .
+    unordered_set<KEY_ID> results_v0;
+    vector<unordered_set<KEY_ID>> prov_v0;
+    API::GetSubjects(wsdbm_SubGenre79, wsdbm_hasGenre, results_v0, prov_v0);
+
+    for (auto v0: results_v0) {    
+      // ?v0 og:title ?v2 .
+      unordered_set<KEY_ID> results_v2;
+      unordered_set<KEY_ID> prov_v2;
+      API::GetObjects(v0, og_title, results_v2, prov_v2);
+    
+      // ?v0 rdf:type ?v3 .
+      unordered_set<KEY_ID> results_v3;
+      unordered_set<KEY_ID> prov_v3;
+      API::GetObjects(v0, rdf_type, results_v3, prov_v3);
+      
+      // ?v0 sorg:caption ?v4 .
+      unordered_set<KEY_ID> results_v4;
+      unordered_set<KEY_ID> prov_v4;
+      API::GetObjects(v0, sorg_caption, results_v4, prov_v4);
+      
+      // ?v0 sorg:description ?v5 .
+      unordered_set<KEY_ID> results_v5;
+      unordered_set<KEY_ID> prov_v5;
+      API::GetObjects(v0, sorg_description, results_v5, prov_v5);
+
+      // ?v0 foaf:homepage ?v1 .
+      unordered_set<KEY_ID> results_v1;
+      unordered_set<KEY_ID> prov_v1;
+      API::GetObjects(v0, foaf_homepage, results_v1, prov_v1);
+      
+      for (auto v1: results_v1) {
+	// ?v1 sorg:url ?v6 .
+	unordered_set<KEY_ID> results_v6;
+	unordered_set<KEY_ID> prov_v6;
+	API::GetObjects(v1, sorg_url, results_v6, prov_v6);
+      
+	// ?v1 wsdbm:hits ?v7 .
+	unordered_set<KEY_ID> results_v7;
+	unordered_set<KEY_ID> prov_v7;
+	API::GetObjects(v1, wsdbm_hits, results_v7, prov_v7);
+	
+	for (auto v2: results_v2)
+	  for (auto v3: results_v3)
+	    for (auto v4: results_v4)
+	      for (auto v5: results_v5)
+		for (auto v6: results_v6)
+		  for (auto v7: results_v7)
+		    results.push_back({v0, v1, v2, v3, v4, v5, v6, v7});
+      }
+    }
+    
+    printResults(results);
+  }
+  
+  /*
     PREFIX sorg: <http://schema.org/>
     PREFIX rev: <http://purl.org/stuff/rev#>
     SELECT ?v0 ?v4 ?v6 ?v7 WHERE {
@@ -572,6 +657,8 @@ namespace queries {
     }
   */
   void WatDivprov::c1() {
+    vector<vector<KEY_ID>> results;
+
     // Create URIs
     KEY_ID sorg_caption = diplo::KM.Get("<http://schema.org/caption>");
     KEY_ID sorg_text = diplo::KM.Get("<http://schema.org/text>");
@@ -581,8 +668,24 @@ namespace queries {
     KEY_ID rev_hasReview = diplo::KM.Get("<http://purl.org/stuff/rev#hasReview>");
     KEY_ID rev_title = diplo::KM.Get("<http://purl.org/stuff/rev#title>");
     KEY_ID rev_reviewer = diplo::KM.Get("<http://purl.org/stuff/rev#reviewer>");
+    
+    // (?v0 sorg:caption ?v1)
+    unordered_set<KEY_ID> results_v0_1;
+    vector<unordered_set<KEY_ID>> prov_v0_1;
+    API::GetSubjects(0, sorg_caption, results_v0_1, prov_v0_1);
 
     // (?v0 sorg:caption ?v1)
+    unordered_set<KEY_ID> results_v1_1;
+    unordered_set<KEY_ID> prov_v1_1;
+    API::GetObjects(-1, sorg_caption, results_v1_1, prov_v1_1);
+
+    // (?v0 sorg:caption ?v1)
+    unordered_multimap<KEY_ID,KEY_ID> results_v0_3;
+    API::GetSubjects(-1, sorg_caption, results_v0_3);
+
+    if (results_v0_3.empty())
+      cout << "empty" << endl;
+    
     // (?v0 sorg:text ?v2)
     // (?v0 sorg:contentRating ?v3)
     // (?v0 rev:hasReview ?v4)
@@ -590,26 +693,14 @@ namespace queries {
     // (?v4 rev:reviewer ?v6)
     // (?v7 sorg:actor ?v6)
     // (?v7 sorg:language ?v8)
-    
-    // Variables that are in constraints
-    vector<TripleIDs> constrains;
 
-    // Variables that are in projections
-    vector<TripleIDs> projections;
-    constrains.push_back(TripleIDs(0,sorg_caption,0,0));
-    constrains.push_back(TripleIDs(0,sorg_text,0,0));
-    constrains.push_back(TripleIDs(0,sorg_contentRating,0,0));
+    for (auto v0: results_v0_1)
+      results.push_back({v0});
 
-    // The evaluation records the output as results and provenance
-    vector<vector<unordered_set<KEY_ID>>> results;
-    vector<vector<unordered_set<KEY_ID>>> prov;
+    for (auto v1: results_v1_1)
+      results.push_back({v1});
 
-    // Evaluate the pattern
-    API::TriplePatern(constrains, projections, results, prov);
-    API::PostFiltering(prov, results);
-    
-    API::DrisplayResults(results);
-    API::DrisplayProvenance(prov);
+    printResults(results);
   }
 
   void WatDivprov::runthemall() {
@@ -687,6 +778,14 @@ namespace queries {
     // diplo::elementsChecked = 0;
     // diplo::elementsRetrieved = 0;
     // f1();
+
+    // cout << "---------------------f2---------------------" << endl;
+    // diplo::moleculesCounter = 0;
+    // diplo::ProvFilterCounter = 0;
+    // diplo::ProvFilterCH = false;
+    // diplo::elementsChecked = 0;
+    // diplo::elementsRetrieved = 0;
+    // f2();
   }
 
   void WatDivprov::benchmark() {
@@ -759,13 +858,21 @@ namespace queries {
       cout << "Runtime round " << i << " template s7: " << time << endl;
       sleep(diplo::pause_int);
 
-      // cout << "--------------------- ROUND: " << i << "---------------------" << endl;
-      // diplo::stopwatch_start();
-      // f1();
-      // time = diplo::stopwatch_get();
-      // times4exel[0].push_back(time);
-      // cout << "Runtime round " << i << " template f1: " << time << endl;
-      // sleep(diplo::pause_int);
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      f1();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template f1: " << time << endl;
+      sleep(diplo::pause_int);
+
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      f2();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template f2: " << time << endl;
+      sleep(diplo::pause_int);
     }
 
     // printing for exel
