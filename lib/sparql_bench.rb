@@ -3,6 +3,7 @@ require 'csv'
 require 'benchmark'
 require 'erb'
 require 'net/http'
+require 'typhoeus'
 
 include ERB::Util
 
@@ -62,6 +63,15 @@ class Endpoint
 
   def bench_query(file)
     url = "#{endpoint_url}?query=#{encoded_query_from_file(file)}"
+    resp = nil
+    time = Benchmark.measure do
+      resp = Typhoeus.get(url)
+    end
+    [time.real, resp.code]
+  end
+
+  def nethttp_bench_query(file)
+    url = "#{endpoint_url}?query=#{encoded_query_from_file(file)}"
     result = []
     begin
       resp = nil
@@ -72,7 +82,7 @@ class Endpoint
     rescue RuntimeError => e
       result = [300, 100]
     end
-    puts resp.body
+    #puts resp.body
     result
   end
 
@@ -195,6 +205,12 @@ class LXDVirtuosoRAMEndpoint < Endpoint
     sleep 5
     system "lxc exec #{@container} -- umount #{@virtuoso_ram}"
     super
+  end
+end
+
+class LXDVirtuosoRAMTyphoEndpoint < LXDVirtuosoRAMEndpoint
+  def name
+    'virtuoso-typ'
   end
 end
 
