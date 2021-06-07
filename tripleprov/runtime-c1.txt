@@ -1,0 +1,5 @@
+Runtime round 0 template c1: 959.337994
+Runtime round 1 template c1: 965.488675
+Runtime round 2 template c1: 968.085846
+Runtime round 3 template c1: 966.866479
+Runtime round 4 template c1: 954.480214
