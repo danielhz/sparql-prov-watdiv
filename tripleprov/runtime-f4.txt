@@ -1,0 +1,5 @@
+Runtime round 0 template f4: 384.127632
+Runtime round 1 template f4: 359.873792
+Runtime round 2 template f4: 365.234325
+Runtime round 3 template f4: 341.414163
+Runtime round 4 template f4: 336.444766
