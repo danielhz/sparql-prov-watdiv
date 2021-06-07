@@ -877,14 +877,14 @@ namespace queries {
     PREFIX sorg: <http://schema.org/>
     PREFIX rev: <http://purl.org/stuff/rev#>
     SELECT ?v0 ?v4 ?v6 ?v7 WHERE {
-      ?v0 sorg:caption ?v1 .
-      ?v0 sorg:text ?v2 .
-      ?v0 sorg:contentRating ?v3 .
-      ?v0 rev:hasReview ?v4 .
-      ?v4 rev:title ?v5 .
-      ?v4 rev:reviewer ?v6 .
-      ?v7 sorg:actor ?v6 .
-      ?v7 sorg:language ?v8 .
+      ?v0 sorg:caption ?v1 .         # 25157
+      ?v0 sorg:text ?v2 .            # 74978
+      ?v0 sorg:contentRating ?v3 .   # 13
+      ?v0 rev:hasReview ?v4 .        # 1480510
+      ?v4 rev:title ?v5 .            # 449175
+      ?v4 rev:reviewer ?v6 .         # 308121
+      ?v7 sorg:actor ?v6 .           # 115364
+      ?v7 sorg:language ?v8 .        # 35
     }
   */
   void WatDivprov::c1() {
@@ -892,44 +892,86 @@ namespace queries {
 
     // Create URIs
     KEY_ID sorg_caption = diplo::KM.Get("<http://schema.org/caption>");
-    // KEY_ID sorg_text = diplo::KM.Get("<http://schema.org/text>");
-    // KEY_ID sorg_contentRating = diplo::KM.Get("<http://schema.org/contentRating>");
-    // KEY_ID sorg_actor = diplo::KM.Get("<http://schema.org/actor>");
-    // KEY_ID sorg_language = diplo::KM.Get("<http://schema.org/language>");
-    // KEY_ID rev_hasReview = diplo::KM.Get("<http://purl.org/stuff/rev#hasReview>");
-    // KEY_ID rev_title = diplo::KM.Get("<http://purl.org/stuff/rev#title>");
-    // KEY_ID rev_reviewer = diplo::KM.Get("<http://purl.org/stuff/rev#reviewer>");
+    KEY_ID sorg_text = diplo::KM.Get("<http://schema.org/text>");
+    KEY_ID sorg_contentRating = diplo::KM.Get("<http://schema.org/contentRating>");
+    KEY_ID sorg_actor = diplo::KM.Get("<http://schema.org/actor>");
+    KEY_ID sorg_language = diplo::KM.Get("<http://schema.org/language>");
+    KEY_ID rev_hasReview = diplo::KM.Get("<http://purl.org/stuff/rev#hasReview>");
+    KEY_ID rev_title = diplo::KM.Get("<http://purl.org/stuff/rev#title>");
+    KEY_ID rev_reviewer = diplo::KM.Get("<http://purl.org/stuff/rev#reviewer>");
+
+    const vector<char *> contentRatingValues = {
+      "\"8\"",
+      "\"9\"",
+      "\"6\"", 
+      "\"7\"", 
+      "\"11\"",
+      "\"13\"",
+      "\"16\"",
+      "\"10\"",
+      "\"14\"",
+      "\"18\"",
+      "\"12\"",
+      "\"17\"",
+      "\"15\""};
+
+    for (auto contentRatingValue: contentRatingValues) {
+      KEY_ID v3 = diplo::KM.Get(contentRatingValue);
+
+      // (?v0 sorg:contentRating ?v3)
+      unordered_set<KEY_ID> results_v0;
+      vector<unordered_set<KEY_ID>> prov_v0;
+      API::GetSubjects(v3, sorg_contentRating, results_v0, prov_v0);
+      
+      for (auto v0: results_v0) {
+	// (?v0 sorg:caption ?v1)
+	unordered_set<KEY_ID> results_v1;
+	unordered_set<KEY_ID> prov_v1;
+	API::GetObjects(v0, sorg_caption, results_v1, prov_v1);
     
-    // (?v0 sorg:caption ?v1)
-    unordered_set<KEY_ID> results_v0_1;
-    vector<unordered_set<KEY_ID>> prov_v0_1;
-    API::GetSubjects(0, sorg_caption, results_v0_1, prov_v0_1);
+	// (?v0 sorg:text ?v2)
+	unordered_set<KEY_ID> results_v2;
+	unordered_set<KEY_ID> prov_v2;
+	API::GetObjects(v0, sorg_text, results_v2, prov_v2);
+	
+	// (?v0 rev:hasReview ?v4)
+	unordered_set<KEY_ID> results_v4;
+	unordered_set<KEY_ID> prov_v4;
+	API::GetObjects(v0, rev_hasReview, results_v4, prov_v4);
 
-    // (?v0 sorg:caption ?v1)
-    unordered_set<KEY_ID> results_v1_1;
-    unordered_set<KEY_ID> prov_v1_1;
-    API::GetObjects(-1, sorg_caption, results_v1_1, prov_v1_1);
+	for (auto v4: results_v4) {
+	  // (?v4 rev:title ?v5)
+	  unordered_set<KEY_ID> results_v5;
+	  unordered_set<KEY_ID> prov_v5;
+	  API::GetObjects(v4, rev_title, results_v5, prov_v5);
+	
+	  // (?v4 rev:reviewer ?v6)
+	  unordered_set<KEY_ID> results_v6;
+	  unordered_set<KEY_ID> prov_v6;
+	  API::GetObjects(v4, rev_reviewer, results_v6, prov_v6);
 
-    // (?v0 sorg:caption ?v1)
-    unordered_multimap<KEY_ID,KEY_ID> results_v0_3;
-    API::GetSubjects(-1, sorg_caption, results_v0_3);
+	  for (auto v6: results_v6) {
+	    // (?v7 sorg:actor ?v6)
+	    unordered_set<KEY_ID> results_v7;
+	    vector<unordered_set<KEY_ID>> prov_v7;
+	    API::GetSubjects(v6, sorg_actor, results_v7, prov_v7);
 
-    if (results_v0_3.empty())
-      cout << "empty" << endl;
-    
-    // (?v0 sorg:text ?v2)
-    // (?v0 sorg:contentRating ?v3)
-    // (?v0 rev:hasReview ?v4)
-    // (?v4 rev:title ?v5)
-    // (?v4 rev:reviewer ?v6)
-    // (?v7 sorg:actor ?v6)
-    // (?v7 sorg:language ?v8)
-
-    for (auto v0: results_v0_1)
-      results.push_back({v0});
-
-    for (auto v1: results_v1_1)
-      results.push_back({v1});
+	    for (auto v7: results_v7) {
+	      // (?v7 sorg:language ?v8)
+	      unordered_set<KEY_ID> results_v8;
+	      unordered_set<KEY_ID> prov_v8;
+	      API::GetObjects(v7, sorg_language, results_v8, prov_v8);
+	      
+	      for (auto v1: results_v1)
+		for (auto v2: results_v2)
+		  for (auto v5: results_v5)
+		    for (auto v8: results_v8)
+		      results.push_back({v0, v1, v2, v3, v4, v5, v6, v7, v8});
+	    }
+	  }
+	}
+      }
+    }
 
     printResults(results);
   }
@@ -1044,13 +1086,13 @@ namespace queries {
 #ifdef SHOW_STATS
     queriesStart << "#r\t#m\t#mf\t#prov\t#im\t#imf\t#i\t#ec\t#er" <<endl;
 #endif
-    // cout << "---------------------c1---------------------" << endl;
-    // diplo::moleculesCounter = 0;
-    // diplo::ProvFilterCounter = 0;
-    // diplo::ProvFilterCH = false;
-    // diplo::elementsChecked = 0;
-    // diplo::elementsRetrieved = 0;
-    // c1();
+    cout << "---------------------c1---------------------" << endl;
+    diplo::moleculesCounter = 0;
+    diplo::ProvFilterCounter = 0;
+    diplo::ProvFilterCH = false;
+    diplo::elementsChecked = 0;
+    diplo::elementsRetrieved = 0;
+    c1();
 
     // cout << "---------------------c2---------------------" << endl;
     // diplo::moleculesCounter = 0;
