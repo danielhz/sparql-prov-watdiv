@@ -1,6 +1,10 @@
 require 'net/ssh'
 require 'csv'
 require 'benchmark'
+require 'erb'
+require 'net/http'
+
+include ERB::Util
 
 class Endpoint
   def initialize(container, timeout = 3000)
@@ -39,7 +43,40 @@ class Endpoint
      `#{cmd}`
   end
 
+  def http_connection
+    if @http.nil?
+      @http = Net::HTTP.new(URI.parse(endpoint_url).host, URI.parse(endpoint_url).port)
+      @http.open_timeout = 60
+      @http.read_timeout = @timeout.to_i
+    end
+    @http
+  end
+
+  def encoded_query_from_file(file)
+    query = ''
+    File.new(file).each_line do |line|
+      query << line unless /^#/ === line
+    end
+    url_encode(query)
+  end
+
   def bench_query(file)
+    url = "#{endpoint_url}?query=#{encoded_query_from_file(file)}"
+    result = []
+    begin
+      resp = nil
+      time = Benchmark.measure do
+        resp = http_connection.get(URI(url), {'Accept'=>'text/csv'})
+      end
+      result = [time.real, resp.code, resp.body]
+    rescue RuntimeError => e
+      result = [300, 100]
+    end
+    puts resp.body
+    result
+  end
+
+  def curl_bench_query(file)
     result = []
     cmd = "curl -s -o /dev/null -w \"%{http_code}\" -m #{@timeout} " +
           "--data-urlencode \"query=$(cat #{file})\" " +
@@ -111,6 +148,56 @@ class LXDVirtuosoEndpoint < Endpoint
   end
 end
 
+class LXDVirtuosoRAMEndpoint < Endpoint
+  def initialize(container, timeout = 300)
+    super(container, timeout)
+    @user = 'debian'
+  end
+
+  def name
+    'virtuoso-ram'
+  end
+  
+  def endpoint_url
+    "http://#{container_ip}:8890/sparql/"
+  end
+
+  def service_start
+    puts "Creating RAM disk"
+    @virtuoso = '/home/debian/virtuoso-7.2.5.1_disk'
+    @virtuoso_ram = '/home/debian/virtuoso-7.2.5.1'
+    @virtuoso_ram_db = "#{@virtuoso_ram}/var/lib/virtuoso/db"
+    system "lxc exec #{@container} -- mkdir -p #{@virtuoso_ram}"
+    system "lxc exec #{@container} -- chown debian:debian #{@virtuoso_ram}"
+    system "lxc exec #{@container} -- mount -t tmpfs -o size=80g virtuoso_ram_disk #{@virtuoso_ram}"
+    system "lxc exec #{@container} -- chown debian:debian #{@virtuoso_ram}"
+    puts "Copying files to the RAM disk"
+    time_0 = Time.now
+    system "lxc exec #{@container} -- su - #{@user} -c " +
+           "'cp -r #{@virtuoso}/* #{@virtuoso_ram}/'"
+    puts "Copying data to the RAM disks lasted #{Time.now - time_0} seconds"
+    puts "Starting service"
+    system "lxc exec #{@container} -- su - #{@user} -c " +
+           "'cd #{@virtuoso_ram_db} && #{@virtuoso_ram}/bin/virtuoso-t'"
+
+    loop do
+      sleep 1
+      output = `lxc exec #{@container} -- netstat -tl | grep ':8890 '`
+      break if output != ''
+    end
+    puts "Service started"
+  end
+
+  def stop
+    puts 'Stoping service'
+    system "lxc exec #{@container} -- su - #{@user} -c " +
+           "\"#{@virtuoso_ram}/bin/isql 'EXEC=shutdown()'\""
+    sleep 5
+    system "lxc exec #{@container} -- umount #{@virtuoso_ram}"
+    super
+  end
+end
+
 def watdiv_bench(endpoint, size, template, scheme, mode, times = 5)
   puts "Starting workload #{[endpoint, size, template, scheme, mode].join('-')}"
   
@@ -126,7 +213,7 @@ def watdiv_bench(endpoint, size, template, scheme, mode, times = 5)
     end
   end
 
-  results = "results/#{endpoint.name}-#{size}-#{template}-#{scheme}-#{mode}.csv"
+  results = "results/#{endpoint.name.sub('-', '')}-#{size}-#{template}-#{scheme}-#{mode}.csv"
   CSV.open(results, 'w') do |csv|
     csv << %w{engine size template scheme mode query_id repetition time status}
     (1..times).each do |repetition|
