@@ -900,7 +900,7 @@ namespace queries {
     KEY_ID rev_title = diplo::KM.Get("<http://purl.org/stuff/rev#title>");
     KEY_ID rev_reviewer = diplo::KM.Get("<http://purl.org/stuff/rev#reviewer>");
 
-    const vector<char *> contentRatingValues = {
+    const vector<const char *> contentRatingValues = {
       "\"8\"",
       "\"9\"",
       "\"6\"", 
