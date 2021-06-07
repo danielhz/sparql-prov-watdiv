@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso-ram,100M,C1,namedgraphs,P,00,1,2.8277851063758135,200
+virtuoso-ram,100M,C1,namedgraphs,P,00,2,0.41448101215064526,200
+virtuoso-ram,100M,C1,namedgraphs,P,00,3,0.41507075913250446,200
+virtuoso-ram,100M,C1,namedgraphs,P,00,4,0.41427500545978546,200
+virtuoso-ram,100M,C1,namedgraphs,P,00,5,0.4149553254246712,200
