@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso-curl,100M,S3,namedgraphs,P,00,1,0.353075,200
+virtuoso-curl,100M,S3,namedgraphs,P,00,2,0.353051,200
+virtuoso-curl,100M,S3,namedgraphs,P,00,3,0.352913,200
+virtuoso-curl,100M,S3,namedgraphs,P,00,4,0.439772,200
+virtuoso-curl,100M,S3,namedgraphs,P,00,5,0.364602,200
