@@ -87,6 +87,7 @@ class Endpoint
   end
 
   def bench_query(file)
+    sleep 0.5
     cmd = "curl -s -o /dev/null -w \"%{time_total}:%{http_code}\" -m #{@timeout} " +
           "--data-urlencode \"query=$(cat #{file})\" " +
           "-H \"Accept: text/csv\" #{endpoint_url}"

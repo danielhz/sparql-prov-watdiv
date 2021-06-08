@@ -1,7 +1,7 @@
 bench_dependencies = []
 
-#%w{fuseki virtuoso virtuosoram}.each do |engine|
-%w{virtuosotyp}.each do |engine|
+#%w{fuseki virtuoso virtuosoram virtuosotyp}.each do |engine|
+%w{virtuosocurl}.each do |engine|
   %w{100M}.each do |size|
     %w{C1 C2 C3 F1 F2 F3 F4 F5 L1 L2 L3 L4 L5 S1 S2 S3 S4 S5 S6 S7}.each do |template|
       # %w{namedgraphs rdf wikidata}.each do |scheme|
@@ -20,6 +20,8 @@ bench_dependencies = []
               endpoint = LXDVirtuosoRAMEndpoint.new("watdiv-#{size}-#{scheme}-virtuoso7-debian9")
             when 'virtuosotyp'
               endpoint = LXDVirtuosoRAMTyphoEndpoint.new("watdiv-#{size}-#{scheme}-virtuoso7-debian9")
+            when 'virtuosocurl'
+              endpoint = LXDVirtuosoRAMCurlEndpoint.new("watdiv-#{size}-#{scheme}-virtuoso7-debian9")
             end
             watdiv_bench(endpoint, size, template, scheme, mode)
           end
