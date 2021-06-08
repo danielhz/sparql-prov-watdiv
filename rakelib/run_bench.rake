@@ -22,6 +22,8 @@ bench_dependencies = []
               endpoint = LXDVirtuosoRAMTyphoEndpoint.new("watdiv-#{size}-#{scheme}-virtuoso7-debian9")
             when 'virtuosocurl'
               endpoint = LXDVirtuosoRAMCurlEndpoint.new("watdiv-#{size}-#{scheme}-virtuoso7-debian9")
+            when 'virtuososocket'
+              endpoint = LXDVirtuosoRAMSocketEndpoint.new("watdiv-#{size}-#{scheme}-virtuoso7-debian9")
             end
             watdiv_bench(endpoint, size, template, scheme, mode)
           end

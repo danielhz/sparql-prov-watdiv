@@ -161,6 +161,9 @@ class LXDVirtuosoRAMEndpoint < Endpoint
   def initialize(container, timeout = 300)
     super(container, timeout)
     @user = 'debian'
+    @virtuoso = '/home/debian/virtuoso-7.2.5.1_disk'
+    @virtuoso_ram = '/home/debian/virtuoso-7.2.5.1'
+    @virtuoso_ram_db = "#{@virtuoso_ram}/var/lib/virtuoso/db"
   end
 
   def name
@@ -173,12 +176,9 @@ class LXDVirtuosoRAMEndpoint < Endpoint
 
   def service_start
     puts "Creating RAM disk"
-    @virtuoso = '/home/debian/virtuoso-7.2.5.1_disk'
-    @virtuoso_ram = '/home/debian/virtuoso-7.2.5.1'
-    @virtuoso_ram_db = "#{@virtuoso_ram}/var/lib/virtuoso/db"
     system "lxc exec #{@container} -- mkdir -p #{@virtuoso_ram}"
     system "lxc exec #{@container} -- chown debian:debian #{@virtuoso_ram}"
-    system "lxc exec #{@container} -- mount -t tmpfs -o size=80g virtuoso_ram_disk #{@virtuoso_ram}"
+    system "lxc exec #{@container} -- mount -t tmpfs -o size=16g virtuoso_ram_disk #{@virtuoso_ram}"
     system "lxc exec #{@container} -- chown debian:debian #{@virtuoso_ram}"
     puts "Copying files to the RAM disk"
     time_0 = Time.now
@@ -216,6 +216,32 @@ end
 class LXDVirtuosoRAMCurlEndpoint < LXDVirtuosoRAMEndpoint
   def name
     'virtuoso-curl'
+  end
+end
+
+class LXDVirtuosoRAMSocketEndpoint < LXDVirtuosoRAMEndpoint
+  def name
+    'virtuoso-socket'
+  end
+
+  def query_from_file(file)
+    query = ''
+    File.new(file).each_line do |line|
+      query << "#{line.strip} " unless /^#/ === line
+    end
+    query.strip
+  end
+  
+  def bench_query(file)
+    sleep 0.1
+    query = query_from_file(file)
+    File.open('/tmp/query.sparql', 'w') do |query_file|
+      puts "SPARQL #{query};"
+      query_file << "SPARQL #{query};"
+    end
+    system "lxc file push /tmp/query.sparql #{@container}#{@virtuoso_ram}/query.sparql"
+    cmd = "lxc exec #{@container} -- bash -c \"cat #{@virtuoso_ram}/query.sparql | #{@virtuoso_ram}/bin/isql | grep 'msec.$'\""
+    [`#{cmd}`.split(' ')[3].to_f / 1000, 200]
   end
 end
 
