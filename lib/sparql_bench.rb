@@ -61,7 +61,7 @@ class Endpoint
     url_encode(query)
   end
 
-  def bench_query(file)
+  def typhoeus_bench_query(file)
     url = "#{endpoint_url}?query=#{encoded_query_from_file(file)}"
     resp = nil
     time = Benchmark.measure do
@@ -86,13 +86,11 @@ class Endpoint
     result
   end
 
-  def curl_bench_query(file)
-    result = []
-    cmd = "curl -s -o /dev/null -w \"%{http_code}\" -m #{@timeout} " +
+  def bench_query(file)
+    cmd = "curl -s -o /dev/null -w \"%{time_total}:%{http_code}\" -m #{@timeout} " +
           "--data-urlencode \"query=$(cat #{file})\" " +
           "-H \"Accept: text/csv\" #{endpoint_url}"
-    time = Benchmark.measure { result << `#{cmd}` }
-    [[time.real, 300].min] + result
+    `#{cmd}`.split(':')
   end
 end
 
@@ -211,6 +209,12 @@ end
 class LXDVirtuosoRAMTyphoEndpoint < LXDVirtuosoRAMEndpoint
   def name
     'virtuoso-typ'
+  end
+end
+
+class LXDVirtuosoRAMCurlEndpoint < LXDVirtuosoRAMEndpoint
+  def name
+    'virtuoso-curl'
   end
 end
 

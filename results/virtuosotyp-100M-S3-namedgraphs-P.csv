@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso-typ,100M,S3,namedgraphs,P,00,1,0.4626743420958519,200
+virtuoso-typ,100M,S3,namedgraphs,P,00,2,0.45338573679327965,200
+virtuoso-typ,100M,S3,namedgraphs,P,00,3,0.4733873065561056,200
+virtuoso-typ,100M,S3,namedgraphs,P,00,4,0.4428380560129881,200
+virtuoso-typ,100M,S3,namedgraphs,P,00,5,0.4412020519375801,200
