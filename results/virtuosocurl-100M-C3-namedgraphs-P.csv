@@ -1,6 +1,6 @@
 engine,size,template,scheme,mode,query_id,repetition,time,status
-virtuoso-curl,100M,C3,namedgraphs,P,00,1,156.426954,200
-virtuoso-curl,100M,C3,namedgraphs,P,00,2,156.434282,200
-virtuoso-curl,100M,C3,namedgraphs,P,00,3,156.332055,200
-virtuoso-curl,100M,C3,namedgraphs,P,00,4,156.366065,200
-virtuoso-curl,100M,C3,namedgraphs,P,00,5,158.499804,200
+virtuoso-curl,100M,C3,namedgraphs,P,00,1,139.226997,200
+virtuoso-curl,100M,C3,namedgraphs,P,00,2,139.185423,200
+virtuoso-curl,100M,C3,namedgraphs,P,00,3,138.837308,200
+virtuoso-curl,100M,C3,namedgraphs,P,00,4,139.382122,200
+virtuoso-curl,100M,C3,namedgraphs,P,00,5,140.049607,200
