@@ -12,9 +12,6 @@ PREFIX rdfp: <http://example.org/p/www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfps: <http://example.org/ps/www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT ?v0
 WHERE {
-  ?v0 rdfp:type ?sum_product_1_source .
-  ?sum_product_1_source rdfps:type wsdbm:Role0 .
-
   ?v0 wsdbmp:likes ?sum_product_2_source .
   ?sum_product_2_source wsdbmps:likes ?v1 .
 

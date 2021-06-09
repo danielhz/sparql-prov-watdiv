@@ -14,28 +14,25 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT ?v0
   ?sum
   ?sum_product ?sum_product_1_source ?sum_product_2_source ?sum_product_3_source
-  ?sum_product_4_source ?sum_product_5_source ?sum_product_6_source ?sum_product_7_source
+  ?sum_product_4_source ?sum_product_5_source ?sum_product_6_source
 WHERE {
-  ?v0 rdfp:type ?sum_product_1_source .
-  ?sum_product_1_source rdfps:type wsdbm:Role0 .
+  ?v0 wsdbmp:likes ?sum_product_1_source .
+  ?sum_product_1_source wsdbmps:likes ?v1 .
 
-  ?v0 wsdbmp:likes ?sum_product_2_source .
-  ?sum_product_2_source wsdbmps:likes ?v1 .
+  ?v0 wsdbmp:friendOf ?sum_product_2_source .
+  ?sum_product_2_source wsdbmps:friendOf ?v2 .
 
-  ?v0 wsdbmp:friendOf ?sum_product_3_source .
-  ?sum_product_3_source wsdbmps:friendOf ?v2 .
+  ?v0 dcp:Location ?sum_product_3_source .
+  ?sum_product_3_source dcps:Location ?v3 .
 
-  ?v0 dcp:Location ?sum_product_4_source .
-  ?sum_product_4_source dcps:Location ?v3 .
+  ?v0 foafp:age ?sum_product_4_source .
+  ?sum_product_4_source foafps:age ?v4 .
 
-  ?v0 foafp:age ?sum_product_5_source .
-  ?sum_product_5_source foafps:age ?v4 .
+  ?v0 wsdbmp:gender ?sum_product_5_source .
+  ?sum_product_5_source wsdbmps:gender ?v5 .
 
-  ?v0 wsdbmp:gender ?sum_product_6_source .
-  ?sum_product_6_source wsdbmps:gender ?v5 .
-
-  ?v0 foafp:givenName ?sum_product_7_source .
-  ?sum_product_7_source foafps:givenName ?v6 .
+  ?v0 foafp:givenName ?sum_product_6_source .
+  ?sum_product_6_source foafps:givenName ?v6 .
   
   BIND (
         URI(CONCAT("http://example.org/sum_product/",
@@ -44,8 +41,7 @@ WHERE {
                    "&s_3=", ENCODE_FOR_URI(xsd:string(?v2)),
                    "&s_4=", ENCODE_FOR_URI(xsd:string(?v3)),
                    "&s_5=", ENCODE_FOR_URI(xsd:string(?v4)),
-                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v5)),
-                   "&s_7=", ENCODE_FOR_URI(xsd:string(?v6))))
+                   "&s_6=", ENCODE_FOR_URI(xsd:string(?v5))))
         AS ?sum_product )
   BIND (
     URI(CONCAT("http://example.org/sum/",
