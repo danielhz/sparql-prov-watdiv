@@ -29,6 +29,7 @@ namespace queries {
     void TPDemo();
     void c1();
     void c2();
+    void c3();
     void l1();
     void l2();
     void l4();

@@ -977,6 +977,83 @@ namespace queries {
   }
 
   /**
+   * PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+   * PREFIX dc: <http://purl.org/dc/terms/>
+   * PREFIX foaf: <http://xmlns.com/foaf/>
+   * PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+   * SELECT ?v0
+   * WHERE {
+   *   ?v0 wsdbm:likes ?v1 .     # 236844
+   *   ?v0 wsdbm:friendOf ?v2 .  # 1000000 
+   *   ?v0 dc:Location ?v3 .     # 240
+   *   ?v0 foaf:age ?v4 .        # 9
+   *   ?v0 wsdbm:gender ?v5 .    # 2
+   *   ?v0 foaf:givenName ?v6 .  # 1780
+   * }
+   */
+  void WatDivprov::c3() {
+    vector<vector<KEY_ID>> results;
+
+    KEY_ID wsdbm_gender = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/gender>");
+    KEY_ID wsdbm_likes = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/likes>");
+    KEY_ID wsdbm_friendOf = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/friendOf>");
+    KEY_ID dc_Location = diplo::KM.Get("<http://purl.org/dc/terms/Location>");
+    KEY_ID foaf_age = diplo::KM.Get("<http://xmlns.com/foaf/age>");
+    KEY_ID foaf_givenName = diplo::KM.Get("<http://xmlns.com/foaf/givenName>");
+
+    const vector<const char *> genderValues = {
+      "<http://db.uwaterloo.ca/galuc/wsdbm/Gender0>",
+      "<http://db.uwaterloo.ca/galuc/wsdbm/Gender1>"
+    };
+
+    for (auto genderValue: genderValues) {
+      KEY_ID v5 = diplo::KM.Get(genderValue);
+      
+      // ?v0 wsdbm:gender ?v5 .    # 2
+      unordered_set<KEY_ID> results_v0;
+      vector<unordered_set<KEY_ID>> prov_v0;
+      API::GetSubjects(v5, wsdbm_gender, results_v0, prov_v0);
+
+      for (auto v0: results_v0) {
+	// ?v0 wsdbm:likes ?v1 .     # 236844
+	unordered_set<KEY_ID> results_v1;
+	unordered_set<KEY_ID> prov_v1;
+	API::GetObjects(v0, wsdbm_likes, results_v1, prov_v1);
+	
+	// ?v0 wsdbm:friendOf ?v2 .  # 1000000
+	unordered_set<KEY_ID> results_v2;
+	unordered_set<KEY_ID> prov_v2;
+	API::GetObjects(v0, wsdbm_friendOf, results_v2, prov_v2);
+	
+	// ?v0 dc:Location ?v3 .     # 240
+	unordered_set<KEY_ID> results_v3;
+	unordered_set<KEY_ID> prov_v3;
+	API::GetObjects(v0, dc_Location, results_v3, prov_v3);
+	
+	// ?v0 foaf:age ?v4 .        # 9
+	unordered_set<KEY_ID> results_v4;
+	unordered_set<KEY_ID> prov_v4;
+	API::GetObjects(v0, foaf_age, results_v4, prov_v4);
+	
+	// ?v0 foaf:givenName ?v6 .  # 1780
+	unordered_set<KEY_ID> results_v6;
+	unordered_set<KEY_ID> prov_v6;
+	API::GetObjects(v0, foaf_givenName, results_v6, prov_v6);
+	
+	for (auto v1: results_v1)
+	  for (auto v2: results_v2)
+	    for (auto v3: results_v3)
+	      for (auto v4: results_v4)
+		for (auto v6: results_v6)
+		  results.push_back({v0, v1, v2, v3, v4, v5, v6});
+      }
+    }
+    
+    printResults(results);
+  }
+
+
+  /**
    * PREFIX sorg: <http://schema.org/>
    * PREFIX rev: <http://purl.org/stuff/rev#>
    * PREFIX gr: <http://purl.org/goodrelations/>
@@ -1086,13 +1163,13 @@ namespace queries {
 #ifdef SHOW_STATS
     queriesStart << "#r\t#m\t#mf\t#prov\t#im\t#imf\t#i\t#ec\t#er" <<endl;
 #endif
-    cout << "---------------------c1---------------------" << endl;
-    diplo::moleculesCounter = 0;
-    diplo::ProvFilterCounter = 0;
-    diplo::ProvFilterCH = false;
-    diplo::elementsChecked = 0;
-    diplo::elementsRetrieved = 0;
-    c1();
+    // cout << "---------------------c1---------------------" << endl;
+    // diplo::moleculesCounter = 0;
+    // diplo::ProvFilterCounter = 0;
+    // diplo::ProvFilterCH = false;
+    // diplo::elementsChecked = 0;
+    // diplo::elementsRetrieved = 0;
+    // c1();
 
     // cout << "---------------------c2---------------------" << endl;
     // diplo::moleculesCounter = 0;
@@ -1101,6 +1178,14 @@ namespace queries {
     // diplo::elementsChecked = 0;
     // diplo::elementsRetrieved = 0;
     // c2();
+
+    cout << "---------------------c3---------------------" << endl;
+    diplo::moleculesCounter = 0;
+    diplo::ProvFilterCounter = 0;
+    diplo::ProvFilterCH = false;
+    diplo::elementsChecked = 0;
+    diplo::elementsRetrieved = 0;
+    c3();
 
     // cout << "---------------------l1---------------------" << endl;
     // diplo::moleculesCounter = 0;
@@ -1205,13 +1290,13 @@ namespace queries {
     double time;
     cout << fixed;
     for (int i = 0; i < 5; i++) {
-      // cout << "--------------------- ROUND: " << i << "---------------------" << endl;
-      // diplo::stopwatch_start();
-      // c1();
-      // time = diplo::stopwatch_get();
-      // times4exel[0].push_back(time);
-      // cout << "Runtime round " << i << " template c1: " << time << endl;
-      // sleep(diplo::pause_int);
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      c1();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template c1: " << time << endl;
+      sleep(diplo::pause_int);
 
       cout << "--------------------- ROUND: " << i << "---------------------" << endl;
       diplo::stopwatch_start();
@@ -1219,6 +1304,14 @@ namespace queries {
       time = diplo::stopwatch_get();
       times4exel[0].push_back(time);
       cout << "Runtime round " << i << " template c2: " << time << endl;
+      sleep(diplo::pause_int);
+
+      cout << "--------------------- ROUND: " << i << "---------------------" << endl;
+      diplo::stopwatch_start();
+      c3();
+      time = diplo::stopwatch_get();
+      times4exel[0].push_back(time);
+      cout << "Runtime round " << i << " template c3: " << time << endl;
       sleep(diplo::pause_int);
 
       cout << "--------------------- ROUND: " << i << "---------------------" << endl;
