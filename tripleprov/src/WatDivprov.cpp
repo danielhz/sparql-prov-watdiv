@@ -992,7 +992,14 @@ namespace queries {
    * }
    */
   void WatDivprov::c3() {
-    vector<vector<KEY_ID>> results;
+    vector<vector<vector<unordered_set<KEY_ID>>>> results = {
+      vector<vector<unordered_set<KEY_ID>>>(),
+      vector<vector<unordered_set<KEY_ID>>>()
+    };
+    vector<vector<vector<unordered_set<KEY_ID>>>> prov = {
+      vector<vector<unordered_set<KEY_ID>>>(),
+      vector<vector<unordered_set<KEY_ID>>>()
+    };
 
     KEY_ID wsdbm_gender = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/gender>");
     KEY_ID wsdbm_likes = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/likes>");
@@ -1006,51 +1013,87 @@ namespace queries {
       "<http://db.uwaterloo.ca/galuc/wsdbm/Gender1>"
     };
 
-    for (auto genderValue: genderValues) {
-      KEY_ID v5 = diplo::KM.Get(genderValue);
-      
-      // ?v0 wsdbm:gender ?v5 .    # 2
-      unordered_set<KEY_ID> results_v0;
-      vector<unordered_set<KEY_ID>> prov_v0;
-      API::GetSubjects(v5, wsdbm_gender, results_v0, prov_v0);
+    for (int i: {0, 1}) {
+      KEY_ID v5 = diplo::KM.Get(genderValues[i]);
 
-      for (auto v0: results_v0) {
-	// ?v0 wsdbm:likes ?v1 .     # 236844
-	unordered_set<KEY_ID> results_v1;
-	unordered_set<KEY_ID> prov_v1;
-	API::GetObjects(v0, wsdbm_likes, results_v1, prov_v1);
-	
-	// ?v0 wsdbm:friendOf ?v2 .  # 1000000
-	unordered_set<KEY_ID> results_v2;
-	unordered_set<KEY_ID> prov_v2;
-	API::GetObjects(v0, wsdbm_friendOf, results_v2, prov_v2);
-	
-	// ?v0 dc:Location ?v3 .     # 240
-	unordered_set<KEY_ID> results_v3;
-	unordered_set<KEY_ID> prov_v3;
-	API::GetObjects(v0, dc_Location, results_v3, prov_v3);
-	
-	// ?v0 foaf:age ?v4 .        # 9
-	unordered_set<KEY_ID> results_v4;
-	unordered_set<KEY_ID> prov_v4;
-	API::GetObjects(v0, foaf_age, results_v4, prov_v4);
-	
-	// ?v0 foaf:givenName ?v6 .  # 1780
-	unordered_set<KEY_ID> results_v6;
-	unordered_set<KEY_ID> prov_v6;
-	API::GetObjects(v0, foaf_givenName, results_v6, prov_v6);
-	
-	for (auto v1: results_v1)
-	  for (auto v2: results_v2)
-	    for (auto v3: results_v3)
-	      for (auto v4: results_v4)
-		for (auto v6: results_v6)
-		  results.push_back({v0, v1, v2, v3, v4, v5, v6});
-      }
+      vector<TripleIDs> constraints;
+      vector<TripleIDs> projections;
+
+      constraints.push_back(TripleIDs(0, wsdbm_gender, v5, 0));
+      projections.push_back(TripleIDs(0, wsdbm_likes, 0, 0));
+      projections.push_back(TripleIDs(0, wsdbm_friendOf, 0, 0));
+      projections.push_back(TripleIDs(0, dc_Location, 0, 0));
+      projections.push_back(TripleIDs(0, foaf_age, 0, 0));
+      projections.push_back(TripleIDs(0, foaf_givenName, 0, 0));
+
+      API::TriplePatern(constraints, projections, results[i], prov[i]);
+
+      API::DrisplayResults(results[i]);
+      API::DrisplayProvenance(prov[i]);
     }
-    
-    printResults(results);
   }
+
+  
+  // void WatDivprov::c3() {
+  //   vector<vector<KEY_ID>> results;
+
+  //   KEY_ID wsdbm_gender = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/gender>");
+  //   KEY_ID wsdbm_likes = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/likes>");
+  //   KEY_ID wsdbm_friendOf = diplo::KM.Get("<http://db.uwaterloo.ca/galuc/wsdbm/friendOf>");
+  //   KEY_ID dc_Location = diplo::KM.Get("<http://purl.org/dc/terms/Location>");
+  //   KEY_ID foaf_age = diplo::KM.Get("<http://xmlns.com/foaf/age>");
+  //   KEY_ID foaf_givenName = diplo::KM.Get("<http://xmlns.com/foaf/givenName>");
+
+  //   const vector<const char *> genderValues = {
+  //     "<http://db.uwaterloo.ca/galuc/wsdbm/Gender0>",
+  //     "<http://db.uwaterloo.ca/galuc/wsdbm/Gender1>"
+  //   };
+
+  //   for (auto genderValue: genderValues) {
+  //     KEY_ID v5 = diplo::KM.Get(genderValue);
+      
+  //     // ?v0 wsdbm:gender ?v5 .    # 2
+  //     unordered_set<KEY_ID> results_v0;
+  //     vector<unordered_set<KEY_ID>> prov_v0;
+  //     API::GetSubjects(v5, wsdbm_gender, results_v0, prov_v0);
+
+  //     for (auto v0: results_v0) {
+  // 	// ?v0 wsdbm:likes ?v1 .     # 236844
+  // 	unordered_set<KEY_ID> results_v1;
+  // 	unordered_set<KEY_ID> prov_v1;
+  // 	API::GetObjects(v0, wsdbm_likes, results_v1, prov_v1);
+	
+  // 	// ?v0 wsdbm:friendOf ?v2 .  # 1000000
+  // 	unordered_set<KEY_ID> results_v2;
+  // 	unordered_set<KEY_ID> prov_v2;
+  // 	API::GetObjects(v0, wsdbm_friendOf, results_v2, prov_v2);
+	
+  // 	// ?v0 dc:Location ?v3 .     # 240
+  // 	unordered_set<KEY_ID> results_v3;
+  // 	unordered_set<KEY_ID> prov_v3;
+  // 	API::GetObjects(v0, dc_Location, results_v3, prov_v3);
+	
+  // 	// ?v0 foaf:age ?v4 .        # 9
+  // 	unordered_set<KEY_ID> results_v4;
+  // 	unordered_set<KEY_ID> prov_v4;
+  // 	API::GetObjects(v0, foaf_age, results_v4, prov_v4);
+	
+  // 	// ?v0 foaf:givenName ?v6 .  # 1780
+  // 	unordered_set<KEY_ID> results_v6;
+  // 	unordered_set<KEY_ID> prov_v6;
+  // 	API::GetObjects(v0, foaf_givenName, results_v6, prov_v6);
+	
+  // 	for (auto v1: results_v1)
+  // 	  for (auto v2: results_v2)
+  // 	    for (auto v3: results_v3)
+  // 	      for (auto v4: results_v4)
+  // 		for (auto v6: results_v6)
+  // 		  results.push_back({v0, v1, v2, v3, v4, v5, v6});
+  //     }
+  //   }
+    
+  //   printResults(results);
+  // }
 
 
   /**
