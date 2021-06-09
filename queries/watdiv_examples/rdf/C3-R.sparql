@@ -4,9 +4,6 @@ PREFIX foaf: <http://xmlns.com/foaf/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT ?v0
 WHERE {
-  ?sum_product_1_source rdf:subject ?v0 ;
-                        rdf:predicate rdf:type ;
-			rdf:object wsdbm:Role0 .
   ?sum_product_2_source rdf:subject ?v0 ;
                         rdf:predicate wsdbm:likes ;
 			rdf:object ?v1 .
