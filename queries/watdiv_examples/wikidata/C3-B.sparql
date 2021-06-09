@@ -4,7 +4,6 @@ PREFIX foaf: <http://xmlns.com/foaf/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT ?v0
 WHERE {
-  ?v0  rdf:type wsdbm:Role0 .
   ?v0  wsdbm:likes  ?v1 .
   ?v0  wsdbm:friendOf  ?v2 .
   ?v0  dc:Location  ?v3 .
