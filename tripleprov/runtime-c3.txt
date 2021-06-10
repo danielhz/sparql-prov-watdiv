@@ -1,0 +1,5 @@
+Runtime round 0 template c3: 48.632130
+Runtime round 1 template c3: 50.952245
+Runtime round 2 template c3: 47.291938
+Runtime round 3 template c3: 45.566126
+Runtime round 4 template c3: 45.579947

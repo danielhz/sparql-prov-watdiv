@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'json'
 require 'fileutils'
 require 'pry'
@@ -91,7 +93,11 @@ class SQLGenerator
   end
 
   def select_attributes
-    attributes.to_a.map { |attrs| "#{attrs[1].first} AS #{attrs[0]}" }
+    @query['variables'].map do |var|
+      var_name = var['value']
+      attr_name = attributes[var_name].first
+      "#{attr_name} AS #{var_name}"
+    end
   end
 
   def from_tables
@@ -113,7 +119,7 @@ class SQLGenerator
   end
 end
 
-Dir['queries/100M/*/namedgraphs/B/*.sparql'].sort.each do |query|
+Dir['queries/100M/C3/namedgraphs/B/*.sparql'].sort.each do |query|
   sql = SQLGenerator.new(JSON.parse(`sparqljs #{query}`)).to_s
   outfile_b = query.sub(/.sparql/, '.sql').sub('/namedgraphs/B/', '/vp/B/')
   outfile_p = query.sub(/.sparql/, '.sql').sub('/namedgraphs/B/', '/vp/P/')
