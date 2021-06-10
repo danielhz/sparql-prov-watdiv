@@ -1,6 +1,6 @@
 engine,size,template,scheme,mode,query_id,repetition,time,status
-virtuoso,100M,C3,wikidata,R,00,1,28.428307676978875,200
-virtuoso,100M,C3,wikidata,R,00,2,28.660305257013533,200
-virtuoso,100M,C3,wikidata,R,00,3,29.050759481964633,200
-virtuoso,100M,C3,wikidata,R,00,4,28.912121219036635,200
-virtuoso,100M,C3,wikidata,R,00,5,28.861417821026407,200
+virtuoso,100M,C3,wikidata,R,00,1,16.620301,200
+virtuoso,100M,C3,wikidata,R,00,2,16.600901,200
+virtuoso,100M,C3,wikidata,R,00,3,16.695655,200
+virtuoso,100M,C3,wikidata,R,00,4,16.804188,200
+virtuoso,100M,C3,wikidata,R,00,5,17.061323,200
