@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+sqliteram,100M,C1,pso,P,00,1,1.887028,200
+sqliteram,100M,C1,pso,P,00,2,1.752680,200
+sqliteram,100M,C1,pso,P,00,3,1.733681,200
+sqliteram,100M,C1,pso,P,00,4,1.814872,200
+sqliteram,100M,C1,pso,P,00,5,1.721412,200
