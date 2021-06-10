@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+sqliteram,100M,S5,spo,P,00,1,0.123535,200
+sqliteram,100M,S5,spo,P,00,2,0.118855,200
+sqliteram,100M,S5,spo,P,00,3,0.121221,200
+sqliteram,100M,S5,spo,P,00,4,0.121098,200
+sqliteram,100M,S5,spo,P,00,5,0.116182,200
+sqliteram,100M,S5,spo,P,01,1,0.114110,200
+sqliteram,100M,S5,spo,P,01,2,0.112764,200
+sqliteram,100M,S5,spo,P,01,3,0.113237,200
+sqliteram,100M,S5,spo,P,01,4,0.110558,200
+sqliteram,100M,S5,spo,P,01,5,0.105897,200
