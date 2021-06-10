@@ -13,7 +13,8 @@ def parse_line(line)
 end
 
 %w{100M}.each do |size|
-  %w{sqlite}.each do |engine|
+  # %w{sqlite sqliteram}.each do |engine|
+  %w{sqliteram}.each do |engine|
     %w{C1 C2 C3 F1 F2 F3 F4 F5  L1 L2 L3 L4 L5 S1 S2 S3 S4 S5 S6 S7}.each do |template|
       %w{spo pso 6idx vp}.each do |idx|
         %w{B P}.each do |mode|
@@ -33,11 +34,11 @@ end
           results = "results/#{engine}-#{size}-#{template}-#{idx}-#{mode}.csv"
           puts "Creating #{results}"
 
-          if Dir["answers/*#{template}-#{idx}-#{mode}-*-*.txt"].size > 0
+          if Dir["answers/#{engine}-*#{template}-#{idx}-#{mode}-*-*.txt"].size > 0
             CSV.open(results, 'w') do |csv|
               csv << %w{engine size template scheme mode query_id repetition time status}
               
-              `grep 'timer: TOTAL' answers/*#{template}-#{idx}-#{mode}-*-*.txt | less`.each_line do |line|
+              `grep 'timer: TOTAL' answers/#{engine}-*#{template}-#{idx}-#{mode}-*-*.txt | less`.each_line do |line|
                 result = parse_line(line)
                 csv << [engine, size, template, idx, mode, result[:query_name], result[:repetition], result[:time], 200]
               end

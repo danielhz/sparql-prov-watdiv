@@ -1,0 +1,6 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+sqliteram,100M,S3,6idx,P,00,1,0.213195,200
+sqliteram,100M,S3,6idx,P,00,2,0.205754,200
+sqliteram,100M,S3,6idx,P,00,3,0.210678,200
+sqliteram,100M,S3,6idx,P,00,4,0.205718,200
+sqliteram,100M,S3,6idx,P,00,5,0.202280,200
