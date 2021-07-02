@@ -1,0 +1,7 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbmp: <http://example.org/p/db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX wsdbmps: <http://example.org/ps/db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 WHERE {
+  ?v0 wsdbmp:subscribes ?sum_product_1_source . ?sum_product_1_source wsdbmps:subscribes wsdbm:Website13903 .
+  OPTIONAL { ?v0 wsdbmp:likes ?sum_product_2_source . ?sum_product_2_source wsdbmps:likes ?v1 . }
+}

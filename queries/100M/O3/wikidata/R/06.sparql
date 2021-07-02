@@ -1,0 +1,9 @@
+PREFIX ogp: <http://example.org/p/ogp.me/ns#>
+PREFIX sorgp: <http://example.org/p/schema.org/>
+PREFIX ogps: <http://example.org/ps/ogp.me/ns#>
+PREFIX sorgps: <http://example.org/ps/schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 ?v2 WHERE {
+  ?v0 ogp:tag ?sum_product_1_source . ?sum_product_1_source ogps:tag wsdbm:Topic145 .
+  OPTIONAL { ?v0 sorgp:caption ?sum_product_2_source . ?sum_product_2_source sorgps:caption ?v2 . }
+}
