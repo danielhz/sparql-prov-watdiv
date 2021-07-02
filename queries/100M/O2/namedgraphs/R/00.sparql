@@ -1,0 +1,5 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 WHERE {
+  GRAPH ?sum_product_1_source { ?v0  wsdbm:subscribes  wsdbm:Website6472 . }
+  OPTIONAL { GRAPH ?sum_product_2_source { ?v0  wsdbm:likes  ?v1 . } }
+}

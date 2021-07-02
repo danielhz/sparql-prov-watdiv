@@ -1,0 +1,50 @@
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?v0 ?v2 ?v3
+       ?sum_osum_1_product_1_source
+       ?sum_osum_1_product_2_source
+       ?sum_osum_1_product_3_source
+       ?sum_osum_1_product
+       ?sum_osum_2_minus_1_product_1_source
+       ?sum_osum_2_minus_1_product_2_source
+       ?sum_osum_2_minus_1_product
+       ?sum_osum_2_minus_2_sum_source
+       ?sum_osum_2_minus_2_sum
+       ?sum_osum_2_minus
+       ?sum
+WHERE {
+  {
+    GRAPH ?sum_osum_1_product_1_source { ?v0 wsdbm:subscribes wsdbm:Website17405 . }
+    GRAPH ?sum_osum_1_product_2_source { ?v0 wsdbm:likes ?v2 . }
+    GRAPH ?sum_osum_1_product_3_source { ?v2 sorg:caption ?v3 . }
+    BIND (URI(CONCAT("http://example.org/sum_osum_1_product/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                     "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                     "&s_3=", ENCODE_FOR_URI(xsd:string(?v3))))
+          AS ?sum_osum_1_product )
+  }
+  UNION
+  {
+    GRAPH ?sum_osum_2_minus_1_product_1_source { ?v0 wsdbm:subscribes wsdbm:Website17405 . }
+    GRAPH ?sum_osum_2_minus_1_product_2_source { ?v0 wsdbm:likes ?v2 . }
+    OPTIONAL { GRAPH ?sum_osum_1_minus_2_sum_source { ?v2 sorg:caption ?v3 . } }
+    BIND (URI(CONCAT("http://example.org/sum_osum_2_minus/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                     "&s_2=", ENCODE_FOR_URI(xsd:string(?v1))))
+          AS ?sum_osum_2_minus )
+    BIND (URI(CONCAT("http://example.org/sum_osum_2_minus_2_sum/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                     "&s_2=", ENCODE_FOR_URI(xsd:string(?v1))))
+          AS ?sum_osum_2_minus_2_sum )
+    BIND (URI(CONCAT("http://example.org/sum_osum_2_minus_1_product/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                     "&s_2=", ENCODE_FOR_URI(xsd:string(?v1))))
+          AS ?sum_osum_2_minus_1_product )
+  }
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                   "&s_2=", ENCODE_FOR_URI(xsd:string(?v1)),
+                   "&s_3=", COALESCE(ENCODE_FOR_URI(xsd:string(?v3)), "")))
+        AS ?sum )
+}

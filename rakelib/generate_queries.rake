@@ -37,7 +37,11 @@ QUERY_TEMPLATE_PARAMS_SCHEMES = [
   {template: 'S4', attributes: {v1: 'AgeGroup4'}},
   {template: 'S5', attributes: {v1: 'ProductCategory2'}},
   {template: 'S6', attributes: {v3: 'SubGenre135'}},
-  {template: 'S7', attributes: {v3: 'User818157'}}
+  {template: 'S7', attributes: {v3: 'User818157'}},
+  {template: 'O1', attributes: {v1: 'Website10096'}},
+  {template: 'O2', attributes: {v3: 'Website2579'}},
+  {template: 'O3', attributes: {v1: 'Topic45'}},
+  {template: 'O4', attributes: {v2: 'City199'}}
 ]
 
 # Define tasks to generate the query params

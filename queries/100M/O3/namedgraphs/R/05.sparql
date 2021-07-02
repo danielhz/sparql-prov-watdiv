@@ -1,0 +1,7 @@
+PREFIX og: <http://ogp.me/ns#>
+PREFIX sorg: <http://schema.org/>
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+SELECT ?v0 ?v2 WHERE {
+  GRAPH ?sum_product_1_source { ?v0 og:tag wsdbm:Topic88 . }
+  OPTIONAL { GRAPH ?sum_product_2_source { ?v0 sorg:caption ?v2 . } }
+}
