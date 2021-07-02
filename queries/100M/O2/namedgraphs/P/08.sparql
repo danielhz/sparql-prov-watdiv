@@ -20,7 +20,7 @@ WHERE {
   }
   UNION
   {
-    GRAPH ?sum_osum_2_minus_1_source { ?v0  wsdbm:subscribes  wsdbm:Website13903 .
+    GRAPH ?sum_osum_2_minus_1_source { ?v0  wsdbm:subscribes  wsdbm:Website13903 . }
     OPTIONAL { GRAPH ?sum_osum_2_minus_2_sum_source { ?v0  wsdbm:likes  ?v1 . } }
     BIND (URI(CONCAT("http://example.org/sum_osum_2_minus/",
                      "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))

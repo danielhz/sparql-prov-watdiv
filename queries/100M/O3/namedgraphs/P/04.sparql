@@ -13,8 +13,8 @@ SELECT ?v0 ?v2
        ?sum
 WHERE {
   {
-    GRAPH ?sum_product_1_source { ?v0 og:tag wsdbm:Topic99 . }
-    GRAPH ?sum_product_2_source { ?v0 sorg:caption ?v2 . }
+    GRAPH ?sum_osum_1_product_1_source { ?v0 og:tag wsdbm:Topic99 . }
+    GRAPH ?sum_osum_1_product_2_source { ?v0 sorg:caption ?v2 . }
     BIND (URI(CONCAT("http://example.org/sum_product/",
                      "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
                      "&s_3=", ENCODE_FOR_URI(xsd:string(?v2))))
@@ -22,8 +22,8 @@ WHERE {
   }
   UNION
   {
-    GRAPH ?sum_product_1_source { ?v0 og:tag wsdbm:Topic99 . }
-    OPTIONAL { GRAPH ?sum_product_2_source { ?v0 sorg:caption ?v2 . } }
+    GRAPH ?sum_osum_2_minus_1_source { ?v0 og:tag wsdbm:Topic99 . }
+    OPTIONAL { GRAPH ?sum_osum_2_minus_2_sum_source { ?v0 sorg:caption ?v2 . } }
     BIND (URI(CONCAT("http://example.org/sum_osum_2_minus/",
                      "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
           AS ?sum_osum_2_minus )
