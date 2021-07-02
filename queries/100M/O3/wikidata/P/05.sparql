@@ -15,8 +15,8 @@ SELECT ?v0 ?v2
        ?sum
 WHERE {
   {
-    ?v0 ogp:tag ?sum_osum_1_product_1_source . ?sum_osum_1_product_1_source ogps:tag wsdbm:Topic88 . }
-    ?v0 sorgp:caption ?sum_osum_1_product_2_source . ?sum_osum_1_product_2_source sorgps:caption ?v2 . }
+    ?v0 ogp:tag ?sum_osum_1_product_1_source . ?sum_osum_1_product_1_source ogps:tag wsdbm:Topic88 .
+    ?v0 sorgp:caption ?sum_osum_1_product_2_source . ?sum_osum_1_product_2_source sorgps:caption ?v2 .
     BIND (URI(CONCAT("http://example.org/sum_product/",
                      "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
                      "&s_3=", ENCODE_FOR_URI(xsd:string(?v2))))

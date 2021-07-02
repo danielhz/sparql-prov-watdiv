@@ -13,8 +13,8 @@ SELECT ?v0 ?v1
        ?sum
 WHERE {
   {
-    ?v0 wsdbmp:subscribes ?sum_osum_1_product_1_source . ?sum_osum_1_product_1_source wsdbmps:subscribes wsdbm:Website10105 . }
-    ?v0 wsdbmp:likes ?sum_osum_2_product_2_source . ?sum_osum_2_product_2_source wsdbmps:likes ?v1 . }
+    ?v0 wsdbmp:subscribes ?sum_osum_1_product_1_source . ?sum_osum_1_product_1_source wsdbmps:subscribes wsdbm:Website10105 .
+    ?v0 wsdbmp:likes ?sum_osum_2_product_2_source . ?sum_osum_2_product_2_source wsdbmps:likes ?v1 .
     BIND (URI(CONCAT("http://example.org/sum_product/",
                      "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
                      "&s_3=", ENCODE_FOR_URI(xsd:string(?v1))))
