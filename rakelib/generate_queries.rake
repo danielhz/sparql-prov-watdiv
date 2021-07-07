@@ -41,7 +41,8 @@ QUERY_TEMPLATE_PARAMS_SCHEMES = [
   {template: 'O1', attributes: {v1: 'Website10096'}},
   {template: 'O2', attributes: {v3: 'Website2579'}},
   {template: 'O3', attributes: {v1: 'Topic45'}},
-  {template: 'O4', attributes: {v2: 'City199'}}
+  {template: 'O4', attributes: {v2: 'City199'}},
+  {template: 'O5', attributes: {v3: 'Website2579'}}
 ]
 
 # Define tasks to generate the query params

@@ -1,6 +1,6 @@
 PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?v0 WHERE {
+SELECT ?v0 ?v1 WHERE {
   ?sum_product_1_source rdf:subject ?v0 ; rdf:predicate wsdbm:subscribes ; rdf:object  wsdbm:Website10105 .
   OPTIONAL { ?sum_product_2_source rdf:subject ?v0 ; rdf:predicate wsdbm:likes ; rdf:object ?v1 . }
 }

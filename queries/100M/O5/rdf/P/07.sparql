@@ -1,0 +1,36 @@
+PREFIX wsdbm: <http://db.uwaterloo.ca/~galuc/wsdbm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?v0
+       ?sum_osum_1_product_1_source
+       ?sum_osum_1_product_2_source
+       ?sum_osum_1_product
+       ?sum_osum_2_minus_1_source
+       ?sum_osum_2_minus_2_sum_source
+       ?sum_osum_2_minus_2_sum
+       ?sum_osum_2_minus
+       ?sum
+WHERE {
+  {
+    ?sum_osum_1_product_1_source rdf:subject ?v0 ; rdf:predicate wsdbm:subscribes ; rdf:object wsdbm:Website10105 .
+    ?sum_osum_2_product_2_source rdf:subject ?v0 ; rdf:predicate wsdbm:likes ; rdf:object ?v1 .
+    BIND (URI(CONCAT("http://example.org/sum_product/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0)),
+                     "&s_3=", ENCODE_FOR_URI(xsd:string(?v1))))
+          AS ?sum_osum_1_product )
+  }
+  UNION
+  {
+    ?sum_osum_2_minus_1_source rdf:subject ?v0 ; rdf:predicate wsdbm:subscribes ; rdf:object wsdbm:Website10105 .
+    OPTIONAL { ?sum_osum_2_minus_2_sum_source rdf:subject ?v0 ; rdf:predicate wsdbm:likes ; rdf:object ?v1 . }
+    BIND (URI(CONCAT("http://example.org/sum_osum_2_minus/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
+          AS ?sum_osum_2_minus )
+    BIND (URI(CONCAT("http://example.org/sum_osum_2_minus_2_sum/",
+                     "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
+          AS ?sum_osum_2_minus_2_sum )
+  }
+  BIND (URI(CONCAT("http://example.org/sum/",
+                   "?s_1=", ENCODE_FOR_URI(xsd:string(?v0))))
+        AS ?sum )
+}
