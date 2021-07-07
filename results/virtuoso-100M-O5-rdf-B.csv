@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+virtuoso,100M,O5,rdf,B,00,1,0.224934,200
+virtuoso,100M,O5,rdf,B,01,1,0.019882,200
+virtuoso,100M,O5,rdf,B,02,1,0.022184,200
+virtuoso,100M,O5,rdf,B,03,1,0.009578,200
+virtuoso,100M,O5,rdf,B,04,1,0.018720,200
+virtuoso,100M,O5,rdf,B,05,1,0.004812,200
+virtuoso,100M,O5,rdf,B,06,1,0.005062,200
+virtuoso,100M,O5,rdf,B,07,1,0.024418,200
+virtuoso,100M,O5,rdf,B,08,1,0.002904,200
+virtuoso,100M,O5,rdf,B,09,1,0.005041,200

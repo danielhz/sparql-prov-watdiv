@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,100M,O5,rdf,R,00,1,5.560762,200
+fuseki,100M,O5,rdf,R,01,1,4.964705,200
+fuseki,100M,O5,rdf,R,02,1,4.275953,200
+fuseki,100M,O5,rdf,R,03,1,4.796898,200
+fuseki,100M,O5,rdf,R,04,1,4.636794,200
+fuseki,100M,O5,rdf,R,05,1,4.878620,200
+fuseki,100M,O5,rdf,R,06,1,4.299564,200
+fuseki,100M,O5,rdf,R,07,1,4.257230,200
+fuseki,100M,O5,rdf,R,08,1,4.876337,200
+fuseki,100M,O5,rdf,R,09,1,4.496816,200

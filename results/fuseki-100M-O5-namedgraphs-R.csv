@@ -1,0 +1,11 @@
+engine,size,template,scheme,mode,query_id,repetition,time,status
+fuseki,100M,O5,namedgraphs,R,00,1,0.149638,200
+fuseki,100M,O5,namedgraphs,R,01,1,0.031758,200
+fuseki,100M,O5,namedgraphs,R,02,1,0.028436,200
+fuseki,100M,O5,namedgraphs,R,03,1,0.030516,200
+fuseki,100M,O5,namedgraphs,R,04,1,0.027721,200
+fuseki,100M,O5,namedgraphs,R,05,1,0.023475,200
+fuseki,100M,O5,namedgraphs,R,06,1,0.021987,200
+fuseki,100M,O5,namedgraphs,R,07,1,0.020714,200
+fuseki,100M,O5,namedgraphs,R,08,1,0.021736,200
+fuseki,100M,O5,namedgraphs,R,09,1,0.015468,200
